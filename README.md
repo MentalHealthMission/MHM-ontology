@@ -1,4 +1,4 @@
- MHM Ontology Structure
+# MHM Ontology Structure
 
 ## Introduction
 
