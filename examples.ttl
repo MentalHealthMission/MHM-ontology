@@ -1,6 +1,7 @@
 @prefix connect: <http://connectdigitalstudy.com/ontology#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 
 # Example individuals corresponding to the ABox previously embedded in mhm_ontology.owl
 
@@ -105,3 +106,45 @@ connect:ContextualSituationX a connect:ContextualSituation ;
   rdfs:label "Contextual situation X" ;
   connect:hasLabel "Social Withdrawal" ;
   connect:belongsToLayer connect:ContextualLayer .
+
+# Provenance examples (Entity → Activity → Agent)
+
+# Declare example agents and interfaces
+connect:WearableDeviceX a connect:WearableDevice ;
+  rdfs:label "Wearable device X" .
+
+connect:SmartphoneDeviceX a connect:SmartphoneDevice ;
+  rdfs:label "Smartphone device X" .
+
+connect:DataInterfaceX a connect:DataInterface ;
+  rdfs:label "Data interface X" .
+
+connect:AppInterfaceX a connect:AppInterface ;
+  rdfs:label "App interface X" .
+
+# Sensing activity used by measurements
+connect:SensingActivityX a connect:SensingActivity ;
+  rdfs:label "Sensing activity X" ;
+  connect:usedDevice connect:WearableDeviceX ;
+  connect:associatedWithDevice connect:WearableDeviceX .
+
+# Link measurement to sensing activity (entity → activity)
+connect:HeartRateMeasurementX connect:wasGeneratedBy connect:SensingActivityX .
+
+# Computation producing a derived feature
+connect:ComputationX a connect:Computation ;
+  rdfs:label "Computation X" ;
+  connect:associatedWithDevice connect:SmartphoneDeviceX ;
+  connect:usedAppInterface connect:AppInterfaceX .
+
+connect:DerivedFeatureX a connect:DerivedFeature ;
+  rdfs:label "Derived feature X" ;
+  connect:wasComputedBy connect:ComputationX ;
+  connect:wasDerivedFrom connect:HeartRateMeasurementX .
+
+# Dataset attributed to participant and using data interface
+connect:DataSetX a connect:SensorDataSet ;
+  rdfs:label "Sensor dataset X" ;
+  connect:wasCollectedFrom connect:ParticipantX ;
+  connect:wasAttributedTo connect:ParticipantX ;
+  connect:usedDataInterface connect:DataInterfaceX .
