@@ -2,6 +2,8 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
 
 # Example individuals corresponding to the ABox previously embedded in mhm_ontology.owl
 
@@ -44,6 +46,7 @@ connect:HeartRateMeasurementX a connect:HeartRateMeasurement ;
   rdfs:label "Heart rate measurement X" ;
   connect:hasValue 85.0 ;
   connect:hasUnit "bpm" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 85.0 ; qudt:unit unit:BPM ] ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
@@ -51,6 +54,7 @@ connect:HeartRateVariabilityMeasurementX a connect:HeartRateVariabilityMeasureme
   rdfs:label "HRV measurement X" ;
   connect:hasValue 30.0 ;
   connect:hasUnit "ms" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 30.0 ; qudt:unit unit:MilliSecond ] ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
@@ -58,6 +62,7 @@ connect:ActivityMeasurementX a connect:ActivityMeasurement ;
   rdfs:label "Activity measurement X" ;
   connect:hasValue 45.0 ;
   connect:hasUnit "minutes" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 45.0 ; qudt:unit unit:Minute ] ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
@@ -66,6 +71,7 @@ connect:SleepStageMeasurementX a connect:SleepStageMeasurement ;
   connect:hasStage connect:Stage1 ;
   connect:hasValue 6.0 ;
   connect:hasUnit "hours" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 6.0 ; qudt:unit unit:Hour ] ;
   connect:wasGeneratedBy connect:SmartphoneDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 

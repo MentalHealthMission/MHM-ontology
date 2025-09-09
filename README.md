@@ -97,7 +97,7 @@ The core ontology (`mhm_ontology.owl`) is kept in OWL DL. A separate alignment m
 
 - Layers are indicated via the annotation `connect:belongsToLayer` on classes.
 - Measurements loosely align with SOSA Observations (future import), but are modeled as `connect:Measurement` now.
-- Units will align with QUDT/OM in a later step; current `connect:hasUnit` is a temporary string.
+- Units: measurements can link to a `qudt:QuantityValue` via `qudt:quantityValue`, with `qudt:numericValue` and a `qudt:unit` (from the `unit:` vocabulary). Legacy `connect:hasUnit`/`connect:hasValue` remain for compatibility and are marked deprecated.
 - Provenance alignment:
   - Core uses PROV classes/props as references (DL-safe declarations). Properties/types are aligned in `alignments/mhm-prov-align.owl`, which imports PROV-O.
   - Entities: Measurement, Feature, DerivedFeature, DataSet, DigitalPhenotype ⊑ `prov:Entity`.

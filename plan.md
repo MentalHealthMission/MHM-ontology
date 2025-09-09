@@ -22,17 +22,19 @@ This document lists development tasks for the MHM ontology. It is intended for c
 - [x] Add `rdfs:label` (and comments where useful) to public terms; target zero `missing_label` in ROBOT `report.tsv`.
 - [ ] Add usage notes where modeling choices are non-obvious (e.g., how layers are annotated, alignment intents).
 
-## Units and values
+## Units and values (QUDT first)
 
-- [ ] Align measurement values with a units ontology: introduce `qudt:Quantity`/`qudt:QuantityValue` or OM equivalents.
-- [ ] Deprecate `connect:hasUnit` (string) in favor of units concepts; keep temporarily for backward compatibility.
+- [ ] Introduce QUDT pattern: allow `connect:Measurement` to use `qudt:quantityValue` with `qudt:numericValue` and `qudt:unit`.
+- [ ] Add minimal QUDT declarations in core (DL-safe): `qudt:QuantityValue` (Class), `qudt:quantityValue` (ObjectProperty), `qudt:numericValue` (DatatypeProperty), `qudt:unit` (ObjectProperty); add `unit:` prefix.
+- [ ] Deprecate legacy `connect:hasUnit` and `connect:hasValue` (keep for compatibility) and document deprecation in README.
+- [ ] Update examples in `examples.ttl` to include QUDT quantity values for common measurements (HR BPM, HRV ms, activity minutes, sleep hours).
 
 ## Logical structure
 
 - [ ] Consider disjointness axioms among major measurement branches (Physiological, Behavioral, Environmental) if semantically valid.
 - [ ] Review global constraints to avoid unintended inferences and keep reasoning decidable (DL profile where possible).
 
-## SOSA/SSN alignment
+## SOSA/SSN alignment (after units)
 
 - [ ] Map `connect:Measurement` to `sosa:Observation` (as subclass) and adopt SOSA terms where beneficial.
 - [ ] Introduce `connect:observedProperty` (subPropertyOf `sosa:observedProperty`) and `connect:featureOfInterest` (subPropertyOf `sosa:hasFeatureOfInterest`).
