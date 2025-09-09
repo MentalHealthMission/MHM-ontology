@@ -19,7 +19,7 @@ This checklist proceeds in a sensible, sequential order. We’ll keep changes mi
 
 ## Labels, comments, and documentation
 
-- [ ] Add `rdfs:label` and `rdfs:comment` to core classes and properties (Measurement, Feature, DerivedFeature, Computation, Context, Question/Response, Phenotype).
+- [ ] Add `rdfs:label` and `rdfs:comment` to all public terms (classes, properties, and example individuals). Target zero `missing_label` in ROBOT `report.tsv`.
 - [ ] Add usage notes where modeling choices are non-obvious (e.g., how layers are annotated, alignment intents).
 
 ## Units and values
@@ -64,6 +64,12 @@ This checklist proceeds in a sensible, sequential order. We’ll keep changes mi
 - [ ] Verify referenced activity classes exist for property domains (`DataTransferEvent`, `NotificationEvent`); add if missing or adjust domains accordingly.
 - [ ] Add minimal examples (in `examples.ttl`) showing PROV chains: Measurement (Entity) → wasGeneratedBy SensingActivity; SensingActivity wasAssociatedWith Device/Participant; DerivedFeature (Entity) wasGeneratedBy Computation; DerivedFeature wasDerivedFrom Measurement; DataSet wasAttributedTo Participant, used DataInterface.
 
+## Tooling-driven QA fixes
+
+- [ ] Run `tooling/run_ontology_tools.sh report mhm_ontology.owl` and address all ERROR-level items (e.g., `missing_label`, duplicates) before deeper refactors.
+- [ ] Re-run `profile` for OWL DL after converting `belongsToLayer` to an annotation property and deduping.
+- [ ] Keep `report.tsv` updated during PRs for quick review.
+
 ## README updates
 
 - [ ] Add Namespaces section listing all prefixes and base IRIs used.
@@ -72,4 +78,3 @@ This checklist proceeds in a sensible, sequential order. We’ll keep changes mi
 - [ ] Add Contribution workflow: branch naming, editing in Protégé, reasoning checks, PR checklist.
 - [ ] Add Versioning: version IRI strategy and release tags.
 - [ ] Link to `examples.ttl` for quick starts.
-
