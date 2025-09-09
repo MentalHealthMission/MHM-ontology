@@ -1,0 +1,9 @@
+PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+
+ASK {
+  connect:HeartRateMeasurementX connect:resultTime ?t1 .
+  connect:HeartRateVariabilityMeasurementX connect:resultTime ?t2 .
+  connect:ActivityMeasurementX connect:resultTime ?t3 .
+  connect:SleepStageMeasurementX connect:resultTime ?t4 .
+}
+
