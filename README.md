@@ -88,23 +88,22 @@ The ontology defines a series of properties that establish relationships between
 
 ## Imports
 
-To keep the ontology in OWL DL, we reference but do not import PROV-O or SKOS at this stage. We will consider adding imports later once alignment is finalized and DL constraints are addressed.
+The core ontology (`mhm_ontology.owl`) is kept in OWL DL. A separate alignment module brings in PROV-O for full provenance mapping:
 
-- Referenced: PROV-O (`prov`), SOSA (optional next), SKOS (optional next)
-- Imported: none (tooling validates DL on local axioms)
+- Core (DL): `mhm_ontology.owl` (no external imports)
+- Alignment (OWL Full via PROV-O): `alignments/mhm-prov-align.owl` imports `mhm_ontology.owl` and `http://www.w3.org/ns/prov-o`
 
 ## Modeling Principles
 
 - Layers are indicated via the annotation `connect:belongsToLayer` on classes.
 - Measurements loosely align with SOSA Observations (future import), but are modeled as `connect:Measurement` now.
 - Units will align with QUDT/OM in a later step; current `connect:hasUnit` is a temporary string.
-- Provenance alignment uses PROV-O IRIs without import:
-  - `connect:Measurement`, `connect:Feature`, `connect:DerivedFeature`, `connect:DataSet`, `connect:DigitalPhenotype` ⊑ `prov:Entity`.
-  - `connect:Computation` ⊑ `prov:Activity`.
-  - `connect:Participant`, `connect:Device` ⊑ `prov:Agent`.
-  - `connect:wasGeneratedBy` ⊑ `prov:wasGeneratedBy`; `connect:wasDerivedFrom` ⊑ `prov:wasDerivedFrom`.
-  - `connect:usedDevice`, `connect:usedAppInterface` ⊑ `prov:used`.
-  - Added `connect:wasAttributedTo` ⊑ `prov:wasAttributedTo` and `connect:associatedWithDevice` ⊑ `prov:wasAssociatedWith`.
+- Provenance alignment:
+  - Core uses PROV classes/props as references (DL-safe declarations). Properties/types are aligned in `alignments/mhm-prov-align.owl`, which imports PROV-O.
+  - Entities: Measurement, Feature, DerivedFeature, DataSet, DigitalPhenotype ⊑ `prov:Entity`.
+  - Activities: Computation, SensingActivity, DataTransferEvent, NotificationEvent ⊑ `prov:Activity`.
+  - Agents: Participant, Device ⊑ `prov:Agent`.
+  - Properties: `wasGeneratedBy`, `wasComputedBy` ⊑ `prov:wasGeneratedBy`; `wasDerivedFrom` ⊑ `prov:wasDerivedFrom`; `usedDevice`/`usedAppInterface`/`usedDataInterface` ⊑ `prov:used`; `wasCollectedFrom`/`wasAttributedTo` ⊑ `prov:wasAttributedTo`; `associatedWithDevice` ⊑ `prov:wasAssociatedWith`.
 
 ## Examples
 
@@ -116,5 +115,7 @@ Use the Dockerized tooling in `tooling/`:
 
 - Build image: `tooling/run_ontology_tools.sh build`
 - Syntax check: `tooling/run_ontology_tools.sh check-syntax mhm_ontology.owl`
-- OWL DL profile: `tooling/run_ontology_tools.sh profile mhm_ontology.owl DL`
+- OWL DL profile (core): `tooling/run_ontology_tools.sh profile mhm_ontology.owl DL`
+- PROV alignment syntax: `tooling/run_ontology_tools.sh check-syntax alignments/mhm-prov-align.owl`
+- PROV alignment profile: `tooling/run_ontology_tools.sh profile alignments/mhm-prov-align.owl DL` (expected to fail DL due to PROV-O; this is normal)
 - QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl` (writes `report.tsv`)

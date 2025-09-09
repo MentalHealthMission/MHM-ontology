@@ -1,0 +1,19 @@
+PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX prov:    <http://www.w3.org/ns/prov#>
+
+ASK {
+  VALUES (?p ?super) {
+    (connect:wasComputedBy       prov:wasGeneratedBy)
+    (connect:wasGeneratedBy      prov:wasGeneratedBy)
+    (connect:wasDerivedFrom      prov:wasDerivedFrom)
+    (connect:usedDevice          prov:used)
+    (connect:usedAppInterface    prov:used)
+    (connect:usedDataInterface   prov:used)
+    (connect:wasCollectedFrom    prov:wasAttributedTo)
+    (connect:wasAttributedTo     prov:wasAttributedTo)
+    (connect:associatedWithDevice prov:wasAssociatedWith)
+  }
+  ?p rdfs:subPropertyOf ?super .
+}
+

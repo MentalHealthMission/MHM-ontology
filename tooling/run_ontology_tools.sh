@@ -94,7 +94,11 @@ case "$cmd" in
   profile)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     profile=${3:-DL}
-    run_in_container robot validate-profile --input "$2" --profile "$profile" --output profile.txt && echo "Wrote profile.txt"
+    if [[ -f catalog-v001.xml ]]; then
+      run_in_container robot validate-profile --catalog catalog-v001.xml --input "$2" --profile "$profile" --output profile.txt && echo "Wrote profile.txt"
+    else
+      run_in_container robot validate-profile --input "$2" --profile "$profile" --output profile.txt && echo "Wrote profile.txt"
+    fi
     ;;
   reason)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
@@ -104,7 +108,11 @@ case "$cmd" in
     ;;
   report)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
-    run_in_container robot report --input "$2" --output report.tsv && echo "Wrote report.tsv"
+    if [[ -f catalog-v001.xml ]]; then
+      run_in_container robot report --catalog catalog-v001.xml --input "$2" --output report.tsv && echo "Wrote report.tsv"
+    else
+      run_in_container robot report --input "$2" --output report.tsv && echo "Wrote report.tsv"
+    fi
     ;;
   openllet-consistency)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
@@ -114,6 +122,33 @@ case "$cmd" in
     shift || true
     if [[ ${1:-} == "--" ]]; then shift; fi
     run_in_container "$@"
+    ;;
+  validate-prov)
+    # Merge alignment + examples, then run SPARQL ASK queries
+    run_in_container bash -lc '
+      set -euo pipefail
+      mkdir -p build
+      robot merge --catalog catalog-v001.xml \
+        --input alignments/mhm-prov-align.owl \
+        --input examples.ttl \
+        --output build/prov-merged.owl
+      failures=0
+      for q in queries/*.rq; do
+        echo "[check] $q"
+        out=$(sparql --data build/prov-merged.owl --query "$q" 2>&1 | tr -d "\r")
+        if echo "$out" | grep -q "Ask => Yes"; then
+          echo "[OK]   $q"
+        else
+          echo "[FAIL] $q"
+          echo "$out" | tail -n 2
+          failures=$((failures+1))
+        fi
+      done
+      if [[ $failures -gt 0 ]]; then
+        echo "[validate-prov] $failures failure(s)"; exit 2; 
+      fi
+      echo "[validate-prov] all checks passed"
+    '
     ;;
   -h|--help|help|"")
     usage
