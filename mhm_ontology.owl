@@ -15,17 +15,35 @@
     <!-- No imports to keep DL validation focused on local axioms -->
   </owl:Ontology>
 
+  <!-- Minimal declarations for PROV-O terms to keep OWL DL without importing -->
+  <owl:Class rdf:about="http://www.w3.org/ns/prov#Entity"/>
+  <owl:Class rdf:about="http://www.w3.org/ns/prov#Activity"/>
+  <owl:Class rdf:about="http://www.w3.org/ns/prov#Agent"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#used"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasDerivedFrom"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasAttributedTo"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasAssociatedWith"/>
+
   <!-- Layer superclass -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#OntologyLayer">
+    <rdfs:label>Ontology Layer</rdfs:label>
+    <rdfs:comment>A meta-class grouping the modeling layers in this ontology.</rdfs:comment>
+  </owl:Class>
 
   <!-- Specific layers -->
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MeasurementLayer">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+    <rdfs:label>Measurement Layer</rdfs:label>
+    <rdfs:comment>Layer for raw observations/measurements captured from devices and apps.</rdfs:comment>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Measurement">
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+    <rdfs:label>Measurement</rdfs:label>
+    <rdfs:comment>A single observation or data point recorded by a device or system.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement">
@@ -220,14 +238,23 @@
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
 </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
-  </owl:Class>
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+  <rdfs:label>Derived Feature Layer</rdfs:label>
+  <rdfs:comment>Layer for features derived from measurements.</rdfs:comment>
+</owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Feature"/>
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Feature">
+    <rdfs:label>Feature</rdfs:label>
+    <rdfs:comment>An attribute computed from one or more measurements.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeature">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Derived Feature</rdfs:label>
+  <rdfs:comment>A feature computed from raw measurements and possibly other features.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
 </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MobilityPatternFeature">
@@ -326,6 +353,9 @@
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DigitalPhenotype">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Digital Phenotype</rdfs:label>
+  <rdfs:comment>Higher-level construct inferred from features and measurements.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MoodPhenotype">
@@ -635,6 +665,9 @@
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Computation">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <rdfs:label>Computation</rdfs:label>
+  <rdfs:comment>A process or activity that computes features or infers phenotypes.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Activity"/>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AlgorithmicComputation">
@@ -668,11 +701,17 @@
   <!-- Top-level provenance class: Participant -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Participant">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Participant</rdfs:label>
+  <rdfs:comment>An individual taking part in a study.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Agent"/>
 </owl:Class>
 
 <!-- Device and subclasses -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Device">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Device</rdfs:label>
+  <rdfs:comment>A hardware or software platform used to collect data.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Agent"/>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SmartphoneDevice">
@@ -698,6 +737,8 @@
 <!-- Software interfaces -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Interface">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Interface</rdfs:label>
+  <rdfs:comment>Software interface used to capture or transfer data.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppInterface">
@@ -712,6 +753,9 @@
 <!-- Dataset and subclasses -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataSet">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Data Set</rdfs:label>
+  <rdfs:comment>A collection of data items associated with a participant or study process.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SensorDataSet">
@@ -754,10 +798,13 @@
   <!-- Property category is an annotation used for documentation -->
   <owl:AnnotationProperty rdf:about="http://connectdigitalstudy.com/ontology#propertyCategory"/>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasGeneratedBy">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasGeneratedBy">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+  <rdfs:label>was generated by</rdfs:label>
+  <rdfs:comment>Links an entity (e.g., measurement) to the activity/agent that generated it.</rdfs:comment>
   </owl:ObjectProperty>
 
   <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasReportedBy">
@@ -766,34 +813,61 @@
   <connect:propertyCategory>Provenance</connect:propertyCategory>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasCollectedFrom">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasCollectedFrom">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:label>was collected from</rdfs:label>
+  <rdfs:comment>Associates a dataset with the participant it was collected from.</rdfs:comment>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDevice">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDevice">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DataTransferEvent"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  <rdfs:label>used device</rdfs:label>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedAppInterface">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedAppInterface">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#NotificationEvent"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#AppInterface"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  <rdfs:label>used app interface</rdfs:label>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDataInterface">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDataInterface">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#DataInterface"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:label>used data interface</rdfs:label>
+  </owl:ObjectProperty>
+
+  <!-- Additional provenance-aligned properties -->
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasAttributedTo">
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAttributedTo"/>
+    <connect:propertyCategory>Provenance</connect:propertyCategory>
+    <rdfs:label>was attributed to</rdfs:label>
+    <rdfs:comment>Links an entity to an agent it is attributed to (e.g., a dataset to a participant).</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#associatedWithDevice">
+    <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
+    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAssociatedWith"/>
+    <connect:propertyCategory>Provenance</connect:propertyCategory>
+    <rdfs:label>was associated with device</rdfs:label>
+    <rdfs:comment>Associates an activity/computation with a device agent.</rdfs:comment>
   </owl:ObjectProperty>
 
   <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasTimestamp">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
   <connect:propertyCategory>Contextual</connect:propertyCategory>
+  <rdfs:label>has timestamp</rdfs:label>
   </owl:DatatypeProperty>
 
   <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStartTime">
@@ -835,6 +909,8 @@
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurement">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
+  <rdfs:label>has measurement</rdfs:label>
+  <rdfs:comment>Indicates a measurement used in computing a feature.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasConfidence">
@@ -890,7 +966,9 @@
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <connect:propertyCategory>Computation</connect:propertyCategory>
-</owl:ObjectProperty>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasDerivedFrom"/>
+  <rdfs:label>was derived from</rdfs:label>
+  </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasComputedBy">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
