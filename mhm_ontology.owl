@@ -1092,39 +1092,6 @@
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
   </rdf:Description>
 
-  <!-- Digital Phenotype: Activity for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ActivityPhenotypeX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPhenotype"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurementX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#PhysicalInactivityX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#PhysicalInactivity"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurementX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
-  </rdf:Description>
-
-  <!-- Contextual Layer: Time and Event for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#TimeIntervalX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-    <connect:hasStartTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-03-24T08:00:00</connect:hasStartTime>
-    <connect:hasEndTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-03-24T23:59:59</connect:hasEndTime>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#EventWindowX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#EventWindow"/>
-    <connect:occursDuring rdf:resource="http://connectdigitalstudy.com/ontology#TimeIntervalX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </rdf:Description>
-
-  <!-- Event-based Context: Social Withdrawal -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituationX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
-    <connect:hasLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Social Withdrawal</connect:hasLabel>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </rdf:Description>
-
+  <!-- examples moved to examples.ttl -->
 
 </rdf:RDF>
