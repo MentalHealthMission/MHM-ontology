@@ -64,6 +64,11 @@
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
 </owl:Class>
 
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseMeasurement">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurement"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+</owl:Class>
+
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepStageMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
@@ -975,26 +980,7 @@
   </owl:equivalentClass>
 </owl:Class>
 
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#activityAndSleepFeature1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#activityMeasurement1"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#activityMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurement"/>
-  <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1000</connect:hasValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
-  <connect:hasStage rdf:resource="http://connectdigitalstudy.com/ontology#Stage1"/>
-</owl:NamedIndividual>
-
-<rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#Stage1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
-  <connect:hasStageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Light Sleep</connect:hasStageName>
-</rdf:Description>
+  <!-- examples moved to examples.ttl (activityAndSleepFeature1, activityMeasurement1, sleepStageMeasurement1, Stage1) -->
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
@@ -1015,26 +1001,7 @@
   </owl:equivalentClass>
 </owl:Class>
 
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#exerciseAndSleepFeature1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ExerciseAndSleepFeature"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#exerciseMeasurement1"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#exerciseMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ExerciseMeasurement"/>
-  <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">120</connect:hasValue> <!-- Exercise duration in minutes -->
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
-  <connect:hasStage rdf:resource="http://connectdigitalstudy.com/ontology#Stage2"/>
-</owl:NamedIndividual>
-
-<rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#Stage2">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
-  <connect:hasStageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deep Sleep</connect:hasStageName>
-</rdf:Description>
+  <!-- examples moved to examples.ttl (exerciseAndSleepFeature1, exerciseMeasurement1, sleepStageMeasurement1, Stage2) -->
 
   <!-- Define Participant X -->
   <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ParticipantX">
