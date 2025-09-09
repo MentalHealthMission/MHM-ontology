@@ -148,6 +148,29 @@ case "$cmd" in
         echo "[validate-prov] $failures failure(s)"; exit 2; 
       fi
       echo "[validate-prov] all checks passed"
+    ' 
+    ;;
+  validate-units)
+    # Merge core + examples, then run unit-related SPARQL ASK queries
+    run_in_container bash -lc '
+      set -euo pipefail
+      mkdir -p build
+      robot merge --catalog catalog-v001.xml \
+        --input mhm_ontology.owl \
+        --input examples.ttl \
+        --output build/units-merged.owl
+      failures=0
+      for q in queries/units_*.rq; do
+        echo "[check] $q"
+        out=$(sparql --data build/units-merged.owl --query "$q" 2>&1 | tr -d "\r")
+        if echo "$out" | grep -q "Ask => Yes"; then
+          echo "[OK]   $q"
+        else
+          echo "[FAIL] $q"; echo "$out" | tail -n 2; failures=$((failures+1))
+        fi
+      done
+      if [[ $failures -gt 0 ]]; then echo "[validate-units] $failures failure(s)"; exit 2; fi
+      echo "[validate-units] all checks passed"
     '
     ;;
   -h|--help|help|"")

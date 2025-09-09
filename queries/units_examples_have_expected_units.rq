@@ -1,0 +1,15 @@
+PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX qudt:    <http://qudt.org/schema/qudt/>
+PREFIX unit:    <http://qudt.org/vocab/unit/>
+
+# Success if each example measurement has a quantityValue with a unit
+ASK WHERE {
+  VALUES (?m ?u) {
+    (connect:HeartRateMeasurementX            unit:BPM)
+    (connect:HeartRateVariabilityMeasurementX unit:MilliSecond)
+    (connect:ActivityMeasurementX             unit:Minute)
+    (connect:SleepStageMeasurementX           unit:Hour)
+  }
+  ?m qudt:quantityValue [ qudt:numericValue ?v ; qudt:unit ?u ] .
+}
+
