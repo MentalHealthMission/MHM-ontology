@@ -1,7 +1,19 @@
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:owl="http://www.w3.org/2002/07/owl#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-         xmlns:connect="http://connectdigitalstudy.com/ontology#">
+         xmlns:connect="http://connectdigitalstudy.com/ontology#"
+         xmlns:prov="http://www.w3.org/ns/prov#"
+         xmlns:sosa="http://www.w3.org/ns/sosa/"
+         xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+         xml:base="http://connectdigitalstudy.com/ontology">
+
+  <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology">
+    <rdfs:label>MHM Ontology</rdfs:label>
+    <owl:versionInfo>0.1.0-dev</owl:versionInfo>
+    <!-- Keep the ontology in OWL DL: avoid importing PROV-O and SKOS (OWL Full).
+         We will reference their IRIs without imports. -->
+    <!-- No imports to keep DL validation focused on local axioms -->
+  </owl:Ontology>
 
   <!-- Layer superclass -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
@@ -56,6 +68,9 @@
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
 </owl:Class>
+
+<!-- Sleep stage concept used by SleepStageMeasurement -->
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepStage"/>
 
 <!-- DeviceInteractionMeasurement and subtypes -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DeviceInteractionMeasurement">
@@ -731,6 +746,8 @@
   <!-- Properties -->
   <!-- Use annotation for layer tagging to avoid meta-modeling -->
   <owl:AnnotationProperty rdf:about="http://connectdigitalstudy.com/ontology#belongsToLayer"/>
+  <!-- Property category is an annotation used for documentation -->
+  <owl:AnnotationProperty rdf:about="http://connectdigitalstudy.com/ontology#propertyCategory"/>
 
   <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasGeneratedBy">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
@@ -823,6 +840,19 @@
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurementType">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <connect:propertyCategory>Measurement</connect:propertyCategory>
+</owl:DatatypeProperty>
+
+<!-- Properties for sleep stage measurements -->
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStage">
+  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
+  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
+  <connect:propertyCategory>Measurement</connect:propertyCategory>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStageName">
+  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Measurement</connect:propertyCategory>
 </owl:DatatypeProperty>
