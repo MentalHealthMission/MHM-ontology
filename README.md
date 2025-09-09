@@ -77,3 +77,44 @@ The ontology defines a series of properties that establish relationships between
 - **wasGeneratedBy**: Relates a measurement to the device or interface that generated it.
 - **wasReportedBy**: Relates questionnaire responses to the participant providing them.
 - **wasCollectedFrom**: Relates a dataset to the participant from whom the data was collected.
+## Namespaces
+
+- `connect`: `http://connectdigitalstudy.com/ontology#`
+- `rdf`: `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
+- `rdfs`: `http://www.w3.org/2000/01/rdf-schema#`
+- `owl`: `http://www.w3.org/2002/07/owl#`
+- `xsd`: `http://www.w3.org/2001/XMLSchema#`
+- `prov`: `http://www.w3.org/ns/prov#` (referenced without import; see below)
+
+## Imports
+
+To keep the ontology in OWL DL, we reference but do not import PROV-O or SKOS at this stage. We will consider adding imports later once alignment is finalized and DL constraints are addressed.
+
+- Referenced: PROV-O (`prov`), SOSA (optional next), SKOS (optional next)
+- Imported: none (tooling validates DL on local axioms)
+
+## Modeling Principles
+
+- Layers are indicated via the annotation `connect:belongsToLayer` on classes.
+- Measurements loosely align with SOSA Observations (future import), but are modeled as `connect:Measurement` now.
+- Units will align with QUDT/OM in a later step; current `connect:hasUnit` is a temporary string.
+- Provenance alignment uses PROV-O IRIs without import:
+  - `connect:Measurement`, `connect:Feature`, `connect:DerivedFeature`, `connect:DataSet`, `connect:DigitalPhenotype` ⊑ `prov:Entity`.
+  - `connect:Computation` ⊑ `prov:Activity`.
+  - `connect:Participant`, `connect:Device` ⊑ `prov:Agent`.
+  - `connect:wasGeneratedBy` ⊑ `prov:wasGeneratedBy`; `connect:wasDerivedFrom` ⊑ `prov:wasDerivedFrom`.
+  - `connect:usedDevice`, `connect:usedAppInterface` ⊑ `prov:used`.
+  - Added `connect:wasAttributedTo` ⊑ `prov:wasAttributedTo` and `connect:associatedWithDevice` ⊑ `prov:wasAssociatedWith`.
+
+## Examples
+
+Example individuals have been moved to `examples.ttl` to keep the main ontology (TBox) clean and OWL DL compliant.
+
+## Tooling
+
+Use the Dockerized tooling in `tooling/`:
+
+- Build image: `tooling/run_ontology_tools.sh build`
+- Syntax check: `tooling/run_ontology_tools.sh check-syntax mhm_ontology.owl`
+- OWL DL profile: `tooling/run_ontology_tools.sh profile mhm_ontology.owl DL`
+- QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl` (writes `report.tsv`)
