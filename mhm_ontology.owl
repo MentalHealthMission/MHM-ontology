@@ -709,53 +709,7 @@
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
 </owl:Class>
 
-  <!-- Classes -->
-
-  <!-- Contextual Layer Class Declarations -->
-
-  <!-- Time Interval (e.g., hourly, daily, etc.) -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeInterval">
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HourlyInterval">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DailyInterval">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WeeklyInterval">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-  </owl:Class>
-
-  <!-- Event-based time context -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#EventWindow">
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </owl:Class>
-
-  <!-- Categorical context (e.g., weekend, nighttime) -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituation">
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </owl:Class>
-
- <!-- Top-level context classes -->
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ObservationContext">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
-
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeInterval">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
-
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#EventWindow">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
-
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituation">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
+  <!-- (Removed duplicate Contextual Layer class declarations; canonical definitions kept above) -->
 
 
 <!-- Subclasses of TimeInterval -->
@@ -775,10 +729,8 @@
 </owl:Class>
 
   <!-- Properties -->
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#belongsToLayer">
-    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
-  </owl:ObjectProperty>
+  <!-- Use annotation for layer tagging to avoid meta-modeling -->
+  <owl:AnnotationProperty rdf:about="http://connectdigitalstudy.com/ontology#belongsToLayer"/>
 
   <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasGeneratedBy">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
@@ -858,10 +810,10 @@
   <connect:propertyCategory>Measurement</connect:propertyCategory>
 </owl:DatatypeProperty>
 
-<rdf:Property rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurement">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurement">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
-</rdf:Property>
+</owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasConfidence">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
@@ -884,12 +836,6 @@
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#answersQuestion">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#ResponseItem"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Question"/>
-  <connect:propertyCategory>Questionnaire</connect:propertyCategory>
-</owl:ObjectProperty>
-
-<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasResponseFormat">
-  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Question"/>
-  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
   <connect:propertyCategory>Questionnaire</connect:propertyCategory>
 </owl:ObjectProperty>
 
@@ -982,7 +928,7 @@
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#FeatureLayer"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -1022,7 +968,7 @@
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#FeatureLayer"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
