@@ -1,0 +1,95 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:connect="http://connectdigitalstudy.com/ontology#"
+         xmlns:prov="http://www.w3.org/ns/prov#">
+
+  <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology/alignments/prov">
+    <rdfs:label>MHM–PROV-O Alignment</rdfs:label>
+    <owl:imports rdf:resource="http://connectdigitalstudy.com/ontology"/>
+    <owl:imports rdf:resource="http://www.w3.org/ns/prov-o"/>
+  </owl:Ontology>
+
+  <!-- Class alignments -->
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Computation">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SensingActivity">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataTransferEvent">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#NotificationEvent">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Activity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Measurement">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Feature">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeature">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataSet">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DigitalPhenotype">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Participant">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Agent"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Device">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Agent"/>
+  </owl:Class>
+
+  <!-- Property alignments -->
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasGeneratedBy">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasComputedBy">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasDerivedFrom">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasDerivedFrom"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDevice">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedAppInterface">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDataInterface">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasCollectedFrom">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAttributedTo"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasAttributedTo">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAttributedTo"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#associatedWithDevice">
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAssociatedWith"/>
+  </owl:ObjectProperty>
+
+</rdf:RDF>

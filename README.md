@@ -77,3 +77,45 @@ The ontology defines a series of properties that establish relationships between
 - **wasGeneratedBy**: Relates a measurement to the device or interface that generated it.
 - **wasReportedBy**: Relates questionnaire responses to the participant providing them.
 - **wasCollectedFrom**: Relates a dataset to the participant from whom the data was collected.
+## Namespaces
+
+- `connect`: `http://connectdigitalstudy.com/ontology#`
+- `rdf`: `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
+- `rdfs`: `http://www.w3.org/2000/01/rdf-schema#`
+- `owl`: `http://www.w3.org/2002/07/owl#`
+- `xsd`: `http://www.w3.org/2001/XMLSchema#`
+- `prov`: `http://www.w3.org/ns/prov#` (referenced without import; see below)
+
+## Imports
+
+The core ontology (`mhm_ontology.owl`) is kept in OWL DL. A separate alignment module brings in PROV-O for full provenance mapping:
+
+- Core (DL): `mhm_ontology.owl` (no external imports)
+- Alignment (OWL Full via PROV-O): `alignments/mhm-prov-align.owl` imports `mhm_ontology.owl` and `http://www.w3.org/ns/prov-o`
+
+## Modeling Principles
+
+- Layers are indicated via the annotation `connect:belongsToLayer` on classes.
+- Measurements loosely align with SOSA Observations (future import), but are modeled as `connect:Measurement` now.
+- Units will align with QUDT/OM in a later step; current `connect:hasUnit` is a temporary string.
+- Provenance alignment:
+  - Core uses PROV classes/props as references (DL-safe declarations). Properties/types are aligned in `alignments/mhm-prov-align.owl`, which imports PROV-O.
+  - Entities: Measurement, Feature, DerivedFeature, DataSet, DigitalPhenotype ⊑ `prov:Entity`.
+  - Activities: Computation, SensingActivity, DataTransferEvent, NotificationEvent ⊑ `prov:Activity`.
+  - Agents: Participant, Device ⊑ `prov:Agent`.
+  - Properties: `wasGeneratedBy`, `wasComputedBy` ⊑ `prov:wasGeneratedBy`; `wasDerivedFrom` ⊑ `prov:wasDerivedFrom`; `usedDevice`/`usedAppInterface`/`usedDataInterface` ⊑ `prov:used`; `wasCollectedFrom`/`wasAttributedTo` ⊑ `prov:wasAttributedTo`; `associatedWithDevice` ⊑ `prov:wasAssociatedWith`.
+
+## Examples
+
+Example individuals have been moved to `examples.ttl` to keep the main ontology (TBox) clean and OWL DL compliant.
+
+## Tooling
+
+Use the Dockerized tooling in `tooling/`:
+
+- Build image: `tooling/run_ontology_tools.sh build`
+- Syntax check: `tooling/run_ontology_tools.sh check-syntax mhm_ontology.owl`
+- OWL DL profile (core): `tooling/run_ontology_tools.sh profile mhm_ontology.owl DL`
+- PROV alignment syntax: `tooling/run_ontology_tools.sh check-syntax alignments/mhm-prov-align.owl`
+- PROV alignment profile: `tooling/run_ontology_tools.sh profile alignments/mhm-prov-align.owl DL` (expected to fail DL due to PROV-O; this is normal)
+- QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl` (writes `report.tsv`)

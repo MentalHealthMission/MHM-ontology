@@ -1,594 +1,759 @@
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:owl="http://www.w3.org/2002/07/owl#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-         xmlns:connect="http://connectdigitalstudy.com/ontology#">
+         xmlns:connect="http://connectdigitalstudy.com/ontology#"
+         xmlns:prov="http://www.w3.org/ns/prov#"
+         xmlns:sosa="http://www.w3.org/ns/sosa/"
+         xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+         xmlns:dcterms="http://purl.org/dc/terms/"
+         xml:base="http://connectdigitalstudy.com/ontology">
+
+  <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology">
+    <rdfs:label>MHM Ontology</rdfs:label>
+    <owl:versionInfo>0.1.0-dev</owl:versionInfo>
+    <dcterms:title>MHM Ontology</dcterms:title>
+    <dcterms:description>Ontology for organizing measurements, features, context, provenance, and digital phenotypes for wearable/device-based health studies.</dcterms:description>
+    <dcterms:license>https://creativecommons.org/licenses/by/4.0/</dcterms:license>
+    <!-- Keep the ontology in OWL DL: avoid importing PROV-O and SKOS (OWL Full).
+         We will reference their IRIs without imports. -->
+    <!-- No imports to keep DL validation focused on local axioms -->
+  </owl:Ontology>
+
+  <!-- Minimal declarations for PROV-O terms to keep OWL DL without importing -->
+  <owl:Class rdf:about="http://www.w3.org/ns/prov#Entity"/>
+  <owl:Class rdf:about="http://www.w3.org/ns/prov#Activity"/>
+  <owl:Class rdf:about="http://www.w3.org/ns/prov#Agent"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#used"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasDerivedFrom"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasAttributedTo"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/ns/prov#wasAssociatedWith"/>
 
   <!-- Layer superclass -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#OntologyLayer">
+    <rdfs:label>Ontology Layer</rdfs:label>
+    <rdfs:comment>A meta-class grouping the modeling layers in this ontology.</rdfs:comment>
+  </owl:Class>
 
   <!-- Specific layers -->
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MeasurementLayer">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+    <rdfs:label>Measurement Layer</rdfs:label>
+    <rdfs:comment>Layer for raw observations/measurements captured from devices and apps.</rdfs:comment>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Measurement">
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+    <rdfs:label>Measurement</rdfs:label>
+    <rdfs:comment>A single observation or data point recorded by a device or system.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
   </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement">
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Physiological Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HeartRateMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Heart Rate Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RespiratoryRateMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Respiratory Rate Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HeartRateVariabilityMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Heart Rate Variability Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RestingHeartRateMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Resting Heart Rate Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#BehavioralMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Behavioral Measurement</rdfs:label>
 </owl:Class>
 
 <!-- Subcategories -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Activity Measurement</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseMeasurement">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurement"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Exercise Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepStageMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Sleep Stage Measurement</rdfs:label>
 </owl:Class>
+
+<!-- Sleep stage concept used by SleepStageMeasurement -->
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepStage"/>
 
 <!-- DeviceInteractionMeasurement and subtypes -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DeviceInteractionMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Device Interaction Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ScreenEventMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceInteractionMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Screen Event Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppLaunchMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceInteractionMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>App Launch Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#UnlockEvent">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceInteractionMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Unlock Event</rdfs:label>
 </owl:Class>
 
 <!-- CommunicationProxyMeasurement and subtypes -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#CommunicationProxyMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Communication Proxy Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MessageUsageMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#CommunicationProxyMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Message Usage Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TelephonySpeechMetric">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#CommunicationProxyMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Telephony Speech Metric</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#KeyboardMetricsMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#CommunicationProxyMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Keyboard Metrics Measurement</rdfs:label>
 </owl:Class>
 
 <!-- ContactListMetadata -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContactListMetadata">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#BehavioralMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Contact List Metadata</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContactCountMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContactListMetadata"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Contact Count Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContactListChangeEvent">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContactListMetadata"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Contact List Change Event</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#EnvironmentalMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Environmental Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AudioExposureMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EnvironmentalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Audio Exposure Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AmbientLightMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EnvironmentalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Ambient Light Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AmbientPressureMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EnvironmentalMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Ambient Pressure Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SensorMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Sensor Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AccelerometerMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SensorMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Accelerometer Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#GyroscopeMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SensorMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Gyroscope Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MagneticFieldMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SensorMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Magnetic Field Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RotationRateMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SensorMeasurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Rotation Rate Measurement</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppEngagementMetric">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>App Engagement Metric</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppUsageDuration">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#AppEngagementMetric"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>App Usage Duration</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppOpenFrequency">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#AppEngagementMetric"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>App Open Frequency</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppUptime">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#AppEngagementMetric"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>App Uptime</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataRecordVolume">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#AppEngagementMetric"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Data Record Volume</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DeviceContextMetadata">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Device Context Metadata</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeZoneSetting">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceContextMetadata"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Time Zone Setting</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DeviceLocationEstimate">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceContextMetadata"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
+  <rdfs:label>Device Location Estimate</rdfs:label>
 </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
-  </owl:Class>
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+  <rdfs:label>Derived Feature Layer</rdfs:label>
+  <rdfs:comment>Layer for features derived from measurements.</rdfs:comment>
+</owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Feature"/>
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Feature">
+    <rdfs:label>Feature</rdfs:label>
+    <rdfs:comment>An attribute computed from one or more measurements.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
+  </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DerivedFeature">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Derived Feature</rdfs:label>
+  <rdfs:comment>A feature computed from raw measurements and possibly other features.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
 </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MobilityPatternFeature">
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MobilityPatternFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Mobility Pattern Feature</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#VisitToFrequentLocation">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Visit To Frequent Location</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HomeStayDuration">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Home Stay Duration</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#LocationEntropy">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Location Entropy</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeSpentAwayFromHome">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Time Spent Away From Home</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#LocationTransitionCount">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Location Transition Count</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepStructureFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Sleep Structure Feature</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TotalSleepTime">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepStructureFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Total Sleep Time</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepOnsetLatency">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepStructureFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Sleep Onset Latency</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WakeAfterSleepOnset">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepStructureFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Wake After Sleep Onset</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityPatternFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Activity Pattern Feature</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityRegularity">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Activity Regularity</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#CircadianRhythmScore">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Circadian Rhythm Score</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityIntensityProfile">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPatternFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Activity Intensity Profile</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DeviceEngagementFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Device Engagement Feature</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TypingSpeed">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceEngagementFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Typing Speed</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MessageLatency">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceEngagementFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Message Latency</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#UsageRegularity">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DeviceEngagementFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Usage Regularity</rdfs:label>
 </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DigitalPhenotypingLayer">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+    <rdfs:label>Digital Phenotype Layer</rdfs:label>
   </owl:Class>  
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DigitalPhenotype">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Digital Phenotype</rdfs:label>
+  <rdfs:comment>Higher-level construct inferred from features and measurements.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MoodPhenotype">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Mood Phenotype</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ElevatedMood">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MoodPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Elevated Mood</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#LowMood">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MoodPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Low Mood</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MoodInstability">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#MoodPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Mood Instability</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepPhenotype">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Sleep Phenotype</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#InsomniaSymptom">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Insomnia Symptom</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepIrregularity">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Sleep Irregularity</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DelayedSleepPhase">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Delayed Sleep Phase</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityPhenotype">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Activity Phenotype</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PhysicalInactivity">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Physical Inactivity</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Hyperactivity">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Hyperactivity</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityFlattening">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Activity Flattening</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SocialPhenotype">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Social Phenotype</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SocialWithdrawal">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SocialPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Social Withdrawal</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ReducedCommunication">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SocialPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Reduced Communication</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RiskPhenotype">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Risk Phenotype</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#StressRisk">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#RiskPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Stress Risk</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RelapseRisk">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#RiskPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Relapse Risk</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DepressionRisk">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#RiskPhenotype"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
+  <rdfs:label>Depression Risk</rdfs:label>
 </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#QuestionnaireLayer">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+    <rdfs:label>Questionnaire Layer</rdfs:label>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#QuestionnaireEntry">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Questionnaire Entry</rdfs:label>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ResponseItem">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireEntry"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Response Item</rdfs:label>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Question">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Question</rdfs:label>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ResponseFormat">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Response Format</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SliderFormat">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Slider Format</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MultipleChoiceFormat">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Multiple Choice Format</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TextFormat">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Text Format</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#LikertFormat">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Likert Format</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#QuestionDomain">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Question Domain</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MoodDomain">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#QuestionDomain"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Mood Domain</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepDomain">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#QuestionDomain"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Sleep Domain</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#StressDomain">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#QuestionDomain"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Stress Domain</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ParanoiaDomain">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#QuestionDomain"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireLayer"/>
+  <rdfs:label>Paranoia Domain</rdfs:label>
 </owl:Class>
 
 <!-- Base Context Class -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ObservationContext">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Observation Context</rdfs:label>
 </owl:Class>
 
 <!-- Time Intervals -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeInterval">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Time Interval</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HourlyInterval">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Hourly Interval</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DailyInterval">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Daily Interval</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WeeklyInterval">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Weekly Interval</rdfs:label>
 </owl:Class>
 
 <!-- Event-based Windows -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#EventWindow">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Event Window</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PreRelapsePeriod">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EventWindow"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Pre-relapse Period</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PostDischargePeriod">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EventWindow"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Post-discharge Period</rdfs:label>
 </owl:Class>
 
 <!-- Situational Contexts -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituation">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Contextual Situation</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Weekend">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Weekend</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#NightTime">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Night Time</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AtHome">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>At Home</rdfs:label>
 </owl:Class>
 
   <!-- Social Event Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SocialEvent">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Social Event</rdfs:label>
   </owl:Class>
 
   <!-- Medical Event Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#MedicalEvent">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Medical Event</rdfs:label>
   </owl:Class>
 
   <!-- Home Alone Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HomeAlone">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Home Alone</rdfs:label>
   </owl:Class>
 
   <!-- Public Event Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PublicEvent">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Public Event</rdfs:label>
   </owl:Class>
 
   <!-- Family Visit Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#FamilyVisit">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Family Visit</rdfs:label>
   </owl:Class>
 
   <!-- Work or Study Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WorkOrStudy">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Work Or Study</rdfs:label>
   </owl:Class>
 
   <!-- Exercise Session Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseSession">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Exercise Session</rdfs:label>
   </owl:Class>
 
   <!-- Holiday Period Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HolidayPeriod">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Holiday Period</rdfs:label>
   </owl:Class>
 
   <!-- Weather Condition Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WeatherCondition">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Weather Condition</rdfs:label>
   </owl:Class>
 
   <!-- Sleep Environment Context -->
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepEnvironment">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
     <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+    <rdfs:label>Sleep Environment</rdfs:label>
   </owl:Class>
 
 
@@ -596,166 +761,160 @@
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Event">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Event</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#NotificationEvent">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Event"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Notification Event</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataTransferEvent">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Event"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Data Transfer Event</rdfs:label>
 </owl:Class>
 
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ComputationalLayer">
     <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+    <rdfs:label>Computational Layer</rdfs:label>
   </owl:Class>
 
   <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Computation">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <rdfs:label>Computation</rdfs:label>
+  <rdfs:comment>A process or activity that computes features or infers phenotypes.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Activity"/>
   </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AlgorithmicComputation">
-  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SensingActivity">
+    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
+    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+    <rdfs:label>Sensing Activity</rdfs:label>
+    <rdfs:comment>An activity/process that captures sensor data and produces measurements.</rdfs:comment>
   </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ModelBasedComputation">
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AlgorithmicComputation">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#InferenceRule">
-  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#BlackBoxComputation">
-  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <rdfs:label>Algorithmic Computation</rdfs:label>
 </owl:Class>
 
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualLayer">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
-  </owl:Class>
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ModelBasedComputation">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <rdfs:label>Model-based Computation</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#InferenceRule">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <rdfs:label>Inference Rule</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#BlackBoxComputation">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ComputationalLayer"/>
+  <rdfs:label>Black-box Computation</rdfs:label>
+</owl:Class>
+
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualLayer">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+  <rdfs:label>Contextual Layer</rdfs:label>
+</owl:Class>
 
 
-    <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ProvenanceLayer">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
-  </owl:Class>
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ProvenanceLayer">
+  <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
+  <rdfs:label>Provenance Layer</rdfs:label>
+</owl:Class>
   <!-- Top-level provenance class: Participant -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Participant">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Participant</rdfs:label>
+  <rdfs:comment>An individual taking part in a study.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Agent"/>
 </owl:Class>
 
 <!-- Device and subclasses -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Device">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Device</rdfs:label>
+  <rdfs:comment>A hardware or software platform used to collect data.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Agent"/>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SmartphoneDevice">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Smartphone Device</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WearableDevice">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Wearable Device</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppModule">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>App Module</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#APIProvider">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>API Provider</rdfs:label>
 </owl:Class>
 
 <!-- Software interfaces -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#Interface">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Interface</rdfs:label>
+  <rdfs:comment>Software interface used to capture or transfer data.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#AppInterface">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Interface"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>App Interface</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataInterface">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Interface"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Data Interface</rdfs:label>
 </owl:Class>
 <!-- Dataset and subclasses -->
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DataSet">
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Data Set</rdfs:label>
+  <rdfs:comment>A collection of data items associated with a participant or study process.</rdfs:comment>
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SensorDataSet">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Sensor Data Set</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#QuestionnaireDataSet">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Questionnaire Data Set</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ParticipantDataSet">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ProvenanceLayer"/>
+  <rdfs:label>Participant Data Set</rdfs:label>
 </owl:Class>
 
-  <!-- Classes -->
-
-  <!-- Contextual Layer Class Declarations -->
-
-  <!-- Time Interval (e.g., hourly, daily, etc.) -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeInterval">
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HourlyInterval">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#DailyInterval">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-  </owl:Class>
-
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#WeeklyInterval">
-    <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-  </owl:Class>
-
-  <!-- Event-based time context -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#EventWindow">
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </owl:Class>
-
-  <!-- Categorical context (e.g., weekend, nighttime) -->
-  <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituation">
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </owl:Class>
-
- <!-- Top-level context classes -->
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ObservationContext">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
-
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#TimeInterval">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
-
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#EventWindow">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
-
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituation">
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-</owl:Class>
+  <!-- (Removed duplicate Contextual Layer class declarations; canonical definitions kept above) -->
 
 
 <!-- Subclasses of TimeInterval -->
@@ -775,188 +934,252 @@
 </owl:Class>
 
   <!-- Properties -->
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#belongsToLayer">
-    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#OntologyLayer"/>
-  </owl:ObjectProperty>
+  <!-- Use annotation for layer tagging to avoid meta-modeling -->
+  <owl:AnnotationProperty rdf:about="http://connectdigitalstudy.com/ontology#belongsToLayer"/>
+  <!-- Property category is an annotation used for documentation -->
+  <owl:AnnotationProperty rdf:about="http://connectdigitalstudy.com/ontology#propertyCategory"/>
 
   <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasGeneratedBy">
-  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
-  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
+  <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasGeneratedBy"/>
+  <rdfs:label>was generated by</rdfs:label>
+  <rdfs:comment>Links an entity (e.g., measurement/feature/dataset) to the computation/activity that generated it.</rdfs:comment>
   </owl:ObjectProperty>
 
   <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasReportedBy">
-  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireEntry"/>
-  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
-  <connect:propertyCategory>Provenance</connect:propertyCategory>
+    <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireEntry"/>
+    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
+    <connect:propertyCategory>Provenance</connect:propertyCategory>
+    <rdfs:label>was reported by</rdfs:label>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasCollectedFrom">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasCollectedFrom">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:label>was collected from</rdfs:label>
+  <rdfs:comment>Associates a dataset with the participant it was collected from.</rdfs:comment>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDevice">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDevice">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DataTransferEvent"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  <rdfs:label>used device</rdfs:label>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedAppInterface">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedAppInterface">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#NotificationEvent"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#AppInterface"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#used"/>
+  <rdfs:label>used app interface</rdfs:label>
   </owl:ObjectProperty>
 
-  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDataInterface">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#usedDataInterface">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DataSet"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#DataInterface"/>
   <connect:propertyCategory>Provenance</connect:propertyCategory>
+  <rdfs:label>used data interface</rdfs:label>
+  </owl:ObjectProperty>
+
+  <!-- Additional provenance-aligned properties -->
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasAttributedTo">
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAttributedTo"/>
+    <connect:propertyCategory>Provenance</connect:propertyCategory>
+    <rdfs:label>was attributed to</rdfs:label>
+    <rdfs:comment>Links an entity to an agent it is attributed to (e.g., a dataset to a participant).</rdfs:comment>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#associatedWithDevice">
+    <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
+    <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Device"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasAssociatedWith"/>
+    <connect:propertyCategory>Provenance</connect:propertyCategory>
+    <rdfs:label>was associated with device</rdfs:label>
+    <rdfs:comment>Associates an activity/computation with a device agent.</rdfs:comment>
   </owl:ObjectProperty>
 
   <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasTimestamp">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
   <connect:propertyCategory>Contextual</connect:propertyCategory>
+  <rdfs:label>has timestamp</rdfs:label>
   </owl:DatatypeProperty>
 
-  <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStartTime">
+<owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStartTime">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
   <connect:propertyCategory>Contextual</connect:propertyCategory>
+  <rdfs:label>has start time</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasEndTime">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
   <connect:propertyCategory>Contextual</connect:propertyCategory>
+  <rdfs:label>has end time</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#occursDuring">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <connect:propertyCategory>Contextual</connect:propertyCategory>
+  <rdfs:label>occurs during</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasContext">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#ObservationContext"/>
   <connect:propertyCategory>Contextual</connect:propertyCategory>
+  <rdfs:label>has context</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasValue">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
   <connect:propertyCategory>Measurement</connect:propertyCategory>
+  <rdfs:label>has value</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasUnit">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Measurement</connect:propertyCategory>
+  <rdfs:label>has unit</rdfs:label>
 </owl:DatatypeProperty>
 
-<rdf:Property rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurement">
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurement">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
-</rdf:Property>
+  <rdfs:label>has measurement</rdfs:label>
+  <rdfs:comment>Indicates a measurement used in computing a feature.</rdfs:comment>
+</owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasConfidence">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
   <connect:propertyCategory>Measurement</connect:propertyCategory>
+  <rdfs:label>has confidence</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasMeasurementType">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Measurement</connect:propertyCategory>
+  <rdfs:label>has measurement type</rdfs:label>
+</owl:DatatypeProperty>
+
+<!-- Properties for sleep stage measurements -->
+<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStage">
+  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
+  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
+  <connect:propertyCategory>Measurement</connect:propertyCategory>
+  <rdfs:label>has stage</rdfs:label>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStageName">
+  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  <connect:propertyCategory>Measurement</connect:propertyCategory>
+  <rdfs:label>has stage name</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasResponseItem">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#QuestionnaireEntry"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#ResponseItem"/>
   <connect:propertyCategory>Questionnaire</connect:propertyCategory>
+  <rdfs:label>has response item</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#answersQuestion">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#ResponseItem"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Question"/>
   <connect:propertyCategory>Questionnaire</connect:propertyCategory>
+  <rdfs:label>answers question</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasResponseFormat">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Question"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
   <connect:propertyCategory>Questionnaire</connect:propertyCategory>
-</owl:ObjectProperty>
-
-<owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#hasResponseFormat">
-  <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Question"/>
-  <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#ResponseFormat"/>
-  <connect:propertyCategory>Questionnaire</connect:propertyCategory>
+  <rdfs:label>has response format</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasResponseValue">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#ResponseItem"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Questionnaire</connect:propertyCategory>
+  <rdfs:label>has response value</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasDerivedFrom">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <connect:propertyCategory>Computation</connect:propertyCategory>
-</owl:ObjectProperty>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/ns/prov#wasDerivedFrom"/>
+  <rdfs:label>was derived from</rdfs:label>
+  </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#wasComputedBy">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeature"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
   <connect:propertyCategory>Computation</connect:propertyCategory>
+  <rdfs:label>was computed by</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#requiresComputation">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
   <connect:propertyCategory>Computation</connect:propertyCategory>
+  <rdfs:label>requires computation</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#infersPhenotype">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Computation"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:propertyCategory>Computation</connect:propertyCategory>
+  <rdfs:label>infers phenotype</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="http://connectdigitalstudy.com/ontology#supportsInferenceOf">
   <rdfs:domain rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <rdfs:range rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotype"/>
   <connect:propertyCategory>Computation</connect:propertyCategory>
+  <rdfs:label>supports inference of</rdfs:label>
 </owl:ObjectProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasID">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has ID</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasLabel">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has label</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasDescription">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has description</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStatus">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has status</rdfs:label>
 </owl:DatatypeProperty>
 
 <!-- examples -->
@@ -964,6 +1187,7 @@
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepRegularityFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepStructureFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Sleep Regularity Feature</rdfs:label>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -982,7 +1206,8 @@
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#FeatureLayer"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Activity And Sleep Feature</rdfs:label>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -999,30 +1224,12 @@
   </owl:equivalentClass>
 </owl:Class>
 
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#activityAndSleepFeature1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#activityMeasurement1"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1"/>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#activityMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurement"/>
-  <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1000</connect:hasValue>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
-  <connect:hasStage rdf:resource="http://connectdigitalstudy.com/ontology#Stage1"/>
-</owl:NamedIndividual>
-
-<rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#Stage1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
-  <connect:hasStageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Light Sleep</connect:hasStageName>
-</rdf:Description>
+  <!-- examples moved to examples.ttl (activityAndSleepFeature1, activityMeasurement1, sleepStageMeasurement1, Stage1) -->
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
-  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#FeatureLayer"/>
+  <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Exercise And Sleep Feature</rdfs:label>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -1039,116 +1246,8 @@
   </owl:equivalentClass>
 </owl:Class>
 
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#exerciseAndSleepFeature1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ExerciseAndSleepFeature"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#exerciseMeasurement1"/>
-  <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1"/>
-</owl:NamedIndividual>
+  <!-- examples moved to examples.ttl (exerciseAndSleepFeature1, exerciseMeasurement1, sleepStageMeasurement1, Stage2) -->
 
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#exerciseMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ExerciseMeasurement"/>
-  <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">120</connect:hasValue> <!-- Exercise duration in minutes -->
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#sleepStageMeasurement1">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
-  <connect:hasStage rdf:resource="http://connectdigitalstudy.com/ontology#Stage2"/>
-</owl:NamedIndividual>
-
-<rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#Stage2">
-  <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStage"/>
-  <connect:hasStageName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Deep Sleep</connect:hasStageName>
-</rdf:Description>
-
-  <!-- Define Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ParticipantX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
-    <connect:hasID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">X123</connect:hasID>
-    <connect:hasLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Participant X</connect:hasLabel>
-  </rdf:Description>
-
-  <!-- Physiological Measurements for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#HeartRateMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#HeartRateMeasurement"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">85</connect:hasValue>
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bpm</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#WearableDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#HeartRateVariabilityMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#HeartRateVariabilityMeasurement"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30</connect:hasValue>
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ms</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#WearableDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <!-- Behavioral Measurements for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ActivityMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurement"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">45</connect:hasValue>
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">minutes</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#WearableDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#SleepStageMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
-    <connect:hasStage rdf:resource="http://connectdigitalstudy.com/ontology#Stage1"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6</connect:hasValue> <!-- Total sleep time in hours -->
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hours</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#SmartphoneDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <!-- Derived Feature: Mobility Pattern for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#MobilityPatternFeatureX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurementX"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurementX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#HomeStayDurationFeatureX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.8</connect:hasValue> <!-- 80% of the time spent at home -->
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
-  </rdf:Description>
-
-  <!-- Digital Phenotype: Activity for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ActivityPhenotypeX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ActivityPhenotype"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurementX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#PhysicalInactivityX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#PhysicalInactivity"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurementX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DigitalPhenotypeLayer"/>
-  </rdf:Description>
-
-  <!-- Contextual Layer: Time and Event for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#TimeIntervalX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#TimeInterval"/>
-    <connect:hasStartTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-03-24T08:00:00</connect:hasStartTime>
-    <connect:hasEndTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2025-03-24T23:59:59</connect:hasEndTime>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#EventWindowX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#EventWindow"/>
-    <connect:occursDuring rdf:resource="http://connectdigitalstudy.com/ontology#TimeIntervalX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </rdf:Description>
-
-  <!-- Event-based Context: Social Withdrawal -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ContextualSituationX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ContextualSituation"/>
-    <connect:hasLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Social Withdrawal</connect:hasLabel>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
-  </rdf:Description>
-
+  <!-- examples moved to examples.ttl -->
 
 </rdf:RDF>
