@@ -8,6 +8,7 @@
          xmlns:dcterms="http://purl.org/dc/terms/"
          xmlns:qudt="http://qudt.org/schema/qudt/"
          xmlns:unit="http://qudt.org/vocab/unit/"
+         xmlns:iao="http://purl.obolibrary.org/obo/"
          xml:base="http://connectdigitalstudy.com/ontology">
 
   <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology">
@@ -25,6 +26,8 @@
   <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/title"/>
   <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/description"/>
   <owl:AnnotationProperty rdf:about="http://purl.org/dc/terms/license"/>
+  <!-- Minimal IAO declarations for definition annotation -->
+  <owl:AnnotationProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000115"/>
 
   <!-- Minimal QUDT declarations (DL-safe references) -->
   <owl:Class rdf:about="http://qudt.org/schema/qudt/QuantityValue"/>
@@ -33,6 +36,14 @@
   </owl:ObjectProperty>
   <owl:DatatypeProperty rdf:about="http://qudt.org/schema/qudt/numericValue"/>
   <owl:ObjectProperty rdf:about="http://qudt.org/schema/qudt/unit"/>
+
+  <!-- Convenience numeric value property -->
+  <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#numericValue">
+    <rdfs:subPropertyOf rdf:resource="http://qudt.org/schema/qudt/numericValue"/>
+    <rdfs:domain rdf:resource="http://qudt.org/schema/qudt/QuantityValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+    <rdfs:label>numeric value</rdfs:label>
+  </owl:DatatypeProperty>
 
   <!-- Minimal SOSA declarations (DL-safe references) -->
   <owl:Class rdf:about="http://www.w3.org/ns/sosa/Observation"/>
@@ -70,6 +81,7 @@
     <rdfs:comment>A single observation or data point recorded by a device or system.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/prov#Entity"/>
     <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/sosa/Observation"/>
+    <iao:IAO_0000115>A single observation recorded by a device or system, optionally linked to a QUDT QuantityValue and SOSA properties.</iao:IAO_0000115>
   </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement">

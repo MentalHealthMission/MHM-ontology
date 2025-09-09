@@ -49,7 +49,7 @@ connect:HeartRateMeasurementX a connect:HeartRateMeasurement ;
   connect:resultTime "2025-03-24T08:15:00"^^xsd:dateTime ;
   connect:hasValue 85.0 ;
   connect:hasUnit "bpm" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 85.0 ; qudt:unit unit:BPM ] ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 85.0 ; connect:numericValue 85.0 ; qudt:unit unit:BPM ] ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
@@ -60,7 +60,7 @@ connect:HeartRateVariabilityMeasurementX a connect:HeartRateVariabilityMeasureme
   connect:resultTime "2025-03-24T08:15:10"^^xsd:dateTime ;
   connect:hasValue 30.0 ;
   connect:hasUnit "ms" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 30.0 ; qudt:unit unit:MilliSecond ] ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 30.0 ; connect:numericValue 30.0 ; qudt:unit unit:MilliSecond ] ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
@@ -71,7 +71,7 @@ connect:ActivityMeasurementX a connect:ActivityMeasurement ;
   connect:resultTime "2025-03-24T22:00:00"^^xsd:dateTime ;
   connect:hasValue 45.0 ;
   connect:hasUnit "minutes" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 45.0 ; qudt:unit unit:Minute ] ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 45.0 ; connect:numericValue 45.0 ; qudt:unit unit:Minute ] ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
@@ -83,7 +83,7 @@ connect:SleepStageMeasurementX a connect:SleepStageMeasurement ;
   connect:resultTime "2025-03-25T06:30:00"^^xsd:dateTime ;
   connect:hasValue 6.0 ;
   connect:hasUnit "hours" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 6.0 ; qudt:unit unit:Hour ] ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 6.0 ; connect:numericValue 6.0 ; qudt:unit unit:Hour ] ;
   connect:wasGeneratedBy connect:SmartphoneDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
