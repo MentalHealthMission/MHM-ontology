@@ -22,21 +22,26 @@ This document lists development tasks for the MHM ontology. It is intended for c
 - [x] Add `rdfs:label` (and comments where useful) to public terms; target zero `missing_label` in ROBOT `report.tsv`.
 - [ ] Add usage notes where modeling choices are non-obvious (e.g., how layers are annotated, alignment intents).
 
-## Units and values
+## Units and values (QUDT first)
 
-- [ ] Align measurement values with a units ontology: introduce `qudt:Quantity`/`qudt:QuantityValue` or OM equivalents.
-- [ ] Deprecate `connect:hasUnit` (string) in favor of units concepts; keep temporarily for backward compatibility.
+- [ ] Introduce QUDT pattern: allow `connect:Measurement` to use `qudt:quantityValue` with `qudt:numericValue` and `qudt:unit`.
+- [ ] Add minimal QUDT declarations in core (DL-safe): `qudt:QuantityValue` (Class), `qudt:quantityValue` (ObjectProperty), `qudt:numericValue` (DatatypeProperty), `qudt:unit` (ObjectProperty); add `unit:` prefix.
+- [ ] Deprecate legacy `connect:hasUnit` and `connect:hasValue` (keep for compatibility) and document deprecation in README.
+- [ ] Update examples in `examples.ttl` to include QUDT quantity values for common measurements (HR BPM, HRV ms, activity minutes, sleep hours).
 
 ## Logical structure
 
 - [ ] Consider disjointness axioms among major measurement branches (Physiological, Behavioral, Environmental) if semantically valid.
 - [ ] Review global constraints to avoid unintended inferences and keep reasoning decidable (DL profile where possible).
 
-## SOSA/SSN alignment
+## SOSA/SSN alignment (after units)
 
-- [ ] Map `connect:Measurement` to `sosa:Observation` (as subclass) and adopt SOSA terms where beneficial.
-- [ ] Introduce `connect:observedProperty` (subPropertyOf `sosa:observedProperty`) and `connect:featureOfInterest` (subPropertyOf `sosa:hasFeatureOfInterest`).
-- [ ] Decide FOI strategy (e.g., participant, environment segment, or a domain entity) and document.
+- [ ] Add DL-safe SOSA declarations in core: `sosa:Observation` (Class), `sosa:observedProperty` (ObjectProperty), `sosa:hasFeatureOfInterest` (ObjectProperty), and (optionally) `sosa:resultTime` (DatatypeProperty) without imports.
+- [ ] Map `connect:Measurement` ⊑ `sosa:Observation`.
+- [ ] Introduce `connect:observedProperty` ⊑ `sosa:observedProperty` and `connect:featureOfInterest` ⊑ `sosa:hasFeatureOfInterest` with sensible domains/ranges.
+- [ ] Decide and document FOI strategy (Participant as default FOI for person-centred measures; allow Device/Context for device/environment measures).
+- [ ] Update examples to include `connect:observedProperty` and `connect:featureOfInterest` for key measurements (HR, HRV, activity duration, sleep duration).
+- [ ] Add SPARQL checks for SOSA alignment and examples; add `validate-sosa` target to tooling.
 
 ## ABox separation and modularization
 
