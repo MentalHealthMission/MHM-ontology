@@ -24,6 +24,9 @@ Use the wrapper script to build the image once and run ephemeral containers with
   - `tooling/run_ontology_tools.sh reason mhm_ontology.owl hermit`
 - Generate QA report:
   - `tooling/run_ontology_tools.sh report mhm_ontology.owl` (writes `report.tsv`)
+- Validate PROV alignment and examples:
+  - `tooling/run_ontology_tools.sh validate-prov`
+  - Merges `alignments/mhm-prov-align.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/` to verify class/property mappings and provenance chains. Uses `catalog-v001.xml` to resolve local imports.
 - Open interactive shell:
   - `tooling/run_ontology_tools.sh shell`
 
@@ -37,6 +40,7 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - `report <file.owl>`: `robot report` writes `report.tsv`.
 - `openllet-consistency <file.owl>`: Openllet consistency check.
 - `exec -- <args...>`: Run an arbitrary command in the container (e.g., `robot --help`).
+- `validate-prov`: Merge PROV alignment + examples, then run SPARQL checks. Fails non‑zero if any check fails.
 
 ## Notes
 
@@ -52,6 +56,6 @@ Use the wrapper script to build the image once and run ephemeral containers with
 3) Profile: `tooling/run_ontology_tools.sh profile mhm_ontology.owl DL`
 4) Reason: `tooling/run_ontology_tools.sh reason mhm_ontology.owl elk`
 5) QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl`
+6) PROV mapping checks: `tooling/run_ontology_tools.sh validate-prov`
 
 These steps align with the cleanup plan in `plan.md` and will help verify each structural change.
-
