@@ -4,6 +4,7 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 # Example individuals corresponding to the ABox previously embedded in mhm_ontology.owl
 
@@ -172,3 +173,7 @@ connect:DataSetX a connect:SensorDataSet ;
   connect:wasCollectedFrom connect:ParticipantX ;
   connect:wasAttributedTo connect:ParticipantX ;
   connect:usedDataInterface connect:DataInterfaceX .
+
+## SKOS vocabularies moved to separate files for maintainability:
+# - vocab/property-categories.ttl
+# - vocab/question-domains.ttl

@@ -1,0 +1,9 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  FILTER NOT EXISTS {
+    ?scheme a skos:ConceptScheme .
+    FILTER NOT EXISTS { ?scheme skos:hasTopConcept ?c }
+  }
+}
+

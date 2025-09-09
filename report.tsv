@@ -73,7 +73,6 @@ WARN	missing_definition	http://connectdigitalstudy.com/ontology#LocationEntropy	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#LocationTransitionCount	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#LowMood	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#MagneticFieldMeasurement	IAO:0000115	
-WARN	missing_definition	http://connectdigitalstudy.com/ontology#Measurement	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#MeasurementLayer	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#MedicalEvent	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#MessageLatency	IAO:0000115	
@@ -111,6 +110,7 @@ WARN	missing_definition	http://connectdigitalstudy.com/ontology#RestingHeartRate
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#RiskPhenotype	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#RotationRateMeasurement	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#ScreenEventMeasurement	IAO:0000115	
+WARN	missing_definition	http://connectdigitalstudy.com/ontology#SensingActivity	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#SensorDataSet	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#SensorMeasurement	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#SleepDomain	IAO:0000115	
@@ -146,6 +146,7 @@ WARN	missing_definition	http://connectdigitalstudy.com/ontology#WeeklyInterval	I
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#WorkOrStudy	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#answersQuestion	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#associatedWithDevice	IAO:0000115	
+WARN	missing_definition	http://connectdigitalstudy.com/ontology#featureOfInterest	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasConfidence	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasContext	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasDescription	IAO:0000115	
@@ -162,11 +163,12 @@ WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasStageName	IAO
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasStartTime	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasStatus	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasTimestamp	IAO:0000115	
-WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasUnit	IAO:0000115	
-WARN	missing_definition	http://connectdigitalstudy.com/ontology#hasValue	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#infersPhenotype	IAO:0000115	
+WARN	missing_definition	http://connectdigitalstudy.com/ontology#numericValue	IAO:0000115	
+WARN	missing_definition	http://connectdigitalstudy.com/ontology#observedProperty	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#occursDuring	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#requiresComputation	IAO:0000115	
+WARN	missing_definition	http://connectdigitalstudy.com/ontology#resultTime	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#supportsInferenceOf	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#usedAppInterface	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#usedDataInterface	IAO:0000115	
@@ -177,6 +179,9 @@ WARN	missing_definition	http://connectdigitalstudy.com/ontology#wasComputedBy	IA
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#wasDerivedFrom	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#wasGeneratedBy	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#wasReportedBy	IAO:0000115	
+WARN	missing_definition	http://qudt.org/schema/qudt/quantityValue	IAO:0000115	
+WARN	missing_obsolete_label	http://connectdigitalstudy.com/ontology#hasUnit	rdfs:label	has unit
+WARN	missing_obsolete_label	http://connectdigitalstudy.com/ontology#hasValue	rdfs:label	has value
 INFO	missing_superclass	http://connectdigitalstudy.com/ontology#Event	rdfs:subClassOf	
 INFO	missing_superclass	http://connectdigitalstudy.com/ontology#Interface	rdfs:subClassOf	
 INFO	missing_superclass	http://connectdigitalstudy.com/ontology#ObservationContext	rdfs:subClassOf	

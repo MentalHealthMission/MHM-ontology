@@ -30,9 +30,12 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - Validate units alignment and examples:
   - `tooling/run_ontology_tools.sh validate-units`
   - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/units_*.rq` to ensure quantity values are present and units are set for examples.
- - Validate SOSA alignment and examples:
+- Validate SOSA alignment and examples:
   - `tooling/run_ontology_tools.sh validate-sosa`
   - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/sosa_*.rq` to ensure class/property mappings and example FOI/observedProperty are present.
+ - Validate SKOS schemes and concepts:
+  - `tooling/run_ontology_tools.sh validate-skos`
+  - Merges `mhm_ontology.owl` + `vocab/*.ttl` + `examples.ttl` and runs SPARQL ASK queries in `queries/skos_*.rq` to ensure schemes exist, top concepts are set, labels have language tags, and tags point to valid concepts.
 - Open interactive shell:
   - `tooling/run_ontology_tools.sh shell`
 
@@ -49,6 +52,7 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - `validate-prov`: Merge PROV alignment + examples, then run SPARQL checks. Fails non‑zero if any check fails.
 - `validate-units`: Merge core + examples, then run unit SPARQL checks. Fails non‑zero if any check fails.
 - `validate-sosa`: Merge core + examples, then run SOSA SPARQL checks. Fails non‑zero if any check fails.
+- `validate-skos`: Merge core + examples, then run SKOS SPARQL checks. Fails non‑zero if any check fails.
 
 ## Notes
 

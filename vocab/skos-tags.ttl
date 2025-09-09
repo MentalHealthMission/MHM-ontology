@@ -1,0 +1,21 @@
+@prefix connect: <http://connectdigitalstudy.com/ontology#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+# DL-safe tagging of ontology classes with SKOS concepts
+
+# Physiological measurements
+connect:HeartRateMeasurement            connect:skosTag connect:PhysiologicalProperty .
+connect:RespiratoryRateMeasurement      connect:skosTag connect:PhysiologicalProperty .
+connect:HeartRateVariabilityMeasurement connect:skosTag connect:PhysiologicalProperty .
+
+# Behavioral measurements
+connect:ActivityMeasurement    connect:skosTag connect:BehavioralProperty .
+connect:SleepStageMeasurement  connect:skosTag connect:BehavioralProperty .
+
+# Environmental measurements
+connect:EnvironmentalMeasurement connect:skosTag connect:EnvironmentalProperty .
+
+# Questionnaire model (illustrative tags to domains)
+connect:QuestionnaireEntry connect:skosTag connect:StressDomain .
+connect:Question          connect:skosTag connect:MoodDomain , connect:SleepDomain .
+connect:ResponseItem      connect:skosTag connect:SleepDomain .

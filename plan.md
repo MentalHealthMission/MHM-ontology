@@ -24,10 +24,10 @@ This document lists development tasks for the MHM ontology. It is intended for c
 
 ## Units and values (QUDT first)
 
-- [ ] Introduce QUDT pattern: allow `connect:Measurement` to use `qudt:quantityValue` with `qudt:numericValue` and `qudt:unit`.
-- [ ] Add minimal QUDT declarations in core (DL-safe): `qudt:QuantityValue` (Class), `qudt:quantityValue` (ObjectProperty), `qudt:numericValue` (DatatypeProperty), `qudt:unit` (ObjectProperty); add `unit:` prefix.
-- [ ] Deprecate legacy `connect:hasUnit` and `connect:hasValue` (keep for compatibility) and document deprecation in README.
-- [ ] Update examples in `examples.ttl` to include QUDT quantity values for common measurements (HR BPM, HRV ms, activity minutes, sleep hours).
+- [x] Introduce QUDT pattern: allow `connect:Measurement` to use `qudt:quantityValue` with `qudt:numericValue` and `qudt:unit`.
+- [x] Add minimal QUDT declarations in core (DL-safe): `qudt:QuantityValue` (Class), `qudt:quantityValue` (ObjectProperty), `qudt:numericValue` (DatatypeProperty), `qudt:unit` (ObjectProperty); add `unit:` prefix.
+- [x] Deprecate legacy `connect:hasUnit` and `connect:hasValue` (keep for compatibility) and document deprecation in README.
+- [x] Update examples in `examples.ttl` to include QUDT quantity values for common measurements (HR BPM, HRV ms, activity minutes, sleep hours).
 
 ## Logical structure
 
@@ -36,12 +36,23 @@ This document lists development tasks for the MHM ontology. It is intended for c
 
 ## SOSA/SSN alignment (after units)
 
-- [ ] Add DL-safe SOSA declarations in core: `sosa:Observation` (Class), `sosa:observedProperty` (ObjectProperty), `sosa:hasFeatureOfInterest` (ObjectProperty), and (optionally) `sosa:resultTime` (DatatypeProperty) without imports.
-- [ ] Map `connect:Measurement` ⊑ `sosa:Observation`.
-- [ ] Introduce `connect:observedProperty` ⊑ `sosa:observedProperty` and `connect:featureOfInterest` ⊑ `sosa:hasFeatureOfInterest` with sensible domains/ranges.
-- [ ] Decide and document FOI strategy (Participant as default FOI for person-centred measures; allow Device/Context for device/environment measures).
-- [ ] Update examples to include `connect:observedProperty` and `connect:featureOfInterest` for key measurements (HR, HRV, activity duration, sleep duration).
-- [ ] Add SPARQL checks for SOSA alignment and examples; add `validate-sosa` target to tooling.
+- [x] Add DL-safe SOSA declarations in core: `sosa:Observation` (Class), `sosa:observedProperty` (ObjectProperty), `sosa:hasFeatureOfInterest` (ObjectProperty), and (optionally) `sosa:resultTime` (DatatypeProperty) without imports.
+- [x] Map `connect:Measurement` ⊑ `sosa:Observation`.
+- [x] Introduce `connect:observedProperty` ⊑ `sosa:observedProperty` and `connect:featureOfInterest` ⊑ `sosa:hasFeatureOfInterest` with sensible domains/ranges.
+- [x] Decide and document FOI strategy (Participant as default FOI for person-centred measures; allow Device/Context for device/environment measures).
+- [x] Update examples to include `connect:observedProperty` and `connect:featureOfInterest` for key measurements (HR, HRV, activity duration, sleep duration).
+- [x] Add SPARQL checks for SOSA alignment and examples; add `validate-sosa` target to tooling.
+
+## SKOS alignment (vocabularies)
+
+- [x] Add DL-safe SKOS references in core: `skos:Concept`, `skos:ConceptScheme`, `skos:inScheme`, `skos:broader`/`narrower`/`related`, and `skos:prefLabel`/`skos:altLabel`.
+- [x] Provide SKOS vocabularies in `vocab/` (`property-categories.ttl`, `question-domains.ttl`) with concepts, labels, definitions, and top concepts.
+- [x] Add SPARQL checks for SKOS schemes/concepts; add `validate-skos` target to tooling.
+- [x] Add `connect:skosTag` annotation and initial class→concept tags in `vocab/skos-tags.ttl`.
+- [x] Add validation for label language tags, scheme top concepts, tag targets, and broader-cycle prevention.
+- [ ] Expand SKOS vocabularies with additional concepts and relationships as needed.
+- [ ] Tag additional classes with `connect:skosTag` where useful; keep to lightweight, non-normative tagging.
+- [ ] Add short query examples demonstrating retrieval by SKOS tags.
 
 ## ABox separation and modularization
 
@@ -67,13 +78,18 @@ This document lists development tasks for the MHM ontology. It is intended for c
   - Add `connect:associatedWithDevice` ⊑ `prov:wasAssociatedWith` (domain: `prov:Activity`, range: Device) for activity↔agent association.
   - Declare `connect:usedAppInterface` ⊑ `prov:used` (domain: `prov:Activity`, range: Interface) and review `connect:usedDevice` similarly.
 - [x] Verify referenced activity classes exist for property domains (`DataTransferEvent`, `NotificationEvent`); add if missing or adjust domains accordingly.
-- [ ] Add minimal examples (in `examples.ttl`) showing PROV chains: Measurement (Entity) → wasGeneratedBy SensingActivity; SensingActivity wasAssociatedWith Device/Participant; DerivedFeature (Entity) wasComputedBy Computation; DerivedFeature wasDerivedFrom Measurement; DataSet wasAttributedTo Participant and used DataInterface.
+- [x] Add minimal examples (in `examples.ttl`) showing PROV chains: Measurement (Entity) → wasGeneratedBy SensingActivity; SensingActivity wasAssociatedWith Device/Participant; DerivedFeature (Entity) wasComputedBy Computation; DerivedFeature wasDerivedFrom Measurement; DataSet wasAttributedTo Participant and used DataInterface.
 
 ## Tooling-driven QA fixes
 
 - [x] Run `tooling/run_ontology_tools.sh report mhm_ontology.owl` and address all ERROR-level items (labels, duplicates) before deeper refactors.
 - [x] Re-run `profile` for OWL DL after converting `belongsToLayer` to an annotation property and deduping.
 - [ ] Keep `report.tsv` updated during PRs for quick review.
+
+## Tooling and CI
+
+- [ ] Add GitHub Actions workflow to run: syntax check, DL profile, QA report, validate-units, validate-sosa, validate-skos, validate-prov on PRs.
+- [ ] Fail CI on any validation failure; publish `report.tsv` as an artifact.
 
 ## README updates
 
@@ -83,3 +99,8 @@ This document lists development tasks for the MHM ontology. It is intended for c
 - [ ] Add Contribution workflow: branch naming, editing in Protégé, reasoning checks, PR checklist.
 - [ ] Add Versioning: version IRI strategy and release tags.
 - [x] Link to `examples.ttl` for quick starts.
+
+## Documentation
+
+- [ ] Update `docs/ontology-overview.md` with concise sections for Units (QUDT), SOSA alignment, SKOS vocabularies, and class tagging with `connect:skosTag`.
+- [ ] Add a brief SPARQL examples page in `docs/` showing SKOS lookups and SOSA/units checks.
