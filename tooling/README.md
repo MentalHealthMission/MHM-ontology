@@ -52,7 +52,7 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - `validate-prov`: Merge PROV alignment + examples, then run SPARQL checks. Fails non‑zero if any check fails.
 - `validate-units`: Merge core + examples, then run unit SPARQL checks. Fails non‑zero if any check fails.
 - `validate-sosa`: Merge core + examples, then run SOSA SPARQL checks. Fails non‑zero if any check fails.
- - `validate-skos`: Merge core + examples, then run SKOS SPARQL checks. Fails non‑zero if any check fails.
+- `validate-skos`: Merge core + examples, then run SKOS SPARQL checks. Fails non‑zero if any check fails.
 
 ## Notes
 

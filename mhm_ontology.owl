@@ -58,8 +58,11 @@
   <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#broader"/>
   <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#narrower"/>
   <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#related"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#hasTopConcept"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#topConceptOf"/>
   <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
   <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#altLabel"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#definition"/>
 
   <!-- Minimal declarations for PROV-O terms to keep OWL DL without importing -->
   <owl:Class rdf:about="http://www.w3.org/ns/prov#Entity"/>
