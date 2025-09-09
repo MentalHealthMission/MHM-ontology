@@ -197,13 +197,14 @@ case "$cmd" in
     ' 
     ;;
   validate-skos)
-    # Merge core + examples, then run SKOS-related SPARQL ASK queries
+    # Merge core + examples (+ SKOS tags), then run SKOS-related SPARQL ASK queries
     run_in_container bash -lc '
       set -euo pipefail
       mkdir -p build
       robot merge --catalog catalog-v001.xml \
         --input mhm_ontology.owl \
         --input examples.ttl \
+        --input vocab/skos-tags.ttl \
         --output build/skos-merged.owl
       failures=0
       for q in queries/skos_*.rq; do

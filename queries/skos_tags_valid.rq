@@ -1,0 +1,11 @@
+PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
+
+# All connect:skosTag objects are SKOS Concepts that are in some scheme
+ASK {
+  FILTER NOT EXISTS {
+    ?s connect:skosTag ?c .
+    FILTER NOT EXISTS { ?c a skos:Concept ; skos:inScheme ?scheme }
+  }
+}
+
