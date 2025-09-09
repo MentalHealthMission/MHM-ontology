@@ -4,7 +4,7 @@ This document provides a concise overview of the ontology’s goals, main layers
 
 ## Overview
 
-- **Goal:** represent participant/device data for health studies in a consistent, computable model that supports integration, basic reasoning, and provenance.
+- **Goal:** provide an ontology for capturing high‑level features derived from wearable device data in health‑related studies. The model standardizes how features and their source measurements are described, records provenance of computations, uses explicit units, and aligns with common web standards to enable integration and reuse across projects.
 - **Design:** a DL-safe core with lightweight references to external standards (SOSA, SKOS, QUDT) and a separate PROV-O alignment module for full provenance semantics.
 - **Usage:** classes and properties for measurements, features, context, questionnaires, phenotypes, and provenance, with examples and validation scripts.
 
