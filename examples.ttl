@@ -4,6 +4,7 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 # Example individuals corresponding to the ABox previously embedded in mhm_ontology.owl
 
@@ -172,3 +173,23 @@ connect:DataSetX a connect:SensorDataSet ;
   connect:wasCollectedFrom connect:ParticipantX ;
   connect:wasAttributedTo connect:ParticipantX ;
   connect:usedDataInterface connect:DataInterfaceX .
+
+# SKOS: Example concept scheme for property categories
+connect:PropertyCategoryScheme a skos:ConceptScheme ;
+  rdfs:label "Property Category Scheme" ;
+  skos:prefLabel "Property categories" .
+
+connect:PhysiologicalProperty a skos:Concept ;
+  skos:inScheme connect:PropertyCategoryScheme ;
+  skos:prefLabel "Physiological" ;
+  skos:altLabel "Physio" .
+
+connect:BehavioralProperty a skos:Concept ;
+  skos:inScheme connect:PropertyCategoryScheme ;
+  skos:prefLabel "Behavioral" ;
+  skos:related connect:PhysiologicalProperty .
+
+connect:EnvironmentalProperty a skos:Concept ;
+  skos:inScheme connect:PropertyCategoryScheme ;
+  skos:prefLabel "Environmental" ;
+  skos:broader connect:BehavioralProperty .

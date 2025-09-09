@@ -24,10 +24,10 @@ This document lists development tasks for the MHM ontology. It is intended for c
 
 ## Units and values (QUDT first)
 
-- [ ] Introduce QUDT pattern: allow `connect:Measurement` to use `qudt:quantityValue` with `qudt:numericValue` and `qudt:unit`.
-- [ ] Add minimal QUDT declarations in core (DL-safe): `qudt:QuantityValue` (Class), `qudt:quantityValue` (ObjectProperty), `qudt:numericValue` (DatatypeProperty), `qudt:unit` (ObjectProperty); add `unit:` prefix.
-- [ ] Deprecate legacy `connect:hasUnit` and `connect:hasValue` (keep for compatibility) and document deprecation in README.
-- [ ] Update examples in `examples.ttl` to include QUDT quantity values for common measurements (HR BPM, HRV ms, activity minutes, sleep hours).
+- [x] Introduce QUDT pattern: allow `connect:Measurement` to use `qudt:quantityValue` with `qudt:numericValue` and `qudt:unit`.
+- [x] Add minimal QUDT declarations in core (DL-safe): `qudt:QuantityValue` (Class), `qudt:quantityValue` (ObjectProperty), `qudt:numericValue` (DatatypeProperty), `qudt:unit` (ObjectProperty); add `unit:` prefix.
+- [x] Deprecate legacy `connect:hasUnit` and `connect:hasValue` (keep for compatibility) and document deprecation in README.
+- [x] Update examples in `examples.ttl` to include QUDT quantity values for common measurements (HR BPM, HRV ms, activity minutes, sleep hours).
 
 ## Logical structure
 
@@ -36,12 +36,19 @@ This document lists development tasks for the MHM ontology. It is intended for c
 
 ## SOSA/SSN alignment (after units)
 
-- [ ] Add DL-safe SOSA declarations in core: `sosa:Observation` (Class), `sosa:observedProperty` (ObjectProperty), `sosa:hasFeatureOfInterest` (ObjectProperty), and (optionally) `sosa:resultTime` (DatatypeProperty) without imports.
-- [ ] Map `connect:Measurement` ⊑ `sosa:Observation`.
-- [ ] Introduce `connect:observedProperty` ⊑ `sosa:observedProperty` and `connect:featureOfInterest` ⊑ `sosa:hasFeatureOfInterest` with sensible domains/ranges.
-- [ ] Decide and document FOI strategy (Participant as default FOI for person-centred measures; allow Device/Context for device/environment measures).
-- [ ] Update examples to include `connect:observedProperty` and `connect:featureOfInterest` for key measurements (HR, HRV, activity duration, sleep duration).
-- [ ] Add SPARQL checks for SOSA alignment and examples; add `validate-sosa` target to tooling.
+- [x] Add DL-safe SOSA declarations in core: `sosa:Observation` (Class), `sosa:observedProperty` (ObjectProperty), `sosa:hasFeatureOfInterest` (ObjectProperty), and (optionally) `sosa:resultTime` (DatatypeProperty) without imports.
+- [x] Map `connect:Measurement` ⊑ `sosa:Observation`.
+- [x] Introduce `connect:observedProperty` ⊑ `sosa:observedProperty` and `connect:featureOfInterest` ⊑ `sosa:hasFeatureOfInterest` with sensible domains/ranges.
+- [x] Decide and document FOI strategy (Participant as default FOI for person-centred measures; allow Device/Context for device/environment measures).
+- [x] Update examples to include `connect:observedProperty` and `connect:featureOfInterest` for key measurements (HR, HRV, activity duration, sleep duration).
+- [x] Add SPARQL checks for SOSA alignment and examples; add `validate-sosa` target to tooling.
+
+## SKOS alignment (vocabularies)
+
+- [x] Add DL-safe SKOS references in core: `skos:Concept`, `skos:ConceptScheme`, `skos:inScheme`, `skos:broader`/`narrower`/`related`, and `skos:prefLabel`/`skos:altLabel`.
+- [x] Model lightweight SKOS concept schemes in `examples.ttl` (e.g., Property Category scheme; Question Domain scheme) with concepts and labels.
+- [x] Add SPARQL checks for SKOS schemes/concepts; add `validate-skos` target to tooling.
+- [ ] (Follow-up) Consider mapping existing internal categories/domains to SKOS (without breaking DL), or mint parallel SKOS concepts with `skos:exactMatch`/`rdfs:seeAlso` to classes.
 
 ## ABox separation and modularization
 

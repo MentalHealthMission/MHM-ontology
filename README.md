@@ -85,13 +85,18 @@ The ontology defines a series of properties that establish relationships between
 - `owl`: `http://www.w3.org/2002/07/owl#`
 - `xsd`: `http://www.w3.org/2001/XMLSchema#`
 - `prov`: `http://www.w3.org/ns/prov#` (referenced without import; see below)
+- `sosa`: `http://www.w3.org/ns/sosa/` (DL-safe references; no import)
+- `skos`: `http://www.w3.org/2004/02/skos/core#` (DL-safe references; no import)
+- `dcterms`: `http://purl.org/dc/terms/` (annotations)
+- `qudt`: `http://qudt.org/schema/qudt/` (DL-safe references; no import)
+- `unit`: `http://qudt.org/vocab/unit/`
 
 ## Imports
 
-The core ontology (`mhm_ontology.owl`) is kept in OWL DL. A separate alignment module brings in PROV-O for full provenance mapping:
+The core ontology (`mhm_ontology.owl`) is kept in OWL DL. External vocabularies are referenced DL‑safely without imports (SOSA, SKOS, QUDT). A separate alignment module brings in PROV‑O for full provenance mapping:
 
-- Core (DL): `mhm_ontology.owl` (no external imports)
-- Alignment (OWL Full via PROV-O): `alignments/mhm-prov-align.owl` imports `mhm_ontology.owl` and `http://www.w3.org/ns/prov-o`
+- Core (DL): `mhm_ontology.owl` (no external imports; DL‑safe references to `sosa:`, `skos:`, `qudt:`)
+- Alignment (OWL Full via PROV‑O): `alignments/mhm-prov-align.owl` imports `mhm_ontology.owl` and `http://www.w3.org/ns/prov-o`
 
 ## Modeling Principles
 
@@ -122,3 +127,6 @@ Use the Dockerized tooling in `tooling/`:
 - PROV alignment syntax: `tooling/run_ontology_tools.sh check-syntax alignments/mhm-prov-align.owl`
 - PROV alignment profile: `tooling/run_ontology_tools.sh profile alignments/mhm-prov-align.owl DL` (expected to fail DL due to PROV-O; this is normal)
 - QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl` (writes `report.tsv`)
+- Validate units examples: `tooling/run_ontology_tools.sh validate-units`
+- Validate SOSA alignment: `tooling/run_ontology_tools.sh validate-sosa`
+- Validate SKOS vocabularies: `tooling/run_ontology_tools.sh validate-skos`

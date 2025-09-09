@@ -51,6 +51,16 @@
   <owl:ObjectProperty rdf:about="http://www.w3.org/ns/sosa/hasFeatureOfInterest"/>
   <owl:DatatypeProperty rdf:about="http://www.w3.org/ns/sosa/resultTime"/>
 
+  <!-- Minimal SKOS declarations (DL-safe references) -->
+  <owl:Class rdf:about="http://www.w3.org/2004/02/skos/core#Concept"/>
+  <owl:Class rdf:about="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#inScheme"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#broader"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#narrower"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/2004/02/skos/core#related"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#prefLabel"/>
+  <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#altLabel"/>
+
   <!-- Minimal declarations for PROV-O terms to keep OWL DL without importing -->
   <owl:Class rdf:about="http://www.w3.org/ns/prov#Entity"/>
   <owl:Class rdf:about="http://www.w3.org/ns/prov#Activity"/>

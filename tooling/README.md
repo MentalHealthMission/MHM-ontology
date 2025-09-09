@@ -30,9 +30,12 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - Validate units alignment and examples:
   - `tooling/run_ontology_tools.sh validate-units`
   - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/units_*.rq` to ensure quantity values are present and units are set for examples.
- - Validate SOSA alignment and examples:
+- Validate SOSA alignment and examples:
   - `tooling/run_ontology_tools.sh validate-sosa`
   - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/sosa_*.rq` to ensure class/property mappings and example FOI/observedProperty are present.
+ - Validate SKOS schemes and concepts:
+  - `tooling/run_ontology_tools.sh validate-skos`
+  - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/skos_*.rq` to ensure a ConceptScheme exists, concepts are in a scheme, and each concept has a `skos:prefLabel`.
 - Open interactive shell:
   - `tooling/run_ontology_tools.sh shell`
 
