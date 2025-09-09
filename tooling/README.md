@@ -27,9 +27,12 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - Validate PROV alignment and examples:
   - `tooling/run_ontology_tools.sh validate-prov`
   - Merges `alignments/mhm-prov-align.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/` to verify class/property mappings and provenance chains. Uses `catalog-v001.xml` to resolve local imports.
- - Validate units alignment and examples:
+- Validate units alignment and examples:
   - `tooling/run_ontology_tools.sh validate-units`
   - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/units_*.rq` to ensure quantity values are present and units are set for examples.
+ - Validate SOSA alignment and examples:
+  - `tooling/run_ontology_tools.sh validate-sosa`
+  - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/sosa_*.rq` to ensure class/property mappings and example FOI/observedProperty are present.
 - Open interactive shell:
   - `tooling/run_ontology_tools.sh shell`
 
@@ -45,6 +48,7 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - `exec -- <args...>`: Run an arbitrary command in the container (e.g., `robot --help`).
 - `validate-prov`: Merge PROV alignment + examples, then run SPARQL checks. Fails non‑zero if any check fails.
 - `validate-units`: Merge core + examples, then run unit SPARQL checks. Fails non‑zero if any check fails.
+- `validate-sosa`: Merge core + examples, then run SOSA SPARQL checks. Fails non‑zero if any check fails.
 
 ## Notes
 
@@ -62,5 +66,6 @@ Use the wrapper script to build the image once and run ephemeral containers with
 5) QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl`
 6) PROV mapping checks: `tooling/run_ontology_tools.sh validate-prov`
 7) Units checks: `tooling/run_ontology_tools.sh validate-units`
+8) SOSA checks: `tooling/run_ontology_tools.sh validate-sosa`
 
 These steps align with the cleanup plan in `plan.md` and will help verify each structural change.

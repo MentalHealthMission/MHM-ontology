@@ -44,6 +44,8 @@ connect:ParticipantX a connect:Participant ;
 
 connect:HeartRateMeasurementX a connect:HeartRateMeasurement ;
   rdfs:label "Heart rate measurement X" ;
+  connect:observedProperty connect:HeartRate ;
+  connect:featureOfInterest connect:ParticipantX ;
   connect:hasValue 85.0 ;
   connect:hasUnit "bpm" ;
   qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 85.0 ; qudt:unit unit:BPM ] ;
@@ -52,6 +54,8 @@ connect:HeartRateMeasurementX a connect:HeartRateMeasurement ;
 
 connect:HeartRateVariabilityMeasurementX a connect:HeartRateVariabilityMeasurement ;
   rdfs:label "HRV measurement X" ;
+  connect:observedProperty connect:HeartRateVariability ;
+  connect:featureOfInterest connect:ParticipantX ;
   connect:hasValue 30.0 ;
   connect:hasUnit "ms" ;
   qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 30.0 ; qudt:unit unit:MilliSecond ] ;
@@ -60,6 +64,8 @@ connect:HeartRateVariabilityMeasurementX a connect:HeartRateVariabilityMeasureme
 
 connect:ActivityMeasurementX a connect:ActivityMeasurement ;
   rdfs:label "Activity measurement X" ;
+  connect:observedProperty connect:ActivityDuration ;
+  connect:featureOfInterest connect:ParticipantX ;
   connect:hasValue 45.0 ;
   connect:hasUnit "minutes" ;
   qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 45.0 ; qudt:unit unit:Minute ] ;
@@ -69,11 +75,19 @@ connect:ActivityMeasurementX a connect:ActivityMeasurement ;
 connect:SleepStageMeasurementX a connect:SleepStageMeasurement ;
   rdfs:label "Sleep stage measurement X" ;
   connect:hasStage connect:Stage1 ;
+  connect:observedProperty connect:SleepDuration ;
+  connect:featureOfInterest connect:ParticipantX ;
   connect:hasValue 6.0 ;
   connect:hasUnit "hours" ;
   qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 6.0 ; qudt:unit unit:Hour ] ;
   connect:wasGeneratedBy connect:SmartphoneDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
+
+# Observed property resources
+connect:HeartRate a rdfs:Resource ; rdfs:label "Heart rate" .
+connect:HeartRateVariability a rdfs:Resource ; rdfs:label "Heart rate variability" .
+connect:ActivityDuration a rdfs:Resource ; rdfs:label "Activity duration" .
+connect:SleepDuration a rdfs:Resource ; rdfs:label "Sleep duration" .
 
 connect:MobilityPatternFeatureX a connect:MobilityPatternFeature ;
   rdfs:label "Mobility pattern feature X" ;

@@ -36,9 +36,12 @@ This document lists development tasks for the MHM ontology. It is intended for c
 
 ## SOSA/SSN alignment (after units)
 
-- [ ] Map `connect:Measurement` to `sosa:Observation` (as subclass) and adopt SOSA terms where beneficial.
-- [ ] Introduce `connect:observedProperty` (subPropertyOf `sosa:observedProperty`) and `connect:featureOfInterest` (subPropertyOf `sosa:hasFeatureOfInterest`).
-- [ ] Decide FOI strategy (e.g., participant, environment segment, or a domain entity) and document.
+- [ ] Add DL-safe SOSA declarations in core: `sosa:Observation` (Class), `sosa:observedProperty` (ObjectProperty), `sosa:hasFeatureOfInterest` (ObjectProperty), and (optionally) `sosa:resultTime` (DatatypeProperty) without imports.
+- [ ] Map `connect:Measurement` ⊑ `sosa:Observation`.
+- [ ] Introduce `connect:observedProperty` ⊑ `sosa:observedProperty` and `connect:featureOfInterest` ⊑ `sosa:hasFeatureOfInterest` with sensible domains/ranges.
+- [ ] Decide and document FOI strategy (Participant as default FOI for person-centred measures; allow Device/Context for device/environment measures).
+- [ ] Update examples to include `connect:observedProperty` and `connect:featureOfInterest` for key measurements (HR, HRV, activity duration, sleep duration).
+- [ ] Add SPARQL checks for SOSA alignment and examples; add `validate-sosa` target to tooling.
 
 ## ABox separation and modularization
 
