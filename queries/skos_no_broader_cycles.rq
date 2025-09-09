@@ -1,0 +1,10 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+# No cycles in broader hierarchy (uses property paths)
+ASK {
+  FILTER NOT EXISTS {
+    ?c a skos:Concept .
+    ?c skos:broader+ ?c .
+  }
+}
+

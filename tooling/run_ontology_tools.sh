@@ -203,8 +203,10 @@ case "$cmd" in
       mkdir -p build
       robot merge --catalog catalog-v001.xml \
         --input mhm_ontology.owl \
-        --input examples.ttl \
+        --input vocab/property-categories.ttl \
+        --input vocab/question-domains.ttl \
         --input vocab/skos-tags.ttl \
+        --input examples.ttl \
         --output build/skos-merged.owl
       failures=0
       for q in queries/skos_*.rq; do

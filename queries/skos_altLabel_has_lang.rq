@@ -1,0 +1,9 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+  FILTER NOT EXISTS {
+    ?c a skos:Concept ; skos:altLabel ?l .
+    FILTER (lang(?l) = "")
+  }
+}
+

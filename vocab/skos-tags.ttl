@@ -12,8 +12,10 @@ connect:HeartRateVariabilityMeasurement connect:skosTag connect:PhysiologicalPro
 connect:ActivityMeasurement    connect:skosTag connect:BehavioralProperty .
 connect:SleepStageMeasurement  connect:skosTag connect:BehavioralProperty .
 
+# Environmental measurements
+connect:EnvironmentalMeasurement connect:skosTag connect:EnvironmentalProperty .
+
 # Questionnaire model (illustrative tags to domains)
 connect:QuestionnaireEntry connect:skosTag connect:StressDomain .
 connect:Question          connect:skosTag connect:MoodDomain , connect:SleepDomain .
 connect:ResponseItem      connect:skosTag connect:SleepDomain .
-

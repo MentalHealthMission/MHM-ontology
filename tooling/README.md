@@ -35,7 +35,7 @@ Use the wrapper script to build the image once and run ephemeral containers with
   - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/sosa_*.rq` to ensure class/property mappings and example FOI/observedProperty are present.
  - Validate SKOS schemes and concepts:
   - `tooling/run_ontology_tools.sh validate-skos`
-  - Merges `mhm_ontology.owl` + `examples.ttl` and runs SPARQL ASK queries in `queries/skos_*.rq` to ensure a ConceptScheme exists, concepts are in a scheme, and each concept has a `skos:prefLabel`.
+  - Merges `mhm_ontology.owl` + `vocab/*.ttl` + `examples.ttl` and runs SPARQL ASK queries in `queries/skos_*.rq` to ensure schemes exist, top concepts are set, labels have language tags, and tags point to valid concepts.
 - Open interactive shell:
   - `tooling/run_ontology_tools.sh shell`
 

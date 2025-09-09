@@ -131,4 +131,4 @@ Use the Dockerized tooling in `tooling/`:
 - QA report: `tooling/run_ontology_tools.sh report mhm_ontology.owl` (writes `report.tsv`)
 - Validate units examples: `tooling/run_ontology_tools.sh validate-units`
 - Validate SOSA alignment: `tooling/run_ontology_tools.sh validate-sosa`
-- Validate SKOS vocabularies: `tooling/run_ontology_tools.sh validate-skos`
+- Validate SKOS vocabularies: `tooling/run_ontology_tools.sh validate-skos` (merges `vocab/*.ttl` + examples)

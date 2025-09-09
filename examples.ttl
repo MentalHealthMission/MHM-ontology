@@ -174,62 +174,6 @@ connect:DataSetX a connect:SensorDataSet ;
   connect:wasAttributedTo connect:ParticipantX ;
   connect:usedDataInterface connect:DataInterfaceX .
 
-# SKOS: Example concept scheme for property categories
-connect:PropertyCategoryScheme a skos:ConceptScheme ;
-  rdfs:label "Property Category Scheme" ;
-  skos:prefLabel "Property categories"@en .
-
-connect:PhysiologicalProperty a skos:Concept ;
-  skos:inScheme connect:PropertyCategoryScheme ;
-  skos:prefLabel "Physiological"@en ;
-  skos:altLabel "Physio"@en ;
-  skos:topConceptOf connect:PropertyCategoryScheme ;
-  skos:definition "Properties concerning physiological signals and measures (e.g., HR, HRV)."@en .
-
-connect:BehavioralProperty a skos:Concept ;
-  skos:inScheme connect:PropertyCategoryScheme ;
-  skos:prefLabel "Behavioral"@en ;
-  skos:related connect:PhysiologicalProperty ;
-  skos:topConceptOf connect:PropertyCategoryScheme ;
-  skos:definition "Properties describing human behavior such as activity and sleep."@en .
-
-connect:EnvironmentalProperty a skos:Concept ;
-  skos:inScheme connect:PropertyCategoryScheme ;
-  skos:prefLabel "Environmental"@en ;
-  skos:broader connect:BehavioralProperty ;
-  skos:definition "Properties describing environmental context such as light or temperature."@en .
-
-# Also link scheme to its top concepts
-connect:PropertyCategoryScheme skos:hasTopConcept connect:PhysiologicalProperty , connect:BehavioralProperty .
-
-# SKOS: Question Domain scheme
-connect:QuestionDomainScheme a skos:ConceptScheme ;
-  rdfs:label "Question Domain Scheme" ;
-  skos:prefLabel "Question domains"@en .
-
-connect:MoodDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
-  skos:prefLabel "Mood"@en ;
-  skos:definition "Questions and responses relating to mood and affect."@en ;
-  skos:topConceptOf connect:QuestionDomainScheme .
-
-connect:SleepDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
-  skos:prefLabel "Sleep"@en ;
-  skos:definition "Questions concerning sleep habits, quality, and duration."@en ;
-  skos:topConceptOf connect:QuestionDomainScheme .
-
-connect:StressDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
-  skos:prefLabel "Stress"@en ;
-  skos:definition "Questions regarding perceived stress or stressors."@en ;
-  skos:topConceptOf connect:QuestionDomainScheme .
-
-connect:ParanoiaDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
-  skos:prefLabel "Paranoia"@en ;
-  skos:definition "Questions regarding paranoia or related symptoms."@en ;
-  skos:topConceptOf connect:QuestionDomainScheme .
-
-# Link scheme to top concepts
-connect:QuestionDomainScheme skos:hasTopConcept connect:MoodDomain , connect:SleepDomain , connect:StressDomain , connect:ParanoiaDomain .
+## SKOS vocabularies moved to separate files for maintainability:
+# - vocab/property-categories.ttl
+# - vocab/question-domains.ttl
