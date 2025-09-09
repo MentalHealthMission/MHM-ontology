@@ -1,54 +1,67 @@
 @prefix connect: <http://connectdigitalstudy.com/ontology#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 # Example individuals corresponding to the ABox previously embedded in mhm_ontology.owl
 
 connect:activityAndSleepFeature1 a connect:Feature ;
+  rdfs:label "Activity and sleep feature 1" ;
   connect:hasMeasurement connect:activityMeasurement1 , connect:sleepStageMeasurement1 .
 
 connect:activityMeasurement1 a connect:ActivityMeasurement ;
+  rdfs:label "Activity measurement X" ;
   connect:hasValue 1000.0 .
 
 connect:sleepStageMeasurement1 a connect:SleepStageMeasurement ;
+  rdfs:label "Sleep stage measurement 1" ;
   connect:hasStage connect:Stage1 .
 
 connect:Stage1 a connect:SleepStage ;
+  rdfs:label "Stage 1" ;
   connect:hasStageName "Light Sleep"^^xsd:string .
 
 connect:exerciseAndSleepFeature1 a connect:ExerciseAndSleepFeature ;
+  rdfs:label "Exercise and sleep feature 1" ;
   connect:hasMeasurement connect:exerciseMeasurement1 , connect:sleepStageMeasurement1 .
 
 connect:exerciseMeasurement1 a connect:ExerciseMeasurement ;
+  rdfs:label "Exercise measurement X" ;
   connect:hasValue 120.0 .
 
 connect:Stage2 a connect:SleepStage ;
+  rdfs:label "Stage 2" ;
   connect:hasStageName "Deep Sleep"^^xsd:string .
 
 # Participant X and measurements
 
 connect:ParticipantX a connect:Participant ;
+  rdfs:label "Participant X" ;
   connect:hasID "X123" ;
   connect:hasLabel "Participant X" .
 
 connect:HeartRateMeasurementX a connect:HeartRateMeasurement ;
+  rdfs:label "Heart rate measurement X" ;
   connect:hasValue 85.0 ;
   connect:hasUnit "bpm" ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
 connect:HeartRateVariabilityMeasurementX a connect:HeartRateVariabilityMeasurement ;
+  rdfs:label "HRV measurement X" ;
   connect:hasValue 30.0 ;
   connect:hasUnit "ms" ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
 connect:ActivityMeasurementX a connect:ActivityMeasurement ;
+  rdfs:label "Activity measurement X" ;
   connect:hasValue 45.0 ;
   connect:hasUnit "minutes" ;
   connect:wasGeneratedBy connect:WearableDeviceX ;
   connect:belongsToLayer connect:MeasurementLayer .
 
 connect:SleepStageMeasurementX a connect:SleepStageMeasurement ;
+  rdfs:label "Sleep stage measurement X" ;
   connect:hasStage connect:Stage1 ;
   connect:hasValue 6.0 ;
   connect:hasUnit "hours" ;
@@ -56,33 +69,39 @@ connect:SleepStageMeasurementX a connect:SleepStageMeasurement ;
   connect:belongsToLayer connect:MeasurementLayer .
 
 connect:MobilityPatternFeatureX a connect:MobilityPatternFeature ;
+  rdfs:label "Mobility pattern feature X" ;
   connect:hasMeasurement connect:ActivityMeasurementX , connect:SleepStageMeasurementX ;
   connect:belongsToLayer connect:DerivedFeatureLayer .
 
 connect:HomeStayDurationFeatureX a connect:MobilityPatternFeature ;
+  rdfs:label "Home stay duration feature X" ;
   connect:hasValue 0.8 ;
   connect:belongsToLayer connect:DerivedFeatureLayer .
 
 connect:ActivityPhenotypeX a connect:ActivityPhenotype ;
+  rdfs:label "Activity phenotype X" ;
   connect:hasMeasurement connect:ActivityMeasurementX ;
   connect:belongsToLayer connect:DigitalPhenotypeLayer .
 
 connect:PhysicalInactivityX a connect:PhysicalInactivity ;
+  rdfs:label "Physical inactivity X" ;
   connect:hasMeasurement connect:ActivityMeasurementX ;
   connect:belongsToLayer connect:DigitalPhenotypeLayer .
 
 # Context examples
 
 connect:TimeIntervalX a connect:TimeInterval ;
+  rdfs:label "Time interval X" ;
   connect:hasStartTime "2025-03-24T08:00:00"^^xsd:dateTime ;
   connect:hasEndTime   "2025-03-24T23:59:59"^^xsd:dateTime ;
   connect:belongsToLayer connect:ContextualLayer .
 
 connect:EventWindowX a connect:EventWindow ;
+  rdfs:label "Event window X" ;
   connect:occursDuring connect:TimeIntervalX ;
   connect:belongsToLayer connect:ContextualLayer .
 
 connect:ContextualSituationX a connect:ContextualSituation ;
+  rdfs:label "Contextual situation X" ;
   connect:hasLabel "Social Withdrawal" ;
   connect:belongsToLayer connect:ContextualLayer .
-

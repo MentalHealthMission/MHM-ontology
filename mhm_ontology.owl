@@ -5,11 +5,15 @@
          xmlns:prov="http://www.w3.org/ns/prov#"
          xmlns:sosa="http://www.w3.org/ns/sosa/"
          xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+         xmlns:dcterms="http://purl.org/dc/terms/"
          xml:base="http://connectdigitalstudy.com/ontology">
 
   <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology">
     <rdfs:label>MHM Ontology</rdfs:label>
     <owl:versionInfo>0.1.0-dev</owl:versionInfo>
+    <dcterms:title>MHM Ontology</dcterms:title>
+    <dcterms:description>Ontology for organizing measurements, features, context, provenance, and digital phenotypes for wearable/device-based health studies.</dcterms:description>
+    <dcterms:license>https://creativecommons.org/licenses/by/4.0/</dcterms:license>
     <!-- Keep the ontology in OWL DL: avoid importing PROV-O and SKOS (OWL Full).
          We will reference their IRIs without imports. -->
     <!-- No imports to keep DL validation focused on local axioms -->
@@ -648,11 +652,13 @@
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PreRelapsePeriod">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EventWindow"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Pre-relapse Period</rdfs:label>
 </owl:Class>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#PostDischargePeriod">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#EventWindow"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#ContextualLayer"/>
+  <rdfs:label>Post-discharge Period</rdfs:label>
 </owl:Class>
 
 <!-- Situational Contexts -->
@@ -1145,24 +1151,28 @@
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has ID</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasLabel">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has label</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasDescription">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has description</rdfs:label>
 </owl:DatatypeProperty>
 
 <owl:DatatypeProperty rdf:about="http://connectdigitalstudy.com/ontology#hasStatus">
   <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   <connect:propertyCategory>Utility</connect:propertyCategory>
+  <rdfs:label>has status</rdfs:label>
 </owl:DatatypeProperty>
 
 <!-- examples -->
@@ -1170,6 +1180,7 @@
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#SleepRegularityFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#SleepStructureFeature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Sleep Regularity Feature</rdfs:label>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -1189,6 +1200,7 @@
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ActivityAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Activity And Sleep Feature</rdfs:label>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -1210,6 +1222,7 @@
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#ExerciseAndSleepFeature">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Feature"/>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
+  <rdfs:label>Exercise And Sleep Feature</rdfs:label>
   <owl:equivalentClass>
     <owl:Class>
       <owl:intersectionOf rdf:parseType="Collection">
@@ -1227,62 +1240,6 @@
 </owl:Class>
 
   <!-- examples moved to examples.ttl (exerciseAndSleepFeature1, exerciseMeasurement1, sleepStageMeasurement1, Stage2) -->
-
-  <!-- Define Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ParticipantX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#Participant"/>
-    <connect:hasID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">X123</connect:hasID>
-    <connect:hasLabel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Participant X</connect:hasLabel>
-  </rdf:Description>
-
-  <!-- Physiological Measurements for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#HeartRateMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#HeartRateMeasurement"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">85</connect:hasValue>
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bpm</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#WearableDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#HeartRateVariabilityMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#HeartRateVariabilityMeasurement"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30</connect:hasValue>
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ms</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#WearableDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <!-- Behavioral Measurements for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#ActivityMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurement"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">45</connect:hasValue>
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">minutes</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#WearableDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#SleepStageMeasurementX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurement"/>
-    <connect:hasStage rdf:resource="http://connectdigitalstudy.com/ontology#Stage1"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">6</connect:hasValue> <!-- Total sleep time in hours -->
-    <connect:hasUnit rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hours</connect:hasUnit>
-    <connect:wasGeneratedBy rdf:resource="http://connectdigitalstudy.com/ontology#SmartphoneDeviceX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  </rdf:Description>
-
-  <!-- Derived Feature: Mobility Pattern for Participant X -->
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#MobilityPatternFeatureX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#ActivityMeasurementX"/>
-    <connect:hasMeasurement rdf:resource="http://connectdigitalstudy.com/ontology#SleepStageMeasurementX"/>
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://connectdigitalstudy.com/ontology#HomeStayDurationFeatureX">
-    <rdf:type rdf:resource="http://connectdigitalstudy.com/ontology#MobilityPatternFeature"/>
-    <connect:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.8</connect:hasValue> <!-- 80% of the time spent at home -->
-    <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#DerivedFeatureLayer"/>
-  </rdf:Description>
 
   <!-- examples moved to examples.ttl -->
 
