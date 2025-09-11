@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  check-syntax:
+    name: check-syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build tooling image
+        run: ./tooling/run_ontology_tools.sh build
+      - name: Check syntax
+        run: ./tooling/run_ontology_tools.sh check-syntax mhm_ontology.owl
+
+  profile-dl:
+    name: profile-dl
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build tooling image
+        run: ./tooling/run_ontology_tools.sh build
+      - name: Check OWL DL profile
+        run: ./tooling/run_ontology_tools.sh profile mhm_ontology.owl DL
+
+  validate-units:
+    name: validate-units
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build tooling image
+        run: ./tooling/run_ontology_tools.sh build
+      - name: Validate units
+        run: ./tooling/run_ontology_tools.sh validate-units
+
+  validate-sosa:
+    name: validate-sosa
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build tooling image
+        run: ./tooling/run_ontology_tools.sh build
+      - name: Validate SOSA
+        run: ./tooling/run_ontology_tools.sh validate-sosa
+
+  validate-skos:
+    name: validate-skos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build tooling image
+        run: ./tooling/run_ontology_tools.sh build
+      - name: Validate SKOS
+        run: ./tooling/run_ontology_tools.sh validate-skos
+
+  validate-prov:
+    name: validate-prov
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build tooling image
+        run: ./tooling/run_ontology_tools.sh build
+      - name: Validate PROV
+        run: ./tooling/run_ontology_tools.sh validate-prov
+
