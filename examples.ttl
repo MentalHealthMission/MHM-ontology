@@ -1,3 +1,4 @@
+@prefix odim:    <http://connectdigitalstudy.com/ontology#> .
 @prefix connect: <http://connectdigitalstudy.com/ontology#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -8,171 +9,171 @@
 
 # Example individuals corresponding to the ABox previously embedded in mhm_ontology.owl
 
-connect:activityAndSleepFeature1 a connect:Feature ;
+odim:activityAndSleepFeature1 a odim:Feature ;
   rdfs:label "Activity and sleep feature 1" ;
-  connect:hasMeasurement connect:activityMeasurement1 , connect:sleepStageMeasurement1 .
+  odim:hasMeasurement odim:activityMeasurement1 , odim:sleepStageMeasurement1 .
 
-connect:activityMeasurement1 a connect:ActivityMeasurement ;
+odim:activityMeasurement1 a odim:ActivityMeasurement ;
   rdfs:label "Activity measurement X" ;
-  connect:hasValue 1000.0 .
+  odim:hasValue 1000.0 .
 
-connect:sleepStageMeasurement1 a connect:SleepStageMeasurement ;
+odim:sleepStageMeasurement1 a odim:SleepStageMeasurement ;
   rdfs:label "Sleep stage measurement 1" ;
-  connect:hasStage connect:Stage1 .
+  odim:hasStage odim:Stage1 .
 
-connect:Stage1 a connect:SleepStage ;
+odim:Stage1 a odim:SleepStage ;
   rdfs:label "Stage 1" ;
-  connect:hasStageName "Light Sleep"^^xsd:string .
+  odim:hasStageName "Light Sleep"^^xsd:string .
 
-connect:exerciseAndSleepFeature1 a connect:ExerciseAndSleepFeature ;
+odim:exerciseAndSleepFeature1 a odim:ExerciseAndSleepFeature ;
   rdfs:label "Exercise and sleep feature 1" ;
-  connect:hasMeasurement connect:exerciseMeasurement1 , connect:sleepStageMeasurement1 .
+  odim:hasMeasurement odim:exerciseMeasurement1 , odim:sleepStageMeasurement1 .
 
-connect:exerciseMeasurement1 a connect:ExerciseMeasurement ;
+odim:exerciseMeasurement1 a odim:ExerciseMeasurement ;
   rdfs:label "Exercise measurement X" ;
-  connect:hasValue 120.0 .
+  odim:hasValue 120.0 .
 
-connect:Stage2 a connect:SleepStage ;
+odim:Stage2 a odim:SleepStage ;
   rdfs:label "Stage 2" ;
-  connect:hasStageName "Deep Sleep"^^xsd:string .
+  odim:hasStageName "Deep Sleep"^^xsd:string .
 
 # Participant X and measurements
 
-connect:ParticipantX a connect:Participant ;
+odim:ParticipantX a odim:Participant ;
   rdfs:label "Participant X" ;
-  connect:hasID "X123" ;
-  connect:hasLabel "Participant X" .
+  odim:hasID "X123" ;
+  odim:hasLabel "Participant X" .
 
-connect:HeartRateMeasurementX a connect:HeartRateMeasurement ;
+odim:HeartRateMeasurementX a odim:HeartRateMeasurement ;
   rdfs:label "Heart rate measurement X" ;
-  connect:observedProperty connect:HeartRate ;
-  connect:featureOfInterest connect:ParticipantX ;
-  connect:resultTime "2025-03-24T08:15:00"^^xsd:dateTime ;
-  connect:hasValue 85.0 ;
-  connect:hasUnit "bpm" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 85.0 ; connect:numericValue 85.0 ; qudt:unit unit:BPM ] ;
-  connect:wasGeneratedBy connect:WearableDeviceX ;
-  connect:belongsToLayer connect:MeasurementLayer .
+  odim:observedProperty odim:HeartRate ;
+  odim:featureOfInterest odim:ParticipantX ;
+  odim:resultTime "2025-03-24T08:15:00"^^xsd:dateTime ;
+  odim:hasValue 85.0 ;
+  odim:hasUnit "bpm" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 85.0 ; odim:numericValue 85.0 ; qudt:unit unit:BPM ] ;
+  odim:wasGeneratedBy odim:WearableDeviceX ;
+  odim:belongsToLayer odim:MeasurementLayer .
 
-connect:HeartRateVariabilityMeasurementX a connect:HeartRateVariabilityMeasurement ;
+odim:HeartRateVariabilityMeasurementX a odim:HeartRateVariabilityMeasurement ;
   rdfs:label "HRV measurement X" ;
-  connect:observedProperty connect:HeartRateVariability ;
-  connect:featureOfInterest connect:ParticipantX ;
-  connect:resultTime "2025-03-24T08:15:10"^^xsd:dateTime ;
-  connect:hasValue 30.0 ;
-  connect:hasUnit "ms" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 30.0 ; connect:numericValue 30.0 ; qudt:unit unit:MilliSecond ] ;
-  connect:wasGeneratedBy connect:WearableDeviceX ;
-  connect:belongsToLayer connect:MeasurementLayer .
+  odim:observedProperty odim:HeartRateVariability ;
+  odim:featureOfInterest odim:ParticipantX ;
+  odim:resultTime "2025-03-24T08:15:10"^^xsd:dateTime ;
+  odim:hasValue 30.0 ;
+  odim:hasUnit "ms" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 30.0 ; odim:numericValue 30.0 ; qudt:unit unit:MilliSecond ] ;
+  odim:wasGeneratedBy odim:WearableDeviceX ;
+  odim:belongsToLayer odim:MeasurementLayer .
 
-connect:ActivityMeasurementX a connect:ActivityMeasurement ;
+odim:ActivityMeasurementX a odim:ActivityMeasurement ;
   rdfs:label "Activity measurement X" ;
-  connect:observedProperty connect:ActivityDuration ;
-  connect:featureOfInterest connect:ParticipantX ;
-  connect:resultTime "2025-03-24T22:00:00"^^xsd:dateTime ;
-  connect:hasValue 45.0 ;
-  connect:hasUnit "minutes" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 45.0 ; connect:numericValue 45.0 ; qudt:unit unit:Minute ] ;
-  connect:wasGeneratedBy connect:WearableDeviceX ;
-  connect:belongsToLayer connect:MeasurementLayer .
+  odim:observedProperty odim:ActivityDuration ;
+  odim:featureOfInterest odim:ParticipantX ;
+  odim:resultTime "2025-03-24T22:00:00"^^xsd:dateTime ;
+  odim:hasValue 45.0 ;
+  odim:hasUnit "minutes" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 45.0 ; odim:numericValue 45.0 ; qudt:unit unit:Minute ] ;
+  odim:wasGeneratedBy odim:WearableDeviceX ;
+  odim:belongsToLayer odim:MeasurementLayer .
 
-connect:SleepStageMeasurementX a connect:SleepStageMeasurement ;
+odim:SleepStageMeasurementX a odim:SleepStageMeasurement ;
   rdfs:label "Sleep stage measurement X" ;
-  connect:hasStage connect:Stage1 ;
-  connect:observedProperty connect:SleepDuration ;
-  connect:featureOfInterest connect:ParticipantX ;
-  connect:resultTime "2025-03-25T06:30:00"^^xsd:dateTime ;
-  connect:hasValue 6.0 ;
-  connect:hasUnit "hours" ;
-  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 6.0 ; connect:numericValue 6.0 ; qudt:unit unit:Hour ] ;
-  connect:wasGeneratedBy connect:SmartphoneDeviceX ;
-  connect:belongsToLayer connect:MeasurementLayer .
+  odim:hasStage odim:Stage1 ;
+  odim:observedProperty odim:SleepDuration ;
+  odim:featureOfInterest odim:ParticipantX ;
+  odim:resultTime "2025-03-25T06:30:00"^^xsd:dateTime ;
+  odim:hasValue 6.0 ;
+  odim:hasUnit "hours" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 6.0 ; odim:numericValue 6.0 ; qudt:unit unit:Hour ] ;
+  odim:wasGeneratedBy odim:SmartphoneDeviceX ;
+  odim:belongsToLayer odim:MeasurementLayer .
 
 # Observed property resources
-connect:HeartRate a rdfs:Resource ; rdfs:label "Heart rate" .
-connect:HeartRateVariability a rdfs:Resource ; rdfs:label "Heart rate variability" .
-connect:ActivityDuration a rdfs:Resource ; rdfs:label "Activity duration" .
-connect:SleepDuration a rdfs:Resource ; rdfs:label "Sleep duration" .
+odim:HeartRate a rdfs:Resource ; rdfs:label "Heart rate" .
+odim:HeartRateVariability a rdfs:Resource ; rdfs:label "Heart rate variability" .
+odim:ActivityDuration a rdfs:Resource ; rdfs:label "Activity duration" .
+odim:SleepDuration a rdfs:Resource ; rdfs:label "Sleep duration" .
 
-connect:MobilityPatternFeatureX a connect:MobilityPatternFeature ;
+odim:MobilityPatternFeatureX a odim:MobilityPatternFeature ;
   rdfs:label "Mobility pattern feature X" ;
-  connect:hasMeasurement connect:ActivityMeasurementX , connect:SleepStageMeasurementX ;
-  connect:belongsToLayer connect:DerivedFeatureLayer .
+  odim:hasMeasurement odim:ActivityMeasurementX , odim:SleepStageMeasurementX ;
+  odim:belongsToLayer odim:DerivedFeatureLayer .
 
-connect:HomeStayDurationFeatureX a connect:MobilityPatternFeature ;
+odim:HomeStayDurationFeatureX a odim:MobilityPatternFeature ;
   rdfs:label "Home stay duration feature X" ;
-  connect:hasValue 0.8 ;
-  connect:belongsToLayer connect:DerivedFeatureLayer .
+  odim:hasValue 0.8 ;
+  odim:belongsToLayer odim:DerivedFeatureLayer .
 
-connect:ActivityPhenotypeX a connect:ActivityPhenotype ;
+odim:ActivityPhenotypeX a odim:ActivityPhenotype ;
   rdfs:label "Activity phenotype X" ;
-  connect:hasMeasurement connect:ActivityMeasurementX ;
-  connect:belongsToLayer connect:DigitalPhenotypeLayer .
+  odim:hasMeasurement odim:ActivityMeasurementX ;
+  odim:belongsToLayer odim:DigitalPhenotypeLayer .
 
-connect:PhysicalInactivityX a connect:PhysicalInactivity ;
+odim:PhysicalInactivityX a odim:PhysicalInactivity ;
   rdfs:label "Physical inactivity X" ;
-  connect:hasMeasurement connect:ActivityMeasurementX ;
-  connect:belongsToLayer connect:DigitalPhenotypeLayer .
+  odim:hasMeasurement odim:ActivityMeasurementX ;
+  odim:belongsToLayer odim:DigitalPhenotypeLayer .
 
 # Context examples
 
-connect:TimeIntervalX a connect:TimeInterval ;
+odim:TimeIntervalX a odim:TimeInterval ;
   rdfs:label "Time interval X" ;
-  connect:hasStartTime "2025-03-24T08:00:00"^^xsd:dateTime ;
-  connect:hasEndTime   "2025-03-24T23:59:59"^^xsd:dateTime ;
-  connect:belongsToLayer connect:ContextualLayer .
+  odim:hasStartTime "2025-03-24T08:00:00"^^xsd:dateTime ;
+  odim:hasEndTime   "2025-03-24T23:59:59"^^xsd:dateTime ;
+  odim:belongsToLayer odim:ContextualLayer .
 
-connect:EventWindowX a connect:EventWindow ;
+odim:EventWindowX a odim:EventWindow ;
   rdfs:label "Event window X" ;
-  connect:occursDuring connect:TimeIntervalX ;
-  connect:belongsToLayer connect:ContextualLayer .
+  odim:occursDuring odim:TimeIntervalX ;
+  odim:belongsToLayer odim:ContextualLayer .
 
-connect:ContextualSituationX a connect:ContextualSituation ;
+odim:ContextualSituationX a odim:ContextualSituation ;
   rdfs:label "Contextual situation X" ;
-  connect:hasLabel "Social Withdrawal" ;
-  connect:belongsToLayer connect:ContextualLayer .
+  odim:hasLabel "Social Withdrawal" ;
+  odim:belongsToLayer odim:ContextualLayer .
 
 # Provenance examples (Entity → Activity → Agent)
 
 # Declare example agents and interfaces
-connect:WearableDeviceX a connect:WearableDevice ;
+odim:WearableDeviceX a odim:WearableDevice ;
   rdfs:label "Wearable device X" .
 
-connect:SmartphoneDeviceX a connect:SmartphoneDevice ;
+odim:SmartphoneDeviceX a odim:SmartphoneDevice ;
   rdfs:label "Smartphone device X" .
 
-connect:DataInterfaceX a connect:DataInterface ;
+odim:DataInterfaceX a odim:DataInterface ;
   rdfs:label "Data interface X" .
 
-connect:AppInterfaceX a connect:AppInterface ;
+odim:AppInterfaceX a odim:AppInterface ;
   rdfs:label "App interface X" .
 
 # Sensing activity used by measurements
-connect:SensingActivityX a connect:SensingActivity ;
+odim:SensingActivityX a odim:SensingActivity ;
   rdfs:label "Sensing activity X" ;
-  connect:usedDevice connect:WearableDeviceX ;
-  connect:associatedWithDevice connect:WearableDeviceX .
+  odim:usedDevice odim:WearableDeviceX ;
+  odim:associatedWithDevice odim:WearableDeviceX .
 
 # Link measurement to sensing activity (entity → activity)
-connect:HeartRateMeasurementX connect:wasGeneratedBy connect:SensingActivityX .
+odim:HeartRateMeasurementX odim:wasGeneratedBy odim:SensingActivityX .
 
 # Computation producing a derived feature
-connect:ComputationX a connect:Computation ;
+odim:ComputationX a odim:Computation ;
   rdfs:label "Computation X" ;
-  connect:associatedWithDevice connect:SmartphoneDeviceX ;
-  connect:usedAppInterface connect:AppInterfaceX .
+  odim:associatedWithDevice odim:SmartphoneDeviceX ;
+  odim:usedAppInterface odim:AppInterfaceX .
 
-connect:DerivedFeatureX a connect:DerivedFeature ;
+odim:DerivedFeatureX a odim:DerivedFeature ;
   rdfs:label "Derived feature X" ;
-  connect:wasComputedBy connect:ComputationX ;
-  connect:wasDerivedFrom connect:HeartRateMeasurementX .
+  odim:wasComputedBy odim:ComputationX ;
+  odim:wasDerivedFrom odim:HeartRateMeasurementX .
 
 # Dataset attributed to participant and using data interface
-connect:DataSetX a connect:SensorDataSet ;
+odim:DataSetX a odim:SensorDataSet ;
   rdfs:label "Sensor dataset X" ;
-  connect:wasCollectedFrom connect:ParticipantX ;
-  connect:wasAttributedTo connect:ParticipantX ;
-  connect:usedDataInterface connect:DataInterfaceX .
+  odim:wasCollectedFrom odim:ParticipantX ;
+  odim:wasAttributedTo odim:ParticipantX ;
+  odim:usedDataInterface odim:DataInterfaceX .
 
 ## SKOS vocabularies moved to separate files for maintainability:
 # - vocab/property-categories.ttl

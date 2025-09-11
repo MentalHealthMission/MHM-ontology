@@ -1,13 +1,12 @@
-PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX odim:    <http://connectdigitalstudy.com/ontology#>
 PREFIX qudt:    <http://qudt.org/schema/qudt/>
 
 # Success if there is NO measurement missing a well-formed quantity value
 ASK WHERE {
   FILTER NOT EXISTS {
-    ?m a connect:Measurement .
+    ?m a odim:Measurement .
     FILTER NOT EXISTS {
       ?m qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue ?v ; qudt:unit ?u ] .
     }
   }
 }
-

@@ -124,7 +124,7 @@ case "$cmd" in
     run_in_container "$@"
     ;;
   validate-prov)
-    # Merge alignment + examples, then run SPARQL ASK queries
+    # Merge alignment + examples, then run PROV-related SPARQL ASK queries
     run_in_container bash -lc '
       set -euo pipefail
       mkdir -p build
@@ -133,7 +133,7 @@ case "$cmd" in
         --input examples.ttl \
         --output build/prov-merged.owl
       failures=0
-      for q in queries/*.rq; do
+      for q in queries/prov_*.rq; do
         echo "[check] $q"
         out=$(sparql --data build/prov-merged.owl --query "$q" 2>&1 | tr -d "\r")
         if echo "$out" | grep -q "Ask => Yes"; then

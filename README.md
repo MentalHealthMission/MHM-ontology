@@ -1,8 +1,8 @@
-# MHM Ontology Structure
+# ODIM-MH (Ontology for Digital Markers in Mental Health)
 
 ## Introduction
 
-The MHM ontology organizes data from participants, devices, and measurements into a formal structure for study integration and reasoning.
+ODIM‑MH organizes data from participants, devices, and measurements into a formal structure for study integration and reasoning.
 
 ## Layers
 
@@ -79,7 +79,8 @@ The ontology defines a series of properties that establish relationships between
 - **wasCollectedFrom**: Relates a dataset to the participant from whom the data was collected.
 ## Namespaces
 
-- `connect`: `http://connectdigitalstudy.com/ontology#`
+- `odim`: `http://connectdigitalstudy.com/ontology#` (recommended prefix; current base IRI)
+- `connect`: `http://connectdigitalstudy.com/ontology#` (legacy alias; same IRI as `odim:`)
 - `rdf`: `http://www.w3.org/1999/02/22-rdf-syntax-ns#`
 - `rdfs`: `http://www.w3.org/2000/01/rdf-schema#`
 - `owl`: `http://www.w3.org/2002/07/owl#`
@@ -93,7 +94,7 @@ The ontology defines a series of properties that establish relationships between
 
 ## Imports
 
-The core ontology (`mhm_ontology.owl`) is kept in OWL DL. External vocabularies are referenced DL‑safely without imports (SOSA, SKOS, QUDT). A separate alignment module brings in PROV‑O for full provenance mapping:
+The core ontology (`mhm_ontology.owl`) is kept in OWL DL. External vocabularies are referenced DL‑safely without imports (SOSA, SKOS, QUDT). A separate alignment module brings in PROV‑O for full provenance mapping. The public name is ODIM‑MH; the current base IRI remains under the CONNECT domain and is exposed via the `odim:` prefix:
 
 - Core (DL): `mhm_ontology.owl` (no external imports; DL‑safe references to `sosa:`, `skos:`, `qudt:`)
 - Alignment (OWL Full via PROV‑O): `alignments/mhm-prov-align.owl` imports `mhm_ontology.owl` and `http://www.w3.org/ns/prov-o`

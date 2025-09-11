@@ -1,6 +1,6 @@
-# Plan: MHM Ontology Cleanup and Provenance Extension
+# Plan: ODIM‑MH Cleanup and Provenance Extension
 
-This document lists development tasks for the MHM ontology. It is intended for contributors implementing cleanup, alignment (SOSA/PROV-O), provenance integration, and tooling. Tasks are ordered for sequential execution; tick items as they are completed.
+This document lists development tasks for the ODIM‑MH ontology. It is intended for contributors implementing cleanup, alignment (SOSA/PROV-O), provenance integration, and tooling. Tasks are ordered for sequential execution; tick items as they are completed.
 
 ## Core hygiene and metadata
 

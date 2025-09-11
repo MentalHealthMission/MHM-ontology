@@ -1,9 +1,8 @@
-PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX odim:    <http://connectdigitalstudy.com/ontology#>
 
 ASK {
-  connect:HeartRateMeasurementX connect:resultTime ?t1 .
-  connect:HeartRateVariabilityMeasurementX connect:resultTime ?t2 .
-  connect:ActivityMeasurementX connect:resultTime ?t3 .
-  connect:SleepStageMeasurementX connect:resultTime ?t4 .
+  odim:HeartRateMeasurementX odim:resultTime ?t1 .
+  odim:HeartRateVariabilityMeasurementX odim:resultTime ?t2 .
+  odim:ActivityMeasurementX odim:resultTime ?t3 .
+  odim:SleepStageMeasurementX odim:resultTime ?t4 .
 }
-
