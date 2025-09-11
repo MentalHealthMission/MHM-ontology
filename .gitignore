@@ -3,3 +3,6 @@ build/
 
 # macOS Finder
 .DS_Store
+
+# Local environment overrides (never commit secrets)
+.env
