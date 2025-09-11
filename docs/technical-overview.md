@@ -8,13 +8,6 @@ This document provides a concise overview of the ontology’s goals, main layers
 - **Design:** a DL-safe core with lightweight references to external standards (SOSA, SKOS, QUDT) and a separate PROV-O alignment module for full provenance semantics.
 - **Usage:** classes and properties for measurements, features, context, questionnaires, phenotypes, and provenance, with examples and validation scripts.
 
-## Intended Users (non‑exhaustive)
-
-- Researchers and data scientists analyzing wearable/device data in health studies.
-- Clinicians and domain experts collaborating on study design and interpretation.
-- Data engineers integrating multi‑source data with consistent semantics.
-- Ontology/knowledge engineers extending mappings and validation.
-
 ## Layers
 
 - **Measurement Layer:** raw observations from devices and apps (e.g., heart rate, steps, sleep stages, ambient light).
