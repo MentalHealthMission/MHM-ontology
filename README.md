@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The MHM ontology organizes data from participants, devices, and measurements into a formal structure for study integration and reasoning.
+ODIM‑MH organizes data from participants, devices, and measurements into a formal structure for study integration and reasoning.
 
 ## Layers
 

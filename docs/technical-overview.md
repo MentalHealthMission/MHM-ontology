@@ -1,4 +1,4 @@
-# MHM Ontology Overview
+# ODIM-MH Technical Overview
 
 This document provides a concise overview of the ontology’s goals, main layers, core terms, and how external standards are used.
 

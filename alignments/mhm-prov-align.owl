@@ -5,7 +5,7 @@
          xmlns:prov="http://www.w3.org/ns/prov#">
 
   <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology/alignments/prov">
-    <rdfs:label>MHM–PROV-O Alignment</rdfs:label>
+    <rdfs:label>ODIM‑MH – PROV‑O Alignment</rdfs:label>
     <owl:imports rdf:resource="http://connectdigitalstudy.com/ontology"/>
     <owl:imports rdf:resource="http://www.w3.org/ns/prov-o"/>
   </owl:Ontology>
