@@ -38,6 +38,9 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
 - Proceed
   - Create a shortâ€‘lived branch from `main`, open an Issue (if not existing), and begin work per the chosen task
   - Minimize interruptions; ask only essential clarifications
+ - Pre-flight task sync (local-only tooling)
+   - If available, run `tooling/agent_task_status.sh` to list tasks, linked PRs/Issues, and recommendations to check off completed items in `AGENT-PLAN.md`.
+   - If the script is not present, ask the conductor for access to the private Agent Toolkit or run baseline checks manually.
 
 ## Repository Map (key paths)
 
@@ -196,6 +199,21 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
 
 ## Ontology Tasks Cheatâ€‘Sheet
 
+### Agent Toolkit (private, not public)
+- Purpose: provide local scripts (e.g., `tooling/agent_task_status.sh`) and docs for agent coordination without committing them to the public repo.
+- Distribution plan:
+  - Keep a private personal repo (e.g., `agent-overlays`) with the toolkit. The conductor grants read access to active agents.
+  - Bootstrap in a local workspace: `gh repo clone <user>/agent-overlays ~/.agent-overlays && ~/.agent-overlays/bin/inject-overlay.sh <owner/repo> --repo <RepoName>`.
+  - Alternatively, share a private gist or release asset; bootstrap script fetches artifacts if authenticated.
+- Visibility: agent files remain untracked here (ignored via `.git/info/exclude`). New agents should request access from the conductor.
+
+### Sync Updates Back to Private Overlay
+- When you improve `AGENTS.md`, `AGENT-PLAN.md`, or agent scripts locally, write back to the private overlay so future clones get the updates.
+- Example (adjust the path if different):
+  - `OVERLAY=~/Developer/agent-overlays`
+  - `rsync -a --relative AGENTS.md AGENT-PLAN.md tooling/agent_task_status.sh tooling/apply_branch_protection.sh "$OVERLAY/overlays/MHM-ontology/"`
+  - `git -C "$OVERLAY" add overlays/MHM-ontology/ && git -C "$OVERLAY" commit -m "Sync overlay from MHM-ontology" && git -C "$OVERLAY" push`
+
 ## Branch Protection (settings)
 
 - Goal: require PRs and CI to pass before merging into `main`.
@@ -250,6 +268,14 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
     - Run admin scripts that read the token from `.env`:
       - `bash tooling/apply_branch_protection.sh`
   - Alternative (one-off): export in shell for the command: `GH_TOKEN=$GH_ADMIN_TOKEN gh api â€¦`
+
+### Agent Toolkit (private, not public)
+- Purpose: provide local scripts (e.g., `tooling/agent_task_status.sh`) and docs for agent coordination without committing them to the public repo.
+- Distribution plan:
+  - Keep a private org repo (e.g., `MHM-ontology-agents`) with the toolkit. The conductor grants read access to active agents.
+  - Bootstrap in a local workspace via `gh repo clone <org>/MHM-ontology-agents .agents` and run `.agents/bootstrap.sh` to symlink tools into `tooling/`.
+  - Alternatively, share a private gist or release asset; bootstrap script fetches artifacts if authenticated.
+- Visibility: agent files remain untracked here (ignored via `.git/info/exclude`). New agents should request access from the conductor.
 
 ## Public Website (preâ€‘w3id)
 
