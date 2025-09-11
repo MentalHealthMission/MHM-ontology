@@ -2,6 +2,7 @@
          xmlns:owl="http://www.w3.org/2002/07/owl#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:connect="http://connectdigitalstudy.com/ontology#"
+         xmlns:odim="http://connectdigitalstudy.com/ontology#"
          xmlns:prov="http://www.w3.org/ns/prov#"
          xmlns:sosa="http://www.w3.org/ns/sosa/"
          xmlns:skos="http://www.w3.org/2004/02/skos/core#"
@@ -12,9 +13,9 @@
          xml:base="http://connectdigitalstudy.com/ontology">
 
   <owl:Ontology rdf:about="http://connectdigitalstudy.com/ontology">
-    <rdfs:label>MHM Ontology</rdfs:label>
+    <rdfs:label>ODIM-MH</rdfs:label>
     <owl:versionInfo>0.1.0-dev</owl:versionInfo>
-    <dcterms:title>MHM Ontology</dcterms:title>
+    <dcterms:title>Ontology for Digital Markers in Mental Health (ODIM-MH)</dcterms:title>
     <dcterms:description>Ontology for organizing measurements, features, context, provenance, and digital phenotypes for wearable/device-based health studies.</dcterms:description>
     <dcterms:license>https://creativecommons.org/licenses/by/4.0/</dcterms:license>
     <!-- Keep the ontology in OWL DL: avoid importing PROV-O and SKOS (OWL Full).

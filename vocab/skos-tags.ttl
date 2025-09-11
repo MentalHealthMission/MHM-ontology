@@ -1,21 +1,22 @@
+@prefix odim:    <http://connectdigitalstudy.com/ontology#> .
 @prefix connect: <http://connectdigitalstudy.com/ontology#> .
 @prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 
 # DL-safe tagging of ontology classes with SKOS concepts
 
 # Physiological measurements
-connect:HeartRateMeasurement            connect:skosTag connect:PhysiologicalProperty .
-connect:RespiratoryRateMeasurement      connect:skosTag connect:PhysiologicalProperty .
-connect:HeartRateVariabilityMeasurement connect:skosTag connect:PhysiologicalProperty .
+odim:HeartRateMeasurement            odim:skosTag odim:PhysiologicalProperty .
+odim:RespiratoryRateMeasurement      odim:skosTag odim:PhysiologicalProperty .
+odim:HeartRateVariabilityMeasurement odim:skosTag odim:PhysiologicalProperty .
 
 # Behavioral measurements
-connect:ActivityMeasurement    connect:skosTag connect:BehavioralProperty .
-connect:SleepStageMeasurement  connect:skosTag connect:BehavioralProperty .
+odim:ActivityMeasurement    odim:skosTag odim:BehavioralProperty .
+odim:SleepStageMeasurement  odim:skosTag odim:BehavioralProperty .
 
 # Environmental measurements
-connect:EnvironmentalMeasurement connect:skosTag connect:EnvironmentalProperty .
+odim:EnvironmentalMeasurement odim:skosTag odim:EnvironmentalProperty .
 
 # Questionnaire model (illustrative tags to domains)
-connect:QuestionnaireEntry connect:skosTag connect:StressDomain .
-connect:Question          connect:skosTag connect:MoodDomain , connect:SleepDomain .
-connect:ResponseItem      connect:skosTag connect:SleepDomain .
+odim:QuestionnaireEntry odim:skosTag odim:StressDomain .
+odim:Question          odim:skosTag odim:MoodDomain , odim:SleepDomain .
+odim:ResponseItem      odim:skosTag odim:SleepDomain .

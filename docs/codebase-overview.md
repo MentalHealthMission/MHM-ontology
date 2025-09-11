@@ -7,7 +7,7 @@ This document summarizes the repository structure and the purpose of key files a
 - `README.md`: Project introduction, namespaces, imports strategy, modeling principles, and tooling commands.
 - `plan.md`: Development plan and checklist of tasks across modeling, alignment, tooling, and docs.
 - `catalog-v001.xml`: XML catalog for resolving imports and local resources during tooling runs.
-- `mhm_ontology.owl`: Core ontology (DL-safe). Declares classes and properties, minimal references to external vocabularies, and avoids importing large ontologies.
+- `mhm_ontology.owl`: Core ontology (DL-safe). Declares classes and properties, minimal references to external vocabularies, and avoids importing large ontologies. Public name: ODIM‑MH.
 - `examples.ttl`: Example individuals (ABox) illustrating measurements, features, context, and provenance usage.
 - `classified-elk.owl`: Reasoned ontology output produced by tooling (generated artifact).
 - `profile.txt`: Results of OWL profile validation (generated artifact).
@@ -44,4 +44,3 @@ This document summarizes the repository structure and the purpose of key files a
 ## Build outputs
 
 - `build/`: Temporary outputs from merged graphs used during validation runs (created by tooling; safe to delete).
-

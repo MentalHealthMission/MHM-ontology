@@ -1,21 +1,20 @@
-PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX odim:    <http://connectdigitalstudy.com/ontology#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX prov:    <http://www.w3.org/ns/prov#>
 
 ASK {
   VALUES (?c ?super) {
-    (connect:Computation         prov:Activity)
-    (connect:SensingActivity     prov:Activity)
-    (connect:DataTransferEvent   prov:Activity)
-    (connect:NotificationEvent   prov:Activity)
-    (connect:Measurement         prov:Entity)
-    (connect:Feature             prov:Entity)
-    (connect:DerivedFeature      prov:Entity)
-    (connect:DataSet             prov:Entity)
-    (connect:DigitalPhenotype    prov:Entity)
-    (connect:Participant         prov:Agent)
-    (connect:Device              prov:Agent)
+    (odim:Computation         prov:Activity)
+    (odim:SensingActivity     prov:Activity)
+    (odim:DataTransferEvent   prov:Activity)
+    (odim:NotificationEvent   prov:Activity)
+    (odim:Measurement         prov:Entity)
+    (odim:Feature             prov:Entity)
+    (odim:DerivedFeature      prov:Entity)
+    (odim:DataSet             prov:Entity)
+    (odim:DigitalPhenotype    prov:Entity)
+    (odim:Participant         prov:Agent)
+    (odim:Device              prov:Agent)
   }
   ?c rdfs:subClassOf ?super .
 }
-

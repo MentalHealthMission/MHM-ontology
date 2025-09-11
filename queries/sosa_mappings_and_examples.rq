@@ -1,23 +1,22 @@
-PREFIX connect: <http://connectdigitalstudy.com/ontology#>
+PREFIX odim:    <http://connectdigitalstudy.com/ontology#>
 PREFIX sosa:    <http://www.w3.org/ns/sosa/>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 
 ASK {
   # Class mapping exists
-  connect:Measurement rdfs:subClassOf sosa:Observation .
+  odim:Measurement rdfs:subClassOf sosa:Observation .
 
   # Property mappings exist (via subPropertyOf on convenience props)
-  connect:observedProperty rdfs:subPropertyOf sosa:observedProperty .
-  connect:featureOfInterest rdfs:subPropertyOf sosa:hasFeatureOfInterest .
+  odim:observedProperty rdfs:subPropertyOf sosa:observedProperty .
+  odim:featureOfInterest rdfs:subPropertyOf sosa:hasFeatureOfInterest .
 
   # Examples have observedProperty and FOI
-  connect:HeartRateMeasurementX connect:observedProperty connect:HeartRate ;
-                                 connect:featureOfInterest connect:ParticipantX .
-  connect:HeartRateVariabilityMeasurementX connect:observedProperty connect:HeartRateVariability ;
-                                           connect:featureOfInterest connect:ParticipantX .
-  connect:ActivityMeasurementX connect:observedProperty connect:ActivityDuration ;
-                               connect:featureOfInterest connect:ParticipantX .
-  connect:SleepStageMeasurementX connect:observedProperty connect:SleepDuration ;
-                                 connect:featureOfInterest connect:ParticipantX .
+  odim:HeartRateMeasurementX odim:observedProperty odim:HeartRate ;
+                             odim:featureOfInterest odim:ParticipantX .
+  odim:HeartRateVariabilityMeasurementX odim:observedProperty odim:HeartRateVariability ;
+                                        odim:featureOfInterest odim:ParticipantX .
+  odim:ActivityMeasurementX odim:observedProperty odim:ActivityDuration ;
+                            odim:featureOfInterest odim:ParticipantX .
+  odim:SleepStageMeasurementX odim:observedProperty odim:SleepDuration ;
+                              odim:featureOfInterest odim:ParticipantX .
 }
-

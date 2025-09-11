@@ -1,36 +1,36 @@
+@prefix odim:    <http://connectdigitalstudy.com/ontology#> .
 @prefix connect: <http://connectdigitalstudy.com/ontology#> .
 @prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 
 # SKOS: Question Domain scheme
-connect:QuestionDomainScheme a skos:ConceptScheme ;
+odim:QuestionDomainScheme a skos:ConceptScheme ;
   rdfs:label "Question Domain Scheme" ;
   skos:prefLabel "Question domains"@en .
 
-connect:MoodDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
+odim:MoodDomain a skos:Concept ;
+  skos:inScheme odim:QuestionDomainScheme ;
   skos:prefLabel "Mood"@en ;
   skos:definition "Questions and responses relating to mood and affect."@en ;
   skos:topConceptOf connect:QuestionDomainScheme .
 
-connect:SleepDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
+odim:SleepDomain a skos:Concept ;
+  skos:inScheme odim:QuestionDomainScheme ;
   skos:prefLabel "Sleep"@en ;
   skos:definition "Questions concerning sleep habits, quality, and duration."@en ;
   skos:topConceptOf connect:QuestionDomainScheme .
 
-connect:StressDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
+odim:StressDomain a skos:Concept ;
+  skos:inScheme odim:QuestionDomainScheme ;
   skos:prefLabel "Stress"@en ;
   skos:definition "Questions regarding perceived stress or stressors."@en ;
   skos:topConceptOf connect:QuestionDomainScheme .
 
-connect:ParanoiaDomain a skos:Concept ;
-  skos:inScheme connect:QuestionDomainScheme ;
+odim:ParanoiaDomain a skos:Concept ;
+  skos:inScheme odim:QuestionDomainScheme ;
   skos:prefLabel "Paranoia"@en ;
   skos:definition "Questions regarding paranoia or related symptoms."@en ;
   skos:topConceptOf connect:QuestionDomainScheme .
 
 # Scheme top concept links
-connect:QuestionDomainScheme skos:hasTopConcept connect:MoodDomain , connect:SleepDomain , connect:StressDomain , connect:ParanoiaDomain .
-
+odim:QuestionDomainScheme skos:hasTopConcept odim:MoodDomain , odim:SleepDomain , odim:StressDomain , odim:ParanoiaDomain .
