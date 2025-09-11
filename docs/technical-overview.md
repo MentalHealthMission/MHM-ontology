@@ -1,4 +1,4 @@
-# ODIM-MH Overview
+# MHM Ontology Overview
 
 This document provides a concise overview of the ontology’s goals, main layers, core terms, and how external standards are used.
 
@@ -7,13 +7,6 @@ This document provides a concise overview of the ontology’s goals, main layers
 - **Goal:** provide an ontology for capturing high‑level features derived from wearable device data in health‑related studies. The model standardizes how features and their source measurements are described, records provenance of computations, uses explicit units, and aligns with common web standards to enable integration and reuse across projects.
 - **Design:** a DL-safe core with lightweight references to external standards (SOSA, SKOS, QUDT) and a separate PROV-O alignment module for full provenance semantics.
 - **Usage:** classes and properties for measurements, features, context, questionnaires, phenotypes, and provenance, with examples and validation scripts.
-
-## Intended Users (non‑exhaustive)
-
-- Researchers and data scientists analyzing wearable/device data in health studies.
-- Clinicians and domain experts collaborating on study design and interpretation.
-- Data engineers integrating multi‑source data with consistent semantics.
-- Ontology/knowledge engineers extending mappings and validation.
 
 ## Layers
 
