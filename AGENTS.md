@@ -207,12 +207,11 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
   - Alternatively, share a private gist or release asset; bootstrap script fetches artifacts if authenticated.
 - Visibility: agent files remain untracked here (ignored via `.git/info/exclude`). New agents should request access from the conductor.
 
-### Sync Updates Back to Private Overlay
-- When you improve `AGENTS.md`, `AGENT-PLAN.md`, or agent scripts locally, write back to the private overlay so future clones get the updates.
-- Example (adjust the path if different):
-  - `OVERLAY=~/Developer/agent-overlays`
-  - `rsync -a --relative AGENTS.md AGENT-PLAN.md tooling/agent_task_status.sh tooling/apply_branch_protection.sh "$OVERLAY/overlays/MHM-ontology/"`
-  - `git -C "$OVERLAY" add overlays/MHM-ontology/ && git -C "$OVERLAY" commit -m "Sync overlay from MHM-ontology" && git -C "$OVERLAY" push`
+### Sync Updates Back to Private Overlay (remote)
+- The working repo includes a helper script injected by the overlay: `tooling/overlay_sync_remote.sh`.
+- Use it to push changes directly to the remote overlay repository (no local overlay clone needed):
+  - `tooling/overlay_sync_remote.sh --remote james-c/agent-overlays --key MHM-ontology --open-pr`
+  - This creates a branch in the overlay repo (e.g., `sync/MHM-ontology-<date>`) and opens a PR with your updates to `AGENTS.md`, `AGENT-PLAN.md`, and key agent tooling.
 
 ## Branch Protection (settings)
 
