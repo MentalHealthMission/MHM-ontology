@@ -164,6 +164,9 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
     - Make small, frequent commits on feature branches; push early and keep PRs open.
     - After completing a feature slice, add a separate commit updating `AGENT-PLAN.md` (Working Branches Log, notes). Keep plan/docs commits separate from ontology/code changes.
     - For public plan updates, open a docsâ€‘only PR to `plan.md` first, then reference it from `AGENT-PLAN.md`.
+  - Sync agent docs back to private overlay (remote): if this repo includes the injected helper `tooling/overlay_sync_remote.sh`, run:
+    - `tooling/overlay_sync_remote.sh --remote james-c/agent-overlays --key MHM-ontology --open-pr`
+    - This writes updates (AGENTS.md, AGENT-PLAN.md, key tooling) directly to the overlay repo via a branch + PR. Do not commit agent-only files here.
 - Example entry:
   - docs(pages): add index.html (Issue #42)
     - Context: publish minimal landing for GitHub Pages
