@@ -1,6 +1,6 @@
 # ODIM-MH Overview
 
-ODIM‑MH is an ontology for representing high‑level digital markers derived from wearable and mobile sensing in health studies. It models how raw measurements become derived features, how those computations are described and attributed, and how results are situated in time and context. The ontology prioritizes clarity and interoperability: it uses explicit units, aligns its observation and provenance patterns with web standards, and offers lightweight vocabularies to categorize properties and questionnaire domains.
+ODIM‑MH is an ontology for representing high‑level digital markers derived from wearable and mobile sensing in health studies. It models how raw measurements become derived features, how those computations are described and attributed, and how results are situated in time and context. It uses explicit units, aligns its observation and provenance patterns with web standards, and offers lightweight vocabularies to categorize properties and questionnaire domains.
 
 ## Overview
 
