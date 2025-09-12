@@ -20,9 +20,11 @@ RUN mkdir -p /opt/robot/bin \
     && printf '#!/usr/bin/env bash\nexec java ${ROBOT_JAVA_ARGS:-} -jar /opt/robot/bin/robot.jar "$@"\n' > /opt/robot/bin/robot \
     && chmod +x /opt/robot/bin/robot
 
-# Install Apache Jena (for riot)
-RUN curl -fsSL -o /tmp/jena.tgz \
-      https://dlcdn.apache.org/jena/binaries/apache-jena-5.5.0.tar.gz \
+# Install Apache Jena (for riot) — prefer dlcdn, fallback to archive
+RUN (curl -fsSL -o /tmp/jena.tgz \
+      https://dlcdn.apache.org/jena/binaries/apache-jena-${JENA_VERSION}.tar.gz \
+      || curl -fsSL -o /tmp/jena.tgz \
+      https://archive.apache.org/dist/jena/binaries/apache-jena-${JENA_VERSION}.tar.gz) \
     && tar -C /opt -xzf /tmp/jena.tgz \
     && rm /tmp/jena.tgz
 
