@@ -1,0 +1,65 @@
+name: Branch Protection
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  protect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply branch protection to main
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const branch = 'main';
+            // Required checks (must match job names)
+            const checks = [
+              { context: 'check-syntax' },
+              { context: 'profile-dl' },
+              { context: 'validate-units' },
+              { context: 'validate-sosa' },
+              { context: 'validate-skos' },
+              { context: 'validate-prov' }
+            ];
+
+            await github.request('PUT /repos/{owner}/{repo}/branches/{branch}/protection', {
+              owner,
+              repo,
+              branch,
+              required_status_checks: { strict: true, checks },
+              enforce_admins: true,
+              required_pull_request_reviews: {
+                required_approving_review_count: 1,
+                require_code_owner_reviews: false,
+                require_last_push_approval: false
+              },
+              restrictions: null,
+              allow_force_pushes: false,
+              allow_deletions: false,
+              required_linear_history: false,
+              block_creations: false,
+              required_conversation_resolution: true,
+              lock_branch: false
+            });
+            core.info('Branch protection applied to main.');
+      - name: Verify protection
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          script: |
+            const { data } = await github.request('GET /repos/{owner}/{repo}/branches/{branch}/protection', {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              branch: 'main'
+            });
+            core.info(`Admins enforced: ${data.enforce_admins}`);
+            core.info(`Required reviews: ${data.required_pull_request_reviews?.required_approving_review_count}`);
+            core.info(`Strict checks: ${data.required_status_checks?.strict}`);
+            core.info(`Checks: ${(data.required_status_checks?.checks || []).map(c => c.context).join(', ')}`);
+
