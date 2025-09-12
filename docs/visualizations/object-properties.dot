@@ -1,0 +1,16 @@
+digraph "Object Properties" {
+  rankdir=BT;
+  node [shape=box, style=filled];
+  
+  // Properties
+  "connect:hasFeatureOfInterest" [label="hasFeatureOfInterest", fillcolor=lightgreen];
+  "connect:observedProperty" [label="observedProperty", fillcolor=lightgreen];
+  
+  // Classes
+  "connect:Measurement" [label="Measurement", fillcolor=lightblue];
+  "connect:Participant" [label="Participant", fillcolor=lightblue];
+  
+  // Domain/Range
+  "connect:hasFeatureOfInterest" -> "connect:Measurement" [label="rdfs:domain", style="dashed"];
+  "connect:hasFeatureOfInterest" -> "connect:Participant" [label="rdfs:range", style="dotted"];
+}

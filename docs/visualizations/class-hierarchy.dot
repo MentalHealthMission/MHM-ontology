@@ -1,0 +1,13 @@
+digraph "Class Hierarchy" {
+  rankdir=BT;
+  node [shape=box, style=filled, fillcolor=lightblue];
+  
+  // Core Classes
+  "connect:Measurement" [label="Measurement"];
+  "connect:Feature" [label="Feature"];
+  "connect:DerivedFeature" [label="DerivedFeature"];
+  
+  // Subclass relationships
+  "connect:DerivedFeature" -> "connect:Feature" [label="rdfs:subClassOf"];
+  "connect:PhysiologicalMeasurement" -> "connect:Measurement" [label="rdfs:subClassOf"];
+}
