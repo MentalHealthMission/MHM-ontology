@@ -7,6 +7,8 @@ This directory contains auto-generated visualizations of the ODIM-MH ontology st
 - `class-hierarchy.svg` - Class hierarchy visualization showing subclass relationships
 - `object-properties.svg` - Object properties visualization including domains and ranges
 - `data-properties.svg` - Data properties visualization including domains
+- `layers-overview.svg` - Classes grouped by ontology layer (concise exemplars)
+- `external-mappings.svg` - ODIM-MH terms mapped to external standards (PROV, SOSA, SKOS, QUDT, etc.)
 
 ## How to Generate
 
@@ -27,6 +29,8 @@ tooling/run_ontology_tools.sh visualize-all mhm_ontology.owl
 tooling/run_ontology_tools.sh visualize-classes mhm_ontology.owl
 tooling/run_ontology_tools.sh visualize-objproperties mhm_ontology.owl
 tooling/run_ontology_tools.sh visualize-dataproperties mhm_ontology.owl
+tooling/run_ontology_tools.sh visualize-layers mhm_ontology.owl
+tooling/run_ontology_tools.sh visualize-mappings mhm_ontology.owl
 ```
 
 ## Implementation
