@@ -66,6 +66,11 @@ Commands:
   report <file.owl>             ROBOT QA report (report.tsv in CWD)
   openllet-consistency <file>   Openllet consistency check (if installed)
 
+  visualize-classes <file.owl>  Generate class hierarchy visualization (SVG)
+  visualize-objproperties <file> Generate object properties visualization (SVG)
+  visualize-dataproperties <file> Generate data properties visualization (SVG)
+  visualize-all <file.owl>      Generate all visualizations (class, obj/data properties)
+
   exec -- <args...>             Run arbitrary command in the container
 
 Examples:
@@ -74,6 +79,8 @@ Examples:
   tooling/run_ontology_tools.sh profile mhm_ontology.owl DL
   tooling/run_ontology_tools.sh reason mhm_ontology.owl elk
   tooling/run_ontology_tools.sh report mhm_ontology.owl
+  tooling/run_ontology_tools.sh visualize-classes mhm_ontology.owl
+  tooling/run_ontology_tools.sh visualize-all mhm_ontology.owl
   tooling/run_ontology_tools.sh shell
   tooling/run_ontology_tools.sh exec -- robot --help
 USAGE
@@ -122,6 +129,39 @@ case "$cmd" in
     shift || true
     if [[ ${1:-} == "--" ]]; then shift; fi
     run_in_container "$@"
+    ;;
+  visualize-classes)
+    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"
+    mkdir -p "$output_dir"
+    out="${3:-$output_dir/class-hierarchy.svg}"
+    run_in_container bash -lc "python3 /work/tooling/owl2dot.py --input '$2' --output '$out' --type classes --format svg"
+    echo "[tools] Created class hierarchy visualization: $out"
+    ;;
+  visualize-objproperties)
+    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"
+    mkdir -p "$output_dir"
+    out="${3:-$output_dir/object-properties.svg}"
+    run_in_container bash -lc "python3 /work/tooling/owl2dot.py --input '$2' --output '$out' --type objproperties --format svg"
+    echo "[tools] Created object properties visualization: $out"
+    ;;
+  visualize-dataproperties)
+    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"
+    mkdir -p "$output_dir"
+    out="${3:-$output_dir/data-properties.svg}"
+    run_in_container bash -lc "python3 /work/tooling/owl2dot.py --input '$2' --output '$out' --type dataproperties --format svg"
+    echo "[tools] Created data properties visualization: $out"
+    ;;
+  visualize-all)
+    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"
+    mkdir -p "$output_dir"
+    "$0" visualize-classes "$2" "$output_dir/class-hierarchy.svg"
+    "$0" visualize-objproperties "$2" "$output_dir/object-properties.svg"
+    "$0" visualize-dataproperties "$2" "$output_dir/data-properties.svg"
+    echo "[tools] All visualizations created in $output_dir/"
     ;;
   validate-prov)
     # Merge alignment + examples, then run PROV-related SPARQL ASK queries

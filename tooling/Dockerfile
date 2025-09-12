@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     ROBOT_JAVA_ARGS="-Xmx4G"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl unzip ca-certificates bash coreutils \
+    && apt-get install -y --no-install-recommends curl unzip ca-certificates bash coreutils graphviz python3 python3-pip \
+    && pip3 install rdflib \
     && rm -rf /var/lib/apt/lists/*
 
 # Install ROBOT
