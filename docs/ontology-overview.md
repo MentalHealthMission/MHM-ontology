@@ -111,3 +111,11 @@ IAO offers common annotations for definitions and editorial notes. Only the defi
 - **Units checks:** `tooling/run_ontology_tools.sh validate-units`.
 - **SOSA checks:** `tooling/run_ontology_tools.sh validate-sosa`.
 - **SKOS checks:** `tooling/run_ontology_tools.sh validate-skos`.
+
+## Visualizations
+
+Canonical diagrams (auto-generated; refreshed via `tooling/run_ontology_tools.sh visualize-all mhm_ontology.owl`):
+
+- Class hierarchy: `docs/visualizations/class-hierarchy.svg`
+- Object properties: `docs/visualizations/object-properties.svg`
+- Data properties: `docs/visualizations/data-properties.svg`

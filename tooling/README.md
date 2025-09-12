@@ -54,6 +54,23 @@ Use the wrapper script to build the image once and run ephemeral containers with
 - `validate-sosa`: Merge core + examples, then run SOSA SPARQL checks. Fails non‑zero if any check fails.
 - `validate-skos`: Merge core + examples, then run SKOS SPARQL checks. Fails non‑zero if any check fails.
 
+## Visualizations
+
+- Generate all diagrams and refresh canonical SVGs:
+  - `tooling/run_ontology_tools.sh visualize-all mhm_ontology.owl`
+- Individual diagrams:
+  - Classes: `tooling/run_ontology_tools.sh visualize-classes mhm_ontology.owl --engine dot --tred`
+  - Object properties: `tooling/run_ontology_tools.sh visualize-objproperties mhm_ontology.owl --engine sfdp`
+  - Data properties: `tooling/run_ontology_tools.sh visualize-dataproperties mhm_ontology.owl --engine dot`
+
+Outputs (tracked):
+- `docs/visualizations/class-hierarchy.svg`
+- `docs/visualizations/object-properties.svg`
+- `docs/visualizations/data-properties.svg`
+
+Notes:
+- Engine-suffixed variants and DOT files are ignored by `docs/visualizations/.gitignore` to avoid committing generated artifacts.
+
 ## Notes
 
 - The image is multi-arch friendly. On Apple Silicon, the script builds for `linux/arm64` automatically.
