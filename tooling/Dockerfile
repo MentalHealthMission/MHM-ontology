@@ -2,7 +2,7 @@
 FROM eclipse-temurin:17-jre
 
 ARG ROBOT_VERSION=1.9.6
-ARG JENA_VERSION=4.10.0
+ARG JENA_VERSION=5.5.0
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -21,10 +21,8 @@ RUN mkdir -p /opt/robot/bin \
     && chmod +x /opt/robot/bin/robot
 
 # Install Apache Jena (for riot)
-RUN (curl -fsSL -o /tmp/jena.tgz \
-      https://downloads.apache.org/jena/binaries/apache-jena-${JENA_VERSION}.tar.gz \
-      || curl -fsSL -o /tmp/jena.tgz \
-      https://archive.apache.org/dist/jena/binaries/apache-jena-${JENA_VERSION}.tar.gz) \
+RUN curl -fsSL -o /tmp/jena.tgz \
+      https://dlcdn.apache.org/jena/binaries/apache-jena-5.5.0.tar.gz \
     && tar -C /opt -xzf /tmp/jena.tgz \
     && rm /tmp/jena.tgz
 
