@@ -15,8 +15,8 @@ digraph "Class Hierarchy" {
   node [shape=box, style=filled, fillcolor=lightblue];
 EOT
 
-# Extract rdfs:subClassOf relationships using SPARQL
-sparql --data "$input_file" --query - >> "$output_file" << 'SPARQL'
+# Create temporary SPARQL query file
+cat > /tmp/class_query.rq << 'SPARQL'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -36,6 +36,9 @@ WHERE {
   OPTIONAL { ?parent rdfs:label ?parentLabel }
 }
 SPARQL
+
+# Extract rdfs:subClassOf relationships using SPARQL
+sparql --data "$input_file" --query /tmp/class_query.rq >> "$output_file"
 
 # Process SPARQL results to DOT format
 awk '

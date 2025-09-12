@@ -15,8 +15,8 @@ digraph "Object Properties" {
   node [shape=box, style=filled];
 EOT
 
-# Extract object properties using SPARQL
-sparql --data "$input_file" --query - >> "$output_file" << 'SPARQL'
+# Create temporary SPARQL query file
+cat > /tmp/objprop_query.rq << 'SPARQL'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -41,6 +41,9 @@ WHERE {
   OPTIONAL { ?prop rdfs:label ?propLabel }
 }
 SPARQL
+
+# Extract object properties using SPARQL
+sparql --data "$input_file" --query /tmp/objprop_query.rq >> "$output_file"
 
 # Process SPARQL results to DOT format
 awk '
@@ -83,8 +86,8 @@ function getLocalName(uri) {
 }
 ' "$output_file" > "$output_file.tmp"
 
-# Extract subPropertyOf relationships
-sparql --data "$input_file" --query - >> "$output_file.tmp" << 'SPARQL'
+# Create temporary subPropertyOf query
+cat > /tmp/subprop_query.rq << 'SPARQL'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -102,6 +105,9 @@ WHERE {
   FILTER(?child != ?parent)
 }
 SPARQL
+
+# Extract subPropertyOf relationships
+sparql --data "$input_file" --query /tmp/subprop_query.rq >> "$output_file.tmp"
 
 # Process subPropertyOf relationships
 awk '
