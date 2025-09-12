@@ -43,25 +43,33 @@ def generate_object_properties_dot(owl_file, output_file, layout_engine='sfdp', 
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
-    SELECT DISTINCT ?property ?domain ?range ?subprop ?propLabel ?domainLabel ?rangeLabel ?superpropLabel
+    SELECT DISTINCT ?property ?domain ?range ?subprop 
+                    ?propLabelEn ?propLabelAny 
+                    ?domainLabelEn ?domainLabelAny 
+                    ?rangeLabelEn ?rangeLabelAny 
+                    ?superpropLabelEn ?superpropLabelAny
     WHERE {
       ?property a owl:ObjectProperty .
       
       OPTIONAL { 
         ?property rdfs:domain ?domain .
-        OPTIONAL { ?domain rdfs:label ?domainLabel }
+        OPTIONAL { ?domain rdfs:label ?domainLabelEn FILTER(langMatches(lang(?domainLabelEn), "en")) }
+        OPTIONAL { ?domain rdfs:label ?domainLabelAny }
       }
       OPTIONAL { 
         ?property rdfs:range ?range .
-        OPTIONAL { ?range rdfs:label ?rangeLabel }
+        OPTIONAL { ?range rdfs:label ?rangeLabelEn FILTER(langMatches(lang(?rangeLabelEn), "en")) }
+        OPTIONAL { ?range rdfs:label ?rangeLabelAny }
       }
       OPTIONAL { 
         ?property rdfs:subPropertyOf ?subprop .
         FILTER(?subprop != ?property)
-        OPTIONAL { ?subprop rdfs:label ?superpropLabel }
+        OPTIONAL { ?subprop rdfs:label ?superpropLabelEn FILTER(langMatches(lang(?superpropLabelEn), "en")) }
+        OPTIONAL { ?subprop rdfs:label ?superpropLabelAny }
       }
       
-      OPTIONAL { ?property rdfs:label ?propLabel }
+      OPTIONAL { ?property rdfs:label ?propLabelEn FILTER(langMatches(lang(?propLabelEn), "en")) }
+      OPTIONAL { ?property rdfs:label ?propLabelAny }
       
       # Only include named properties (not blank nodes)
       FILTER(isIRI(?property))
@@ -80,26 +88,26 @@ def generate_object_properties_dot(owl_file, output_file, layout_engine='sfdp', 
     for row in results:
         prop_uri = row['property']
         prop_id = extract_local_name(prop_uri)
-        prop_label = row.get('propLabel', '') or prop_id
+        prop_label = row.get('propLabelEn') or row.get('propLabelAny') or prop_id
         
         properties[prop_id] = prop_uri
         labels[prop_id] = prop_label
         
         if row.get('domain'):
             domain_id = extract_local_name(row['domain'])
-            domain_label = row.get('domainLabel', '') or domain_id
+            domain_label = row.get('domainLabelEn') or row.get('domainLabelAny') or domain_id
             domains[prop_id].add(domain_id)
             labels[domain_id] = domain_label
         
         if row.get('range'):
             range_id = extract_local_name(row['range'])
-            range_label = row.get('rangeLabel', '') or range_id
+            range_label = row.get('rangeLabelEn') or row.get('rangeLabelAny') or range_id
             ranges[prop_id].add(range_id)
             labels[range_id] = range_label
         
         if row.get('subprop'):
             super_id = extract_local_name(row['subprop'])
-            super_label = row.get('superpropLabel', '') or super_id
+            super_label = row.get('superpropLabelEn') or row.get('superpropLabelAny') or super_id
             subproperties[super_id].add(prop_id)
             labels[super_id] = super_label
     
@@ -126,8 +134,8 @@ def generate_object_properties_dot(owl_file, output_file, layout_engine='sfdp', 
             f.write('  rankdir=LR;\n')
         
         f.write('  graph [splines=true, nodesep=1.0, ranksep=1.5, concentrate=false];\n')
-        f.write('  node [fontname="Arial"];\n')
-        f.write('  edge [fontsize=10, fontname="Arial"];\n')
+        f.write('  node [fontname="Helvetica"];\n')
+        f.write('  edge [fontsize=10, fontname="Helvetica"];\n')
         f.write('  \n')
         
         # Create clusters for better organization if enabled

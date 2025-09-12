@@ -44,7 +44,9 @@ def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use
     PREFIX owl: <http://www.w3.org/2002/07/owl#>
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-    SELECT ?prop ?domain ?range ?propLabel ?domainLabel
+    SELECT ?prop ?domain ?range 
+           ?propLabelEn ?propLabelAny 
+           ?domainLabelEn ?domainLabelAny
     WHERE {
       ?prop rdf:type owl:DatatypeProperty .
       
@@ -52,7 +54,8 @@ def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use
       OPTIONAL { 
         ?prop rdfs:domain ?domain .
         FILTER(isIRI(?domain))
-        OPTIONAL { ?domain rdfs:label ?domainLabel }
+        OPTIONAL { ?domain rdfs:label ?domainLabelEn FILTER(langMatches(lang(?domainLabelEn), "en")) }
+        OPTIONAL { ?domain rdfs:label ?domainLabelAny }
       }
       
       # Get ranges (datatypes)
@@ -61,7 +64,8 @@ def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use
       }
       
       # Get property label when available
-      OPTIONAL { ?prop rdfs:label ?propLabel }
+      OPTIONAL { ?prop rdfs:label ?propLabelEn FILTER(langMatches(lang(?propLabelEn), "en")) }
+      OPTIONAL { ?prop rdfs:label ?propLabelAny }
     }
     """
     
@@ -99,7 +103,7 @@ def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use
     for row in results:
         prop_uri = row['prop']
         prop_id = extract_local_name(prop_uri)
-        prop_label = row.get('propLabel', '') or prop_id
+        prop_label = row.get('propLabelEn') or row.get('propLabelAny') or prop_id
         
         # Get datatype for range
         range_type = ""
@@ -120,7 +124,7 @@ def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use
         if row.get('domain'):
             domain_uri = row['domain']
             domain_id = extract_local_name(domain_uri)
-            domain_label = row.get('domainLabel', '') or domain_id
+            domain_label = row.get('domainLabelEn') or row.get('domainLabelAny') or domain_id
             classes[domain_id] = domain_label
             domain_edges.append((prop_id, domain_id))
     
@@ -152,8 +156,8 @@ def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use
             f.write('  splines=true;\n')
         
         f.write('  graph [splines=true, nodesep=1.0, ranksep=1.5, concentrate=false];\n')
-        f.write('  node [fontname="Arial"];\n')
-        f.write('  edge [fontsize=10, fontname="Arial"];\n')
+        f.write('  node [fontname="Helvetica"];\n')
+        f.write('  edge [fontsize=10, fontname="Helvetica"];\n')
         f.write('  \n')
         
         # Create clusters for better organization if enabled

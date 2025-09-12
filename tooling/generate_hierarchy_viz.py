@@ -42,19 +42,15 @@ def generate_class_hierarchy_dot(owl_file, output_file, layout_engine='dot', use
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
-    SELECT ?child ?parent ?childLabel ?parentLabel
+    SELECT ?child ?parent ?childLabelEn ?childLabelAny ?parentLabelEn ?parentLabelAny
     WHERE {
       ?child rdfs:subClassOf ?parent .
-      
-      # Only include named classes (not blank nodes)
       FILTER(isIRI(?child) && isIRI(?parent))
-      
-      # Exclude owl:Thing as parent
       FILTER(?parent != owl:Thing)
-      
-      # Get labels when available
-      OPTIONAL { ?child rdfs:label ?childLabel }
-      OPTIONAL { ?parent rdfs:label ?parentLabel }
+      OPTIONAL { ?child rdfs:label ?childLabelEn FILTER(langMatches(lang(?childLabelEn), "en")) }
+      OPTIONAL { ?child rdfs:label ?childLabelAny }
+      OPTIONAL { ?parent rdfs:label ?parentLabelEn FILTER(langMatches(lang(?parentLabelEn), "en")) }
+      OPTIONAL { ?parent rdfs:label ?parentLabelAny }
     }
     """
     
@@ -68,8 +64,8 @@ def generate_class_hierarchy_dot(owl_file, output_file, layout_engine='dot', use
     for row in results:
         child_uri = row['child']
         parent_uri = row['parent']
-        child_label = row.get('childLabel', '') or extract_local_name(child_uri)
-        parent_label = row.get('parentLabel', '') or extract_local_name(parent_uri)
+        child_label = row.get('childLabelEn') or row.get('childLabelAny') or extract_local_name(child_uri)
+        parent_label = row.get('parentLabelEn') or row.get('parentLabelAny') or extract_local_name(parent_uri)
         
         child_id = extract_local_name(child_uri)
         parent_id = extract_local_name(parent_uri)
@@ -81,6 +77,27 @@ def generate_class_hierarchy_dot(owl_file, output_file, layout_engine='dot', use
         labels[child_id] = child_label
         labels[parent_id] = parent_label
     
+    # Include standalone classes (no subclass edges)
+    all_classes_query = """
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    SELECT ?cls ?clsLabelEn ?clsLabelAny WHERE {
+      ?cls a owl:Class .
+      FILTER(isIRI(?cls))
+      OPTIONAL { ?cls rdfs:label ?clsLabelEn FILTER(langMatches(lang(?clsLabelEn), "en")) }
+      OPTIONAL { ?cls rdfs:label ?clsLabelAny }
+    }
+    """
+    extra = run_sparql_query(owl_file, all_classes_query)
+    for row in extra:
+        uri = row['cls']
+        node_id = extract_local_name(uri)
+        if node_id not in all_nodes:
+            all_nodes.add(node_id)
+            lbl = row.get('clsLabelEn') or row.get('clsLabelAny') or node_id
+            labels[node_id] = lbl
+
     # Find root nodes (nodes that are not children of others)
     root_nodes = all_nodes - {child for parent_children in children.values() for child in parent_children}
     
@@ -101,8 +118,8 @@ def generate_class_hierarchy_dot(owl_file, output_file, layout_engine='dot', use
             f.write('  overlap=false;\n')
         
         f.write('  graph [splines=true, overlap=false, nodesep=0.6, ranksep=1.0, concentrate=true];\n')
-        f.write('  node [shape=box, style=filled, fillcolor=lightblue, fontname="Arial"];\n')
-        f.write('  edge [fontsize=10, fontname="Arial"];\n')
+        f.write('  node [shape=box, style=filled, fillcolor=lightblue, fontname="Helvetica"];\n')
+        f.write('  edge [fontsize=10, fontname="Helvetica"];\n')
         f.write('  \n')
         
         # Add all nodes with labels
