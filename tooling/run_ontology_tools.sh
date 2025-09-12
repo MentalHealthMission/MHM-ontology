@@ -134,34 +134,42 @@ case "$cmd" in
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
-    out="${3:-$output_dir/class-hierarchy.svg}"
-    # First generate the DOT file
-    temp_dot=$(mktemp -t "class-hierarchy-XXXXXX.dot")
-    run_in_container robot convert --input "$2" --output "$temp_dot.owl"
-    run_in_container dot -Tsvg "$temp_dot.owl" -o "$out"
-    rm -f "$temp_dot" "$temp_dot.owl"
-    echo "[tools] Created class hierarchy visualization: $out"
+    out="${3:-$output_dir/class-hierarchy}"
+    
+    # Generate the DOT file using our script
+    dot_file="${out}.dot"
+    svg_file="${out}.svg"
+    
+    run_in_container bash -c "/work/tooling/generate_class_hierarchy.sh '$2' '$dot_file'"
+    run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
+    
+    echo "[tools] Created class hierarchy visualization: $svg_file"
     ;;
   visualize-objproperties)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
-    out="${3:-$output_dir/object-properties.svg}"
-    # Generate a simple object property graph (just a placeholder)
-    echo "digraph G { label=\"Object Properties\"; a -> b [label=\"rdfs:subPropertyOf\"]; }" > "$output_dir/temp.dot"
-    run_in_container dot -Tsvg "/work/$output_dir/temp.dot" -o "$out"
-    rm -f "$output_dir/temp.dot"
-    echo "[tools] Created object properties visualization: $out"
+    out="${3:-$output_dir/object-properties}"
+    
+    # Generate the DOT file using our script
+    dot_file="${out}.dot"
+    svg_file="${out}.svg"
+    
+    run_in_container bash -c "/work/tooling/generate_obj_properties.sh '$2' '$dot_file'"
+    run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
+    
+    echo "[tools] Created object properties visualization: $svg_file"
     ;;
   visualize-dataproperties)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
     out="${3:-$output_dir/data-properties.svg}"
-    # Generate a simple data property graph (just a placeholder)
-    echo "digraph G { label=\"Data Properties\"; x -> y [label=\"rdfs:subPropertyOf\"]; }" > "$output_dir/temp.dot"
-    run_in_container dot -Tsvg "/work/$output_dir/temp.dot" -o "$out"
-    rm -f "$output_dir/temp.dot"
+    
+    # For now, just generate a simple placeholder graph for data properties
+    echo "digraph G { label=\"Data Properties\"; node [shape=box, style=filled, fillcolor=lightyellow]; \"DataProperty1\" -> \"DataProperty2\" [label=\"rdfs:subPropertyOf\"]; }" > "${out%.svg}.dot"
+    run_in_container dot -Tsvg "${out%.svg}.dot" -o "$out"
+    
     echo "[tools] Created data properties visualization: $out"
     ;;
   visualize-all)
