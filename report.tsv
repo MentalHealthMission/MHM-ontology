@@ -169,6 +169,7 @@ WARN	missing_definition	http://connectdigitalstudy.com/ontology#observedProperty
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#occursDuring	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#requiresComputation	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#resultTime	IAO:0000115	
+WARN	missing_definition	http://connectdigitalstudy.com/ontology#skosTag	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#supportsInferenceOf	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#usedAppInterface	IAO:0000115	
 WARN	missing_definition	http://connectdigitalstudy.com/ontology#usedDataInterface	IAO:0000115	

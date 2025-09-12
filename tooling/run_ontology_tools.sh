@@ -138,8 +138,8 @@ case "$cmd" in
     dot_file="$output_dir/class-hierarchy.dot"
     svg_file="$output_dir/class-hierarchy.svg"
     
-    # Generate DOT file dynamically from the OWL file
-    run_in_container bash -c "/work/tooling/generate_class_hierarchy.sh '$2' '$dot_file'"
+    # Generate DOT file dynamically from the OWL file using Python script
+    run_in_container python3 /work/tooling/generate_hierarchy_viz.py "$2" "$dot_file"
     run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
     
     echo "[tools] Created class hierarchy visualization: $svg_file"
@@ -152,8 +152,8 @@ case "$cmd" in
     dot_file="$output_dir/object-properties.dot"
     svg_file="$output_dir/object-properties.svg"
     
-    # Generate DOT file dynamically from the OWL file
-    run_in_container bash -c "/work/tooling/generate_obj_properties.sh '$2' '$dot_file'"
+    # Generate DOT file dynamically from the OWL file using Python script
+    run_in_container python3 /work/tooling/generate_objprop_viz.py "$2" "$dot_file"
     run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
     
     echo "[tools] Created object properties visualization: $svg_file"

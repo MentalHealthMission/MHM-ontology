@@ -8,11 +8,17 @@ set -euo pipefail
 input_file=$1
 output_file=$2
 
-# Generate DOT header
+# Generate DOT header with better layout
 cat > "$output_file" << 'EOT'
 digraph "Class Hierarchy" {
-  rankdir=BT;
+  rankdir=TB;
   node [shape=box, style=filled, fillcolor=lightblue];
+  edge [fontsize=10];
+  
+  // Layout settings for better hierarchy visualization
+  ranksep=1.5;
+  nodesep=0.5;
+  
 EOT
 
 # Create temporary SPARQL query file
@@ -37,56 +43,52 @@ WHERE {
 }
 SPARQL
 
-# Extract rdfs:subClassOf relationships using SPARQL and store in temp file
-sparql --data "$input_file" --query /tmp/class_query.rq > /tmp/class_results.txt
+# Extract rdfs:subClassOf relationships using SPARQL in CSV format
+sparql --data "$input_file" --query /tmp/class_query.rq --results=CSV > /tmp/class_results.csv
 
-# Process SPARQL results to DOT format
-# First, filter the SPARQL output to get just the CSV data without headers
-tail -n +2 /tmp/class_results.txt | awk '
-{
-  # Skip empty lines or separator lines
-  if(NF < 2 || $0 ~ /^[-=]+$/) { next }
-  
-  # Process each CSV row 
-  child = $1
-  parent = $2
-  childLabel = $3
-  parentLabel = $4
-  
-  # Remove < > from URIs if present
-  gsub(/^<|>$/, "", child)
-  gsub(/^<|>$/, "", parent)
-  
-  # Use label if available, otherwise extract local name from URI
-  if (childLabel == "" || childLabel == "childLabel") {
-    if (match(child, /[#\/]([^#\/]+)$/)) {
-      childLabel = substr(child, RSTART+1, RLENGTH-1)
-    } else {
-      childLabel = child
-    }
-  }
-  
-  if (parentLabel == "" || parentLabel == "parentLabel") {
-    if (match(parent, /[#\/]([^#\/]+)$/)) {
-      parentLabel = substr(parent, RSTART+1, RLENGTH-1)
-    } else {
-      parentLabel = parent
-    }
-  }
-  
-  # Remove quotes if present
-  gsub(/^"|"$/, "", childLabel)
-  gsub(/^"|"$/, "", parentLabel)
-  
-  # Ensure valid node names
-  if (length(child) > 0 && length(parent) > 0) {
-    # Output DOT statements
-    print "  \"" child "\" [label=\"" childLabel "\"];"
-    print "  \"" parent "\" [label=\"" parentLabel "\"];"
-    print "  \"" child "\" -> \"" parent "\" [label=\"rdfs:subClassOf\"];"
-  }
+# Function to extract local name from URI
+extract_local_name() {
+  local uri="$1"
+  # Remove < > if present
+  uri=$(echo "$uri" | sed 's/^<\|>$//g')
+  # Extract local name after # or /
+  echo "$uri" | sed 's/.*[#\/]//'
 }
-' >> "$output_file"
+
+# Process CSV output - skip header line
+tail -n +2 /tmp/class_results.csv | while IFS=',' read -r child parent childLabel parentLabel; do
+  # Remove quotes from CSV fields
+  child=$(echo "$child" | sed 's/^"\|"$//g')
+  parent=$(echo "$parent" | sed 's/^"\|"$//g')
+  childLabel=$(echo "$childLabel" | sed 's/^"\|"$//g')
+  parentLabel=$(echo "$parentLabel" | sed 's/^"\|"$//g')
+  
+  # Skip empty rows
+  [ -z "$child" ] || [ -z "$parent" ] && continue
+  
+  # Use label if available, otherwise extract local name
+  if [ -z "$childLabel" ]; then
+    childLabel=$(extract_local_name "$child")
+  fi
+  
+  if [ -z "$parentLabel" ]; then
+    parentLabel=$(extract_local_name "$parent")
+  fi
+  
+  # Create safer node names by using local names
+  childNode=$(extract_local_name "$child")
+  parentNode=$(extract_local_name "$parent")
+  
+  # Escape quotes in labels
+  childLabel=$(echo "$childLabel" | sed 's/"/\\"/g')
+  parentLabel=$(echo "$parentLabel" | sed 's/"/\\"/g')
+  
+  # Output DOT statements
+  echo "  \"$childNode\" [label=\"$childLabel\"];" >> "$output_file"
+  echo "  \"$parentNode\" [label=\"$parentLabel\"];" >> "$output_file"
+  echo "  \"$childNode\" -> \"$parentNode\";" >> "$output_file"
+  echo "" >> "$output_file"
+done
 
 # Close DOT file
 echo "}" >> "$output_file"
