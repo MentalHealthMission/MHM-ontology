@@ -10,13 +10,17 @@ This directory contains auto-generated visualizations of the ODIM-MH ontology st
 
 ## How to Generate
 
-These visualizations are generated using the ontology tooling:
+These visualizations are generated using the ontology tooling. Canonical outputs are:
+
+- `class-hierarchy.svg`
+- `object-properties.svg`
+- `data-properties.svg`
 
 ```bash
 # Rebuild the Docker image with Graphviz support
 tooling/run_ontology_tools.sh build
 
-# Generate all visualizations
+# Generate all visualizations (also refreshes canonical SVGs)
 tooling/run_ontology_tools.sh visualize-all mhm_ontology.owl
 
 # Generate individual visualizations
@@ -27,7 +31,7 @@ tooling/run_ontology_tools.sh visualize-dataproperties mhm_ontology.owl
 
 ## Implementation
 
-The visualizations are created using:
-- Python script to convert OWL to DOT format (`tooling/owl2dot.py`)
-- Graphviz to render the DOT files as SVG
-- Integration into the standard ontology tooling
+Implementation notes:
+- SPARQL-based Python generators in `tooling/` produce DOT files for classes, object properties, and data properties.
+- Graphviz renders DOT to SVG.
+- A local `.gitignore` in this folder ignores generated DOTs and engine-suffixed variants; only the three canonical SVGs are tracked.

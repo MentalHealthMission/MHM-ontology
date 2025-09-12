@@ -311,6 +311,16 @@ case "$cmd" in
     "$0" visualize-classes "$2" --engine dot --tred
     "$0" visualize-objproperties "$2" --engine sfdp
     "$0" visualize-dataproperties "$2" --engine dot
+    if [[ -f "$output_dir/class-hierarchy-dot.svg" ]]; then
+      cp "$output_dir/class-hierarchy-dot.svg" "$output_dir/class-hierarchy.svg"
+    fi
+    if [[ -f "$output_dir/object-properties-sfdp.svg" ]]; then
+      cp "$output_dir/object-properties-sfdp.svg" "$output_dir/object-properties.svg"
+    fi
+    if [[ -f "$output_dir/data-properties-dot.svg" ]]; then
+      cp "$output_dir/data-properties-dot.svg" "$output_dir/data-properties.svg"
+    fi
+    echo "[tools] Canonical SVGs refreshed: class-hierarchy.svg, object-properties.svg, data-properties.svg"
     echo "[tools] All visualizations created in $output_dir/"
     ;;
   visualize-all-engines)

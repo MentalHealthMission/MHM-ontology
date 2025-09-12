@@ -1,0 +1,7 @@
+*.dot
+*-*.dot
+*-*.svg
+
+!class-hierarchy.svg
+!object-properties.svg
+!data-properties.svg
