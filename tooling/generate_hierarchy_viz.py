@@ -152,7 +152,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Generate class hierarchy visualization')
     parser.add_argument('owl_file', help='Input OWL file')
     parser.add_argument('output_file', help='Output DOT file')
-    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi'], 
+    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi', 'osage', 'patchwork'], 
                         default='dot', help='Layout engine (default: dot)')
     parser.add_argument('--tred', action='store_true', default=True, 
                         help='Apply transitive reduction (default: True)')

@@ -191,7 +191,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Generate object properties visualization')
     parser.add_argument('owl_file', help='Input OWL file')
     parser.add_argument('output_file', help='Output DOT file')
-    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi'], 
+    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi', 'osage', 'patchwork'], 
                         default='sfdp', help='Layout engine (default: sfdp)')
     parser.add_argument('--no-clustering', dest='clustering', action='store_false', default=True,
                         help='Disable subgraph clustering')
