@@ -165,8 +165,8 @@ case "$cmd" in
     out="${3:-$output_dir/data-properties.svg}"
     dot_file="${out%.svg}.dot"
     
-    # Generate DOT file dynamically from the OWL file
-    run_in_container bash -c "/work/tooling/generate_data_properties.sh '$2' '$dot_file'"
+    # Generate DOT file dynamically from the OWL file using Python script
+    run_in_container python3 /work/tooling/generate_dataprop_viz.py "$2" "$dot_file"
     run_in_container dot -Tsvg "$dot_file" -o "$out"
     
     echo "[tools] Created data properties visualization: $out"
