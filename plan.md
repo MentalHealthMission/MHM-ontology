@@ -105,3 +105,21 @@ This document lists development tasks for the ODIM‑MH ontology. It is intended
 - [ ] Update `docs/ontology-overview.md` with concise sections for Units (QUDT), SOSA alignment, SKOS vocabularies, and class tagging with `connect:skosTag`.
 - [ ] Add a brief SPARQL examples page in `docs/` showing SKOS lookups and SOSA/units checks.
 - [ ] Add ontology visualization using Graphviz to generate static diagrams of class hierarchies and object properties. (Issue #15)
+
+## Visualizations
+
+- [ ] Ontology visualizations (Docs/Pages) (Issue #21)
+  - Generate and publish canonical diagrams for class hierarchy, object properties, and data properties under `docs/visualizations/`.
+  - Acceptance:
+    - `tooling/run_ontology_tools.sh visualize-all mhm_ontology.owl` writes canonical `class-hierarchy.svg`, `object-properties.svg`, `data-properties.svg` (unsuffixed)
+    - Only canonical SVGs are committed; multi-engine variants are not committed
+    - `docs/visualizations/README.md` and `tooling/README.md` document commands and flow; `docs/ontology-overview.md` links to visuals
+    - Duplicate scripts removed or resolved (`owl2dot.py` removed or supported)
+
+- [ ] Layers overview and External mappings (Issue #24)
+  - Add two concise diagrams under `docs/visualizations/`: `layers-overview.svg` and `external-mappings.svg`.
+  - Acceptance:
+    - Tooling commands: `visualize-layers` and `visualize-mappings` (SPARQL + Graphviz) generate DOT → SVG
+    - Canonical SVGs refreshed via `visualize-all` (or `visualize-all-viz`)
+    - No engine-suffixed/DOT artifacts tracked (local `.gitignore` covers variants)
+    - Docs updated: `docs/visualizations/README.md`, `tooling/README.md`, and links in `docs/ontology-overview.md`
