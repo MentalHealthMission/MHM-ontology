@@ -1,0 +1,28 @@
+name: Guard Agent-Only Files
+
+on:
+  pull_request:
+
+jobs:
+  block-agent-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Detect prohibited files
+        run: |
+          set -euo pipefail
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          echo "Comparing $BASE_SHA..$HEAD_SHA"
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
+          echo "$CHANGED" | sed 's/^/ - /'
+          # Blocklist
+          PROHIBITED_REGEX='^(AGENT-PLAN\.md|\.agents\/|\.agents\/.*)'
+          if echo "$CHANGED" | grep -E "$PROHIBITED_REGEX" >/dev/null; then
+            echo "Error: Agent-only files detected in PR. Remove these from commits:"
+            echo "$CHANGED" | grep -E "$PROHIBITED_REGEX" | sed 's/^/ - /'
+            exit 1
+          fi
+          echo "No agent-only files detected."

@@ -6,3 +6,6 @@ build/
 
 # Local environment overrides (never commit secrets)
 .env
+# Agent-only local files (must never be committed)
+AGENT-PLAN.md
+.agents/

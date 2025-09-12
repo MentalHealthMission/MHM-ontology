@@ -153,6 +153,8 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
   - Steps: numbered, actionable list
   - Acceptance: clear checks (URLs exist, validators pass, settings applied)
   - Deliverables: files/paths updated, PR link, Issue number
+- Non-negotiable: AGENT-PLAN.md is local-only and MUST NOT be committed to the public repo under any circumstances. A CI guard blocks PRs containing it.
+
 - Linkage:
   - Public tasks MUST first be added to `plan.md` via docs PR (authoritative plan), then referenced in AGENTâ€‘PLAN.md with execution notes.
   - Create an Issue for each task and add `(Issue #NN)` next to the plan line in `plan.md`.
@@ -281,3 +283,11 @@ This guide sets expectations for coding agents and contributors working on ODIMâ
 
 ---
 Note: `AGENTS.md` is locally ignored via `.git/info/exclude` to allow iterative drafting. Remove the exclude entry and commit when ready to share.
+
+Agent sync steps (local-only)
+- Ensure agent-only files are excluded locally:
+  - echo 'AGENT-PLAN.md' >> .git/info/exclude
+  - echo '.agents/' >> .git/info/exclude
+- Verify before committing: git status should never list AGENT-PLAN.md
+- If agent-only files were accidentally staged: git restore --staged AGENT-PLAN.md; git clean -fd .agents/
+- CI guard: PRs touching AGENT-PLAN.md or .agents/ will fail; remove those changes before opening PRs.
