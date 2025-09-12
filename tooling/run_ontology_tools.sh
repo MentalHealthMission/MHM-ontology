@@ -66,9 +66,9 @@ Commands:
   report <file.owl>             ROBOT QA report (report.tsv in CWD)
   openllet-consistency <file>   Openllet consistency check (if installed)
 
-  visualize-classes <file.owl>  Generate class hierarchy visualization (SVG)
-  visualize-objproperties <file> Generate object properties visualization (SVG)
-  visualize-dataproperties <file> Generate data properties visualization (SVG)
+  visualize-classes [--engine ENGINE] [--tred|--no-tred] [--unflatten] Generate class hierarchy visualization (SVG)
+  visualize-objproperties [--engine ENGINE] [--no-clustering] Generate object properties visualization (SVG)
+  visualize-dataproperties [--engine ENGINE] [--no-clustering] Generate data properties visualization (SVG)
   visualize-all <file.owl>      Generate all visualizations (class, obj/data properties)
 
   exec -- <args...>             Run arbitrary command in the container
@@ -131,54 +131,208 @@ case "$cmd" in
     run_in_container "$@"
     ;;
   visualize-classes)
-    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    shift  # Remove the command name
+    owl_file=""
+    engine="dot"
+    tred_flag="--tred"
+    unflatten_flag=""
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        --engine)
+          engine="$2"
+          shift 2
+          ;;
+        --no-tred)
+          tred_flag="--no-tred"
+          shift
+          ;;
+        --tred)
+          tred_flag="--tred"
+          shift
+          ;;
+        --unflatten)
+          unflatten_flag="--unflatten"
+          shift
+          ;;
+        *)
+          if [[ -z "$owl_file" ]]; then
+            owl_file="$1"
+          else
+            echo "Unknown argument: $1"
+            exit 1
+          fi
+          shift
+          ;;
+      esac
+    done
+    
+    [[ -n "$owl_file" ]] || { echo "Need OWL file"; exit 1; }
+    
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
     
-    dot_file="$output_dir/class-hierarchy.dot"
-    svg_file="$output_dir/class-hierarchy.svg"
+    dot_file="$output_dir/class-hierarchy-$engine.dot"
+    svg_file="$output_dir/class-hierarchy-$engine.svg"
     
-    # Generate DOT file dynamically from the OWL file using Python script
-    run_in_container python3 /work/tooling/generate_hierarchy_viz.py "$2" "$dot_file"
-    run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
+    # Generate DOT file with specified engine and options
+    python_args=("python3" "/work/tooling/generate_hierarchy_viz.py" "$owl_file" "$dot_file" "--engine" "$engine")
+    if [[ "$tred_flag" != "" ]]; then
+      python_args+=("$tred_flag")
+    fi
+    if [[ "$unflatten_flag" != "" ]]; then
+      python_args+=("$unflatten_flag")
+    fi
+    run_in_container "${python_args[@]}"
     
-    echo "[tools] Created class hierarchy visualization: $svg_file"
+    # Apply graph preprocessing if requested
+    processed_dot="$dot_file"
+    if [[ "$unflatten_flag" == "--unflatten" ]]; then
+      temp_dot="$output_dir/class-hierarchy-$engine.unflatten.dot"
+      run_in_container unflatten -l 3 "$dot_file" > "$temp_dot"
+      processed_dot="$temp_dot"
+    fi
+    
+    if [[ "$tred_flag" == "--tred" ]]; then
+      temp_dot2="$output_dir/class-hierarchy-$engine.tred.dot"
+      run_in_container tred "$processed_dot" > "$temp_dot2"
+      processed_dot="$temp_dot2"
+    fi
+    
+    # Generate SVG using the specified engine
+    run_in_container "$engine" -Tsvg "$processed_dot" -o "$svg_file"
+    
+    echo "[tools] Created class hierarchy visualization ($engine): $svg_file"
     ;;
   visualize-objproperties)
-    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    shift  # Remove the command name
+    owl_file=""
+    engine="sfdp"
+    clustering_flag=""
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        --engine)
+          engine="$2"
+          shift 2
+          ;;
+        --no-clustering)
+          clustering_flag="--no-clustering"
+          shift
+          ;;
+        *)
+          if [[ -z "$owl_file" ]]; then
+            owl_file="$1"
+          else
+            echo "Unknown argument: $1"
+            exit 1
+          fi
+          shift
+          ;;
+      esac
+    done
+    
+    [[ -n "$owl_file" ]] || { echo "Need OWL file"; exit 1; }
+    
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
     
-    dot_file="$output_dir/object-properties.dot"
-    svg_file="$output_dir/object-properties.svg"
+    dot_file="$output_dir/object-properties-$engine.dot"
+    svg_file="$output_dir/object-properties-$engine.svg"
     
-    # Generate DOT file dynamically from the OWL file using Python script
-    run_in_container python3 /work/tooling/generate_objprop_viz.py "$2" "$dot_file"
-    run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
+    # Generate DOT file with specified engine and options
+    python_args=("python3" "/work/tooling/generate_objprop_viz.py" "$owl_file" "$dot_file" "--engine" "$engine")
+    if [[ "$clustering_flag" != "" ]]; then
+      python_args+=("$clustering_flag")
+    fi
+    run_in_container "${python_args[@]}"
     
-    echo "[tools] Created object properties visualization: $svg_file"
+    # Generate SVG using the specified engine
+    run_in_container "$engine" -Tsvg "$dot_file" -o "$svg_file"
+    
+    echo "[tools] Created object properties visualization ($engine): $svg_file"
     ;;
   visualize-dataproperties)
-    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    shift  # Remove the command name
+    owl_file=""
+    engine="dot"
+    clustering_flag=""
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        --engine)
+          engine="$2"
+          shift 2
+          ;;
+        --no-clustering)
+          clustering_flag="--no-clustering"
+          shift
+          ;;
+        *)
+          if [[ -z "$owl_file" ]]; then
+            owl_file="$1"
+          else
+            echo "Unknown argument: $1"
+            exit 1
+          fi
+          shift
+          ;;
+      esac
+    done
+    
+    [[ -n "$owl_file" ]] || { echo "Need OWL file"; exit 1; }
+    
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
-    out="${3:-$output_dir/data-properties.svg}"
-    dot_file="${out%.svg}.dot"
     
-    # Generate DOT file dynamically from the OWL file using Python script
-    run_in_container python3 /work/tooling/generate_dataprop_viz.py "$2" "$dot_file"
-    run_in_container dot -Tsvg "$dot_file" -o "$out"
+    dot_file="$output_dir/data-properties-$engine.dot"
+    svg_file="$output_dir/data-properties-$engine.svg"
     
-    echo "[tools] Created data properties visualization: $out"
+    # Generate DOT file with specified engine and options
+    python_args=("python3" "/work/tooling/generate_dataprop_viz.py" "$owl_file" "$dot_file" "--engine" "$engine")
+    if [[ "$clustering_flag" != "" ]]; then
+      python_args+=("$clustering_flag")
+    fi
+    run_in_container "${python_args[@]}"
+    
+    # Generate SVG using the specified engine
+    run_in_container "$engine" -Tsvg "$dot_file" -o "$svg_file"
+    
+    echo "[tools] Created data properties visualization ($engine): $svg_file"
     ;;
   visualize-all)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
-    "$0" visualize-classes "$2" "$output_dir/class-hierarchy.svg"
-    "$0" visualize-objproperties "$2" "$output_dir/object-properties.svg"
-    "$0" visualize-dataproperties "$2" "$output_dir/data-properties.svg"
+    echo "[tools] Generating all visualizations with optimized engines..."
+    "$0" visualize-classes "$2" --engine dot --tred
+    "$0" visualize-objproperties "$2" --engine sfdp
+    "$0" visualize-dataproperties "$2" --engine dot
     echo "[tools] All visualizations created in $output_dir/"
+    ;;
+  visualize-all-engines)
+    [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"
+    mkdir -p "$output_dir"
+    echo "[tools] Generating visualizations with multiple engines for comparison..."
+    
+    # Class hierarchy with different engines
+    "$0" visualize-classes "$2" --engine dot --tred
+    "$0" visualize-classes "$2" --engine sfdp --no-tred
+    
+    # Object properties with different engines  
+    "$0" visualize-objproperties "$2" --engine sfdp
+    "$0" visualize-objproperties "$2" --engine neato
+    "$0" visualize-objproperties "$2" --engine dot
+    
+    # Data properties with different engines
+    "$0" visualize-dataproperties "$2" --engine dot
+    "$0" visualize-dataproperties "$2" --engine sfdp
+    
+    echo "[tools] All engine variations created in $output_dir/"
     ;;
   validate-prov)
     # Merge alignment + examples, then run PROV-related SPARQL ASK queries

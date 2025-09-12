@@ -6,6 +6,7 @@ import sys
 import subprocess
 import csv
 import io
+import argparse
 from collections import defaultdict
 
 def extract_local_name(uri):
@@ -33,174 +34,172 @@ def run_sparql_query(owl_file, query):
     csv_reader = csv.DictReader(io.StringIO(result.stdout))
     return list(csv_reader)
 
-def generate_obj_properties_dot(owl_file, output_file):
+def generate_object_properties_dot(owl_file, output_file, layout_engine='sfdp', use_clustering=True):
     """Generate DOT file for object properties"""
     
-    # Query for object properties and their domains/ranges
+    # Query for object properties with domains, ranges, and subproperties
     query = """
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
-    SELECT ?prop ?domain ?range ?propLabel ?domainLabel ?rangeLabel
+    SELECT DISTINCT ?property ?domain ?range ?subprop ?propLabel ?domainLabel ?rangeLabel ?superpropLabel
     WHERE {
-      ?prop rdf:type owl:ObjectProperty .
+      ?property a owl:ObjectProperty .
       
-      # Get domains and ranges when available
       OPTIONAL { 
-        ?prop rdfs:domain ?domain .
-        FILTER(isIRI(?domain))
+        ?property rdfs:domain ?domain .
         OPTIONAL { ?domain rdfs:label ?domainLabel }
       }
       OPTIONAL { 
-        ?prop rdfs:range ?range .
-        FILTER(isIRI(?range))
+        ?property rdfs:range ?range .
         OPTIONAL { ?range rdfs:label ?rangeLabel }
       }
+      OPTIONAL { 
+        ?property rdfs:subPropertyOf ?subprop .
+        FILTER(?subprop != ?property)
+        OPTIONAL { ?subprop rdfs:label ?superpropLabel }
+      }
       
-      # Get property label when available
-      OPTIONAL { ?prop rdfs:label ?propLabel }
+      OPTIONAL { ?property rdfs:label ?propLabel }
+      
+      # Only include named properties (not blank nodes)
+      FILTER(isIRI(?property))
     }
     """
     
     results = run_sparql_query(owl_file, query)
     
-    # Query for subPropertyOf relationships
-    subprop_query = """
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-
-    SELECT ?child ?parent
-    WHERE {
-      ?child rdf:type owl:ObjectProperty .
-      ?parent rdf:type owl:ObjectProperty .
-      ?child rdfs:subPropertyOf ?parent .
-      
-      # Only named properties (not blank nodes)
-      FILTER(isIRI(?child) && isIRI(?parent))
-      
-      # Exclude self-references
-      FILTER(?child != ?parent)
-    }
-    """
-    
-    subprop_results = run_sparql_query(owl_file, subprop_query)
-    
-    # Collect all nodes and their information
+    # Build property structure
     properties = {}
-    classes = {}
-    domain_edges = []
-    range_edges = []
-    subprop_edges = []
+    domains = defaultdict(set)
+    ranges = defaultdict(set)
+    subproperties = defaultdict(set)
+    labels = {}
     
     for row in results:
-        prop_uri = row['prop']
+        prop_uri = row['property']
         prop_id = extract_local_name(prop_uri)
         prop_label = row.get('propLabel', '') or prop_id
         
-        properties[prop_id] = prop_label
+        properties[prop_id] = prop_uri
+        labels[prop_id] = prop_label
         
         if row.get('domain'):
-            domain_uri = row['domain']
-            domain_id = extract_local_name(domain_uri)
+            domain_id = extract_local_name(row['domain'])
             domain_label = row.get('domainLabel', '') or domain_id
-            classes[domain_id] = domain_label
-            domain_edges.append((prop_id, domain_id))
+            domains[prop_id].add(domain_id)
+            labels[domain_id] = domain_label
         
         if row.get('range'):
-            range_uri = row['range']
-            range_id = extract_local_name(range_uri)
+            range_id = extract_local_name(row['range'])
             range_label = row.get('rangeLabel', '') or range_id
-            classes[range_id] = range_label
-            range_edges.append((prop_id, range_id))
-    
-    for row in subprop_results:
-        child_id = extract_local_name(row['child'])
-        parent_id = extract_local_name(row['parent'])
-        subprop_edges.append((child_id, parent_id))
+            ranges[prop_id].add(range_id)
+            labels[range_id] = range_label
+        
+        if row.get('subprop'):
+            super_id = extract_local_name(row['subprop'])
+            super_label = row.get('superpropLabel', '') or super_id
+            subproperties[super_id].add(prop_id)
+            labels[super_id] = super_label
     
     # Generate DOT file
     with open(output_file, 'w') as f:
         f.write('digraph "Object Properties" {\n')
-        f.write('  rankdir=TB;\n')
+        
+        # Graph-level attributes based on layout engine
+        f.write('  // Layout configuration\n')
+        if layout_engine == 'sfdp':
+            f.write('  layout=sfdp;\n')
+            f.write('  overlap=prism;\n')
+            f.write('  splines=true;\n')
+            f.write('  K=2.0;\n')  # Ideal spring length
+        elif layout_engine == 'neato':
+            f.write('  layout=neato;\n')
+            f.write('  overlap=false;\n')
+            f.write('  splines=true;\n')
+        elif layout_engine == 'fdp':
+            f.write('  layout=fdp;\n')
+            f.write('  overlap=false;\n')
+            f.write('  splines=true;\n')
+        elif layout_engine == 'dot':
+            f.write('  rankdir=LR;\n')
+        
+        f.write('  graph [splines=true, nodesep=1.0, ranksep=1.5, concentrate=false];\n')
         f.write('  node [fontname="Arial"];\n')
         f.write('  edge [fontsize=10, fontname="Arial"];\n')
         f.write('  \n')
-        f.write('  // Layout settings\n')
-        f.write('  ranksep=1.0;\n')
-        f.write('  nodesep=0.8;\n')
-        f.write('  \n')
         
-        # Add property nodes
-        for prop_id, prop_label in properties.items():
-            label = prop_label.replace('"', '\\"')
-            if len(label) > 20:
-                # Break long labels
-                words = label.split()
-                lines = []
-                current_line = []
-                current_length = 0
-                for word in words:
-                    if current_length + len(word) > 15 and current_line:
-                        lines.append(' '.join(current_line))
-                        current_line = [word]
-                        current_length = len(word)
-                    else:
-                        current_line.append(word)
-                        current_length += len(word) + 1
-                if current_line:
-                    lines.append(' '.join(current_line))
-                label = '\\n'.join(lines)
+        # Create clusters for better organization if enabled
+        if use_clustering and layout_engine == 'dot':
+            # Cluster by domain classes
+            domain_classes = set()
+            for prop_domains in domains.values():
+                domain_classes.update(prop_domains)
             
-            f.write(f'  "{prop_id}" [label="{label}", shape=ellipse, style=filled, fillcolor=lightgreen];\n')
+            cluster_id = 0
+            for domain_class in sorted(domain_classes):
+                f.write(f'  subgraph cluster_{cluster_id} {{\n')
+                f.write(f'    label="{labels.get(domain_class, domain_class)} Domain";\n')
+                f.write(f'    style=filled;\n')
+                f.write(f'    fillcolor=lightgray;\n')
+                f.write(f'    "{domain_class}" [shape=box, style=filled, fillcolor=lightblue];\n')
+                f.write(f'  }}\n')
+                cluster_id += 1
         
         # Add class nodes
-        for class_id, class_label in classes.items():
-            label = class_label.replace('"', '\\"')
-            if len(label) > 20:
-                # Break long labels
-                words = label.split()
-                lines = []
-                current_line = []
-                current_length = 0
-                for word in words:
-                    if current_length + len(word) > 15 and current_line:
-                        lines.append(' '.join(current_line))
-                        current_line = [word]
-                        current_length = len(word)
-                    else:
-                        current_line.append(word)
-                        current_length += len(word) + 1
-                if current_line:
-                    lines.append(' '.join(current_line))
-                label = '\\n'.join(lines)
-            
-            f.write(f'  "{class_id}" [label="{label}", shape=box, style=filled, fillcolor=lightblue];\n')
+        all_classes = set()
+        for prop_domains in domains.values():
+            all_classes.update(prop_domains)
+        for prop_ranges in ranges.values():
+            all_classes.update(prop_ranges)
+        
+        for class_id in all_classes:
+            label = labels.get(class_id, class_id)
+            label = label.replace('"', '\\"')
+            f.write(f'  "{class_id}" [shape=box, style=filled, fillcolor=lightblue, label="{label}"];\n')
+        
+        # Add property nodes
+        for prop_id in properties:
+            label = labels.get(prop_id, prop_id)
+            label = label.replace('"', '\\"')
+            f.write(f'  "{prop_id}" [shape=ellipse, style=filled, fillcolor=lightyellow, label="{label}"];\n')
         
         f.write('  \n')
         
-        # Add domain edges
-        for prop_id, domain_id in domain_edges:
-            f.write(f'  "{domain_id}" -> "{prop_id}" [label="domain", style=dashed, color=blue];\n')
+        # Add domain/range relationships
+        for prop_id in properties:
+            prop_domains = domains.get(prop_id, set())
+            prop_ranges = ranges.get(prop_id, set())
+            
+            # Domain to property edges
+            for domain_id in prop_domains:
+                f.write(f'  "{domain_id}" -> "{prop_id}" [color=blue, label="domain"];\n')
+            
+            # Property to range edges
+            for range_id in prop_ranges:
+                f.write(f'  "{prop_id}" -> "{range_id}" [color=green, label="range"];\n')
         
-        # Add range edges  
-        for prop_id, range_id in range_edges:
-            f.write(f'  "{prop_id}" -> "{range_id}" [label="range", style=dotted, color=red];\n')
-        
-        # Add subPropertyOf edges
-        for child_id, parent_id in subprop_edges:
-            f.write(f'  "{child_id}" -> "{parent_id}" [label="subPropertyOf", color=darkgreen];\n')
+        # Add subproperty relationships
+        for super_prop, sub_props in subproperties.items():
+            for sub_prop in sub_props:
+                f.write(f'  "{sub_prop}" -> "{super_prop}" [color=red, style=dashed, label="subPropertyOf"];\n')
         
         f.write('}\n')
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Generate object properties visualization')
+    parser.add_argument('owl_file', help='Input OWL file')
+    parser.add_argument('output_file', help='Output DOT file')
+    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi'], 
+                        default='sfdp', help='Layout engine (default: sfdp)')
+    parser.add_argument('--no-clustering', dest='clustering', action='store_false', default=True,
+                        help='Disable subgraph clustering')
+    return parser.parse_args()
+
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Usage: python3 generate_objprop_viz.py input.owl output.dot")
-        sys.exit(1)
+    args = parse_args()
     
-    owl_file = sys.argv[1]
-    output_file = sys.argv[2]
-    
-    generate_obj_properties_dot(owl_file, output_file)
-    print(f"Generated object properties visualization: {output_file}")
+    generate_object_properties_dot(args.owl_file, args.output_file, 
+                                  args.engine, args.clustering)
+    print(f"Generated object properties visualization: {args.output_file} (engine: {args.engine})")

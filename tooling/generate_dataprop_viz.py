@@ -6,6 +6,7 @@ import sys
 import subprocess
 import csv
 import io
+import argparse
 from collections import defaultdict
 
 def extract_local_name(uri):
@@ -33,7 +34,7 @@ def run_sparql_query(owl_file, query):
     csv_reader = csv.DictReader(io.StringIO(result.stdout))
     return list(csv_reader)
 
-def generate_data_properties_dot(owl_file, output_file):
+def generate_data_properties_dot(owl_file, output_file, layout_engine='dot', use_clustering=True):
     """Generate DOT file for data properties"""
     
     # Query for data properties and their domains/ranges
@@ -131,14 +132,44 @@ def generate_data_properties_dot(owl_file, output_file):
     # Generate DOT file
     with open(output_file, 'w') as f:
         f.write('digraph "Data Properties" {\n')
-        f.write('  rankdir=TB;\n')
+        
+        # Graph-level attributes based on layout engine
+        f.write('  // Layout configuration\n')
+        if layout_engine == 'dot':
+            f.write('  rankdir=LR;\n')
+        elif layout_engine == 'sfdp':
+            f.write('  layout=sfdp;\n')
+            f.write('  overlap=prism;\n')
+            f.write('  splines=true;\n')
+            f.write('  K=1.5;\n')
+        elif layout_engine == 'neato':
+            f.write('  layout=neato;\n')
+            f.write('  overlap=false;\n')
+            f.write('  splines=true;\n')
+        elif layout_engine == 'fdp':
+            f.write('  layout=fdp;\n')
+            f.write('  overlap=false;\n')
+            f.write('  splines=true;\n')
+        
+        f.write('  graph [splines=true, nodesep=1.0, ranksep=1.5, concentrate=false];\n')
         f.write('  node [fontname="Arial"];\n')
         f.write('  edge [fontsize=10, fontname="Arial"];\n')
         f.write('  \n')
-        f.write('  // Layout settings\n')
-        f.write('  ranksep=1.0;\n')
-        f.write('  nodesep=0.8;\n')
-        f.write('  \n')
+        
+        # Create clusters for better organization if enabled
+        if use_clustering and layout_engine == 'dot':
+            # Cluster by domain classes
+            domain_classes = set(classes.keys())
+            
+            cluster_id = 0
+            for domain_class in sorted(domain_classes):
+                f.write(f'  subgraph cluster_{cluster_id} {{\n')
+                f.write(f'    label="{classes.get(domain_class, domain_class)} Properties";\n')
+                f.write(f'    style=filled;\n')
+                f.write(f'    fillcolor=lightgray;\n')
+                f.write(f'    "{domain_class}" [shape=box, style=filled, fillcolor=lightblue];\n')
+                f.write(f'  }}\n')
+                cluster_id += 1
         
         # Add property nodes
         for prop_id, prop_label in properties.items():
@@ -180,13 +211,19 @@ def generate_data_properties_dot(owl_file, output_file):
         
         f.write('}\n')
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Generate data properties visualization')
+    parser.add_argument('owl_file', help='Input OWL file')
+    parser.add_argument('output_file', help='Output DOT file')
+    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi'], 
+                        default='dot', help='Layout engine (default: dot)')
+    parser.add_argument('--no-clustering', dest='clustering', action='store_false', default=True,
+                        help='Disable subgraph clustering')
+    return parser.parse_args()
+
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Usage: python3 generate_dataprop_viz.py input.owl output.dot")
-        sys.exit(1)
+    args = parse_args()
     
-    owl_file = sys.argv[1]
-    output_file = sys.argv[2]
-    
-    generate_data_properties_dot(owl_file, output_file)
-    print(f"Generated data properties visualization: {output_file}")
+    generate_data_properties_dot(args.owl_file, args.output_file, 
+                                args.engine, args.clustering)
+    print(f"Generated data properties visualization: {args.output_file} (engine: {args.engine})")

@@ -6,6 +6,7 @@ import sys
 import subprocess
 import csv
 import io
+import argparse
 from collections import defaultdict
 
 def extract_local_name(uri):
@@ -33,7 +34,7 @@ def run_sparql_query(owl_file, query):
     csv_reader = csv.DictReader(io.StringIO(result.stdout))
     return list(csv_reader)
 
-def generate_class_hierarchy_dot(owl_file, output_file):
+def generate_class_hierarchy_dot(owl_file, output_file, layout_engine='dot', use_tred=True, use_unflatten=False):
     """Generate DOT file for class hierarchy"""
     
     query = """
@@ -86,13 +87,22 @@ def generate_class_hierarchy_dot(owl_file, output_file):
     # Generate DOT file
     with open(output_file, 'w') as f:
         f.write('digraph "Class Hierarchy" {\n')
-        f.write('  rankdir=TB;\n')
+        
+        # Graph-level attributes for better layout
+        f.write('  // Layout configuration\n')
+        if layout_engine == 'dot':
+            f.write('  rankdir=TB;\n')
+        elif layout_engine == 'sfdp':
+            f.write('  layout=sfdp;\n')
+            f.write('  overlap=prism;\n')
+            f.write('  splines=true;\n')
+        elif layout_engine == 'neato':
+            f.write('  layout=neato;\n')
+            f.write('  overlap=false;\n')
+        
+        f.write('  graph [splines=true, overlap=false, nodesep=0.6, ranksep=1.0, concentrate=true];\n')
         f.write('  node [shape=box, style=filled, fillcolor=lightblue, fontname="Arial"];\n')
         f.write('  edge [fontsize=10, fontname="Arial"];\n')
-        f.write('  \n')
-        f.write('  // Layout settings\n')
-        f.write('  ranksep=1.0;\n')
-        f.write('  nodesep=0.5;\n')
         f.write('  \n')
         
         # Add all nodes with labels
@@ -127,8 +137,8 @@ def generate_class_hierarchy_dot(owl_file, output_file):
             for child_id in child_set:
                 f.write(f'  "{child_id}" -> "{parent_id}";\n')
         
-        # Add ranking to improve layout
-        if root_nodes:
+        # Add ranking to improve layout for hierarchical engines
+        if layout_engine == 'dot' and root_nodes:
             f.write('  \n')
             f.write('  // Root nodes at top\n')
             f.write('  { rank=min; ')
@@ -138,13 +148,23 @@ def generate_class_hierarchy_dot(owl_file, output_file):
         
         f.write('}\n')
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Generate class hierarchy visualization')
+    parser.add_argument('owl_file', help='Input OWL file')
+    parser.add_argument('output_file', help='Output DOT file')
+    parser.add_argument('--engine', choices=['dot', 'sfdp', 'neato', 'fdp', 'circo', 'twopi'], 
+                        default='dot', help='Layout engine (default: dot)')
+    parser.add_argument('--tred', action='store_true', default=True, 
+                        help='Apply transitive reduction (default: True)')
+    parser.add_argument('--no-tred', dest='tred', action='store_false',
+                        help='Skip transitive reduction')
+    parser.add_argument('--unflatten', action='store_true', 
+                        help='Apply unflatten preprocessing')
+    return parser.parse_args()
+
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Usage: python3 generate_hierarchy_viz.py input.owl output.dot")
-        sys.exit(1)
+    args = parse_args()
     
-    owl_file = sys.argv[1]
-    output_file = sys.argv[2]
-    
-    generate_class_hierarchy_dot(owl_file, output_file)
-    print(f"Generated class hierarchy visualization: {output_file}")
+    generate_class_hierarchy_dot(args.owl_file, args.output_file, 
+                                args.engine, args.tred, args.unflatten)
+    print(f"Generated class hierarchy visualization: {args.output_file} (engine: {args.engine})")
