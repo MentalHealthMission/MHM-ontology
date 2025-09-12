@@ -37,39 +37,56 @@ WHERE {
 }
 SPARQL
 
-# Extract rdfs:subClassOf relationships using SPARQL
-sparql --data "$input_file" --query /tmp/class_query.rq >> "$output_file"
+# Extract rdfs:subClassOf relationships using SPARQL and store in temp file
+sparql --data "$input_file" --query /tmp/class_query.rq > /tmp/class_results.txt
 
 # Process SPARQL results to DOT format
-awk '
-BEGIN { FS="\t"; skip=1 }
-# Skip header
-NR <= 2 { next }
-# Process results
+# First, filter the SPARQL output to get just the CSV data without headers
+tail -n +2 /tmp/class_results.txt | awk '
 {
+  # Skip empty lines or separator lines
+  if(NF < 2 || $0 ~ /^[-=]+$/) { next }
+  
+  # Process each CSV row 
   child = $1
   parent = $2
-  childLabel = length($3) > 0 ? $3 : getLocalName($1)
-  parentLabel = length($4) > 0 ? $4 : getLocalName($2)
+  childLabel = $3
+  parentLabel = $4
   
-  gsub(/"/, "\\\"", childLabel)
-  gsub(/"/, "\\\"", parentLabel)
+  # Remove < > from URIs if present
+  gsub(/^<|>$/, "", child)
+  gsub(/^<|>$/, "", parent)
   
-  print "  \"" child "\" [label=\"" childLabel "\"];"
-  print "  \"" parent "\" [label=\"" parentLabel "\"];"
-  print "  \"" child "\" -> \"" parent "\" [label=\"rdfs:subClassOf\"];"
-}
-
-function getLocalName(uri) {
-  if (match(uri, /[#\/]([^#\/]+)$/)) {
-    return substr(uri, RSTART+1, RLENGTH-1)
+  # Use label if available, otherwise extract local name from URI
+  if (childLabel == "" || childLabel == "childLabel") {
+    if (match(child, /[#\/]([^#\/]+)$/)) {
+      childLabel = substr(child, RSTART+1, RLENGTH-1)
+    } else {
+      childLabel = child
+    }
   }
-  return uri
+  
+  if (parentLabel == "" || parentLabel == "parentLabel") {
+    if (match(parent, /[#\/]([^#\/]+)$/)) {
+      parentLabel = substr(parent, RSTART+1, RLENGTH-1)
+    } else {
+      parentLabel = parent
+    }
+  }
+  
+  # Remove quotes if present
+  gsub(/^"|"$/, "", childLabel)
+  gsub(/^"|"$/, "", parentLabel)
+  
+  # Ensure valid node names
+  if (length(child) > 0 && length(parent) > 0) {
+    # Output DOT statements
+    print "  \"" child "\" [label=\"" childLabel "\"];"
+    print "  \"" parent "\" [label=\"" parentLabel "\"];"
+    print "  \"" child "\" -> \"" parent "\" [label=\"rdfs:subClassOf\"];"
+  }
 }
-' "$output_file" > "$output_file.tmp"
+' >> "$output_file"
 
 # Close DOT file
-echo "}" >> "$output_file.tmp"
-
-# Replace output with processed file
-mv "$output_file.tmp" "$output_file"
+echo "}" >> "$output_file"

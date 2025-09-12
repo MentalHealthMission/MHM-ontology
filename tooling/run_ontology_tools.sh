@@ -135,40 +135,39 @@ case "$cmd" in
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
     
-    # For now, use the static DOT file we created
     dot_file="$output_dir/class-hierarchy.dot"
     svg_file="$output_dir/class-hierarchy.svg"
     
-    # Later we'll use the script: run_in_container bash -c "/work/tooling/generate_class_hierarchy.sh '$2' '$dot_file'"
+    # Generate DOT file dynamically from the OWL file
+    run_in_container bash -c "/work/tooling/generate_class_hierarchy.sh '$2' '$dot_file'"
     run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
     
     echo "[tools] Created class hierarchy visualization: $svg_file"
-    echo "[tools] (Note: This is currently using a static DOT file for demonstration purposes)"
     ;;
   visualize-objproperties)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
     
-    # For now, use the static DOT file we created
     dot_file="$output_dir/object-properties.dot"
     svg_file="$output_dir/object-properties.svg"
     
-    # Later we'll use the script: run_in_container bash -c "/work/tooling/generate_obj_properties.sh '$2' '$dot_file'"
+    # Generate DOT file dynamically from the OWL file
+    run_in_container bash -c "/work/tooling/generate_obj_properties.sh '$2' '$dot_file'"
     run_in_container dot -Tsvg "$dot_file" -o "$svg_file"
     
     echo "[tools] Created object properties visualization: $svg_file"
-    echo "[tools] (Note: This is currently using a static DOT file for demonstration purposes)"
     ;;
   visualize-dataproperties)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
     output_dir="docs/visualizations"
     mkdir -p "$output_dir"
     out="${3:-$output_dir/data-properties.svg}"
+    dot_file="${out%.svg}.dot"
     
-    # For now, just generate a simple placeholder graph for data properties
-    echo "digraph G { label=\"Data Properties\"; node [shape=box, style=filled, fillcolor=lightyellow]; \"DataProperty1\" -> \"DataProperty2\" [label=\"rdfs:subPropertyOf\"]; }" > "${out%.svg}.dot"
-    run_in_container dot -Tsvg "${out%.svg}.dot" -o "$out"
+    # Generate DOT file dynamically from the OWL file
+    run_in_container bash -c "/work/tooling/generate_data_properties.sh '$2' '$dot_file'"
+    run_in_container dot -Tsvg "$dot_file" -o "$out"
     
     echo "[tools] Created data properties visualization: $out"
     ;;

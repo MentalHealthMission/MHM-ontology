@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Script to generate a DOT file representing object properties from an OWL file
-# Usage: generate_obj_properties.sh input.owl output.dot
+# Script to generate a DOT file representing data properties from an OWL file
+# Usage: generate_data_properties.sh input.owl output.dot
 
 set -euo pipefail
 
@@ -10,31 +10,32 @@ output_file=$2
 
 # Generate DOT header
 cat > "$output_file" << 'EOT'
-digraph "Object Properties" {
+digraph "Data Properties" {
   rankdir=BT;
   node [shape=box, style=filled];
 EOT
 
 # Create temporary SPARQL query file
-cat > /tmp/objprop_query.rq << 'SPARQL'
+cat > /tmp/dataprop_query.rq << 'SPARQL'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-SELECT ?prop ?domain ?range ?propLabel ?domainLabel ?rangeLabel
+SELECT ?prop ?domain ?range ?propLabel ?domainLabel
 WHERE {
-  ?prop rdf:type owl:ObjectProperty .
+  ?prop rdf:type owl:DatatypeProperty .
   
-  # Get domains and ranges when available
+  # Get domains when available
   OPTIONAL { 
     ?prop rdfs:domain ?domain .
     FILTER(isIRI(?domain))
     OPTIONAL { ?domain rdfs:label ?domainLabel }
   }
+  
+  # Get ranges (datatypes)
   OPTIONAL { 
     ?prop rdfs:range ?range .
-    FILTER(isIRI(?range))
-    OPTIONAL { ?range rdfs:label ?rangeLabel }
   }
   
   # Get property label when available
@@ -42,12 +43,12 @@ WHERE {
 }
 SPARQL
 
-# Extract object properties using SPARQL
-sparql --data "$input_file" --query /tmp/objprop_query.rq > /tmp/objprop_results.txt
+# Extract data properties using SPARQL
+sparql --data "$input_file" --query /tmp/dataprop_query.rq > /tmp/dataprop_results.txt
 
 # Process SPARQL results to DOT format
 # First, filter the SPARQL output to get just the CSV data without headers
-tail -n +2 /tmp/objprop_results.txt | awk '
+tail -n +2 /tmp/dataprop_results.txt | awk '
 {
   # Skip empty lines or separator lines
   if(NF < 1 || $0 ~ /^[-=]+$/) { next }
@@ -58,7 +59,6 @@ tail -n +2 /tmp/objprop_results.txt | awk '
   range = $3
   propLabel = $4
   domainLabel = $5
-  rangeLabel = $6
   
   # Remove < > from URIs if present
   gsub(/^<|>$/, "", prop)
@@ -82,7 +82,9 @@ tail -n +2 /tmp/objprop_results.txt | awk '
     }
   }
   
-  if ((rangeLabel == "" || rangeLabel == "rangeLabel") && range != "") {
+  # Extract datatype name for range
+  rangeLabel = ""
+  if (range != "") {
     if (match(range, /[#\/]([^#\/]+)$/)) {
       rangeLabel = substr(range, RSTART+1, RLENGTH-1)
     } else {
@@ -93,28 +95,26 @@ tail -n +2 /tmp/objprop_results.txt | awk '
   # Remove quotes if present
   gsub(/^"|"$/, "", propLabel)
   gsub(/^"|"$/, "", domainLabel)
-  gsub(/^"|"$/, "", rangeLabel)
   
   # Ensure valid node names
   if (length(prop) > 0) {
-    # Add property node
-    print "  \"" prop "\" [label=\"" propLabel "\", fillcolor=lightgreen];"
+    # Add property node with datatype if available
+    if (rangeLabel != "") {
+      print "  \"" prop "\" [label=\"" propLabel "\\n(" rangeLabel ")\", fillcolor=lightyellow];"
+    } else {
+      print "  \"" prop "\" [label=\"" propLabel "\", fillcolor=lightyellow];"
+    }
     
-    # Add domain and range if present
+    # Add domain if present
     if (domain != "") {
       print "  \"" domain "\" [label=\"" domainLabel "\", fillcolor=lightblue];"
       print "  \"" prop "\" -> \"" domain "\" [label=\"rdfs:domain\", style=\"dashed\"];"
-    }
-    
-    if (range != "") {
-      print "  \"" range "\" [label=\"" rangeLabel "\", fillcolor=lightblue];"
-      print "  \"" prop "\" -> \"" range "\" [label=\"rdfs:range\", style=\"dotted\"];"
     }
   }
 }
 ' >> "$output_file"
 
-# Create temporary subPropertyOf query
+# Create temporary subPropertyOf query for data properties
 cat > /tmp/subprop_query.rq << 'SPARQL'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -122,8 +122,8 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 SELECT ?child ?parent
 WHERE {
-  ?child rdf:type owl:ObjectProperty .
-  ?parent rdf:type owl:ObjectProperty .
+  ?child rdf:type owl:DatatypeProperty .
+  ?parent rdf:type owl:DatatypeProperty .
   ?child rdfs:subPropertyOf ?parent .
   
   # Only named properties (not blank nodes)
