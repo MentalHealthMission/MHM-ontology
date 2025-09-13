@@ -62,11 +62,15 @@ Use the wrapper script to build the image once and run ephemeral containers with
   - Classes: `tooling/run_ontology_tools.sh visualize-classes mhm_ontology.owl --engine dot --tred`
   - Object properties: `tooling/run_ontology_tools.sh visualize-objproperties mhm_ontology.owl --engine sfdp`
   - Data properties: `tooling/run_ontology_tools.sh visualize-dataproperties mhm_ontology.owl --engine dot`
+  - Layers overview: `tooling/run_ontology_tools.sh visualize-layers mhm_ontology.owl`
+  - External mappings: `tooling/run_ontology_tools.sh visualize-mappings mhm_ontology.owl`
 
 Outputs (tracked):
 - `docs/visualizations/class-hierarchy.svg`
 - `docs/visualizations/object-properties.svg`
 - `docs/visualizations/data-properties.svg`
+- `docs/visualizations/layers-overview.svg`
+- `docs/visualizations/external-mappings.svg`
 
 Notes:
 - Engine-suffixed variants and DOT files are ignored by `docs/visualizations/.gitignore` to avoid committing generated artifacts.

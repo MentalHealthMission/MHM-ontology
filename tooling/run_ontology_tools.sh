@@ -320,8 +320,55 @@ case "$cmd" in
     if [[ -f "$output_dir/data-properties-dot.svg" ]]; then
       cp "$output_dir/data-properties-dot.svg" "$output_dir/data-properties.svg"
     fi
-    echo "[tools] Canonical SVGs refreshed: class-hierarchy.svg, object-properties.svg, data-properties.svg"
+    # Also layers + mappings with default namespace
+    "$0" visualize-layers "$2"
+    "$0" visualize-mappings "$2"
+    echo "[tools] Canonical SVGs refreshed: class-hierarchy.svg, object-properties.svg, data-properties.svg, layers-overview.svg, external-mappings.svg"
     echo "[tools] All visualizations created in $output_dir/"
+    ;;
+  visualize-layers)
+    shift
+    owl_file=""; engine="dot"; ns_flag=""
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        --engine) engine="$2"; shift 2;;
+        --namespace) ns_flag=("--namespace" "$2"); shift 2;;
+        *) if [[ -z "$owl_file" ]]; then owl_file="$1"; shift; else echo "Unknown arg $1"; exit 1; fi;;
+      esac
+    done
+    [[ -n "$owl_file" ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"; mkdir -p "$output_dir"
+    dot_file="$output_dir/layers-overview-$engine.dot"; svg_file="$output_dir/layers-overview-$engine.svg"
+    # Default namespace if none provided
+    if [[ -z "${ns_flag:-}" ]]; then ns_flag=("--namespace" "http://connectdigitalstudy.com/ontology#"); fi
+    py=("python3" "/work/tooling/generate_layers_viz.py" "$owl_file" "$dot_file" "${ns_flag[@]}")
+    run_in_container "${py[@]}"
+    run_in_container "$engine" -Tsvg "$dot_file" -o "$svg_file"
+    cp "$svg_file" "$output_dir/layers-overview.svg"
+    echo "[tools] Created layers overview: $output_dir/layers-overview.svg"
+    ;;
+  visualize-mappings)
+    shift
+    owl_file=""; engine="dot"; ns_flag=""; merged="build/mappings-merged.owl"
+    while [[ $# -gt 0 ]]; do
+      case $1 in
+        --engine) engine="$2"; shift 2;;
+        --namespace) ns_flag=("--namespace" "$2"); shift 2;;
+        *) if [[ -z "$owl_file" ]]; then owl_file="$1"; shift; else echo "Unknown arg $1"; exit 1; fi;;
+      esac
+    done
+    [[ -n "$owl_file" ]] || { echo "Need OWL file"; exit 1; }
+    output_dir="docs/visualizations"; mkdir -p "$output_dir"; mkdir -p build
+    # Merge core + alignments (PROV)
+    run_in_container robot merge --catalog catalog-v001.xml --input "$owl_file" --input alignments/mhm-prov-align.owl --output "$merged"
+    dot_file="$output_dir/external-mappings-$engine.dot"; svg_file="$output_dir/external-mappings-$engine.svg"
+    # Default namespace if none provided
+    if [[ -z "${ns_flag:-}" ]]; then ns_flag=("--namespace" "http://connectdigitalstudy.com/ontology#"); fi
+    py=("python3" "/work/tooling/generate_external_mappings_viz.py" "$merged" "$dot_file" "${ns_flag[@]}")
+    run_in_container "${py[@]}"
+    run_in_container "$engine" -Tsvg "$dot_file" -o "$svg_file"
+    cp "$svg_file" "$output_dir/external-mappings.svg"
+    echo "[tools] Created external mappings: $output_dir/external-mappings.svg"
     ;;
   visualize-all-engines)
     [[ ${2:-} ]] || { echo "Need OWL file"; exit 1; }
