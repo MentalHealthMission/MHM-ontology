@@ -9,7 +9,7 @@ digraph DemoFlow {
 
   // Define simple styling by type
   subgraph cluster_legend {
-    label="Legend"; fontsize=10; color=gray90; style=dashed;
+    label="Legend"; fontsize=10; color=gray90; style=dashed; labelloc="t"; labeljust="l";
     Lraw   [label="Raw (prov:Entity)", shape=box, fillcolor="#EEEEEE"];
     Lobs   [label="Observation (entity)", shape=box, fillcolor="#DDEEFF"];
     Lfeat  [label="Derived feature (entity)", shape=box, fillcolor="#E2F0D9"];
@@ -21,7 +21,7 @@ digraph DemoFlow {
 
   // Raw entities (prov:Entity)
   subgraph cluster_raw {
-    label="Raw (prov:Entity)"; style=dashed; color=gray60;
+    label="Raw (prov:Entity)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
     RawSteps [label="odim:RawStepsCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
     RawSleep [label="odim:RawSleepCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
     RawLoc   [label="odim:RawLocationCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
@@ -29,13 +29,13 @@ digraph DemoFlow {
 
   // Import activity
   subgraph cluster_import {
-    label="Import (odim:DataTransferEvent)"; style=dashed; color=gray60;
+    label="Import (odim:DataTransferEvent)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
     Import [label="odim:A_Import\n(odim:DataTransferEvent)", shape=ellipse, fillcolor="#FFF2CC"];
   }
 
   // Observations (entities)
   subgraph cluster_obs {
-    label="Observations (SOSA/ODIM entities)"; style=dashed; color=gray60;
+    label=""; style=invis; color=gray60;
     ObsSteps [label="odim:Obs_Steps_D1\n(odim:ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
     ObsSleep [label="odim:Obs_Sleep_D1\n(odim:SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
     ObsLoc   [label="odim:Obs_Location_D1\n(odim:DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
@@ -44,7 +44,7 @@ digraph DemoFlow {
 
   // Daily computation + features (steps + sleep minutes)
   subgraph cluster_daily {
-    label="Daily features (odim:DerivedFeature)"; style=dashed; color=gray60;
+    label="Daily features (odim:DerivedFeature)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
     DailyComp [label="odim:A_DailySummary\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     F1 [label="odim:F_DailySteps_D1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     F2 [label="odim:F_DailySteps_D2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
@@ -55,7 +55,7 @@ digraph DemoFlow {
 
   // Weekly aggregation + decisions + combined phenotype
   subgraph cluster_weekly {
-    label="Weekly aggregates → decisions → phenotype"; style=dashed; color=gray60;
+    label="Weekly aggregates → decisions → phenotype"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
     WeeklySteps [label="odim:A_WeeklyAggregateSteps\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     MeanSteps [label="odim:F_WeeklyMeanSteps\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     Thresh [label="odim:Threshold_LowSteps\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
@@ -70,7 +70,7 @@ digraph DemoFlow {
 
     Combine [label="odim:A_MarkerDerivation\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     Phenotype [label="odim:Phenotype_TravelAssociatedInactivityWithSleepDebt\n(odim:ActivityPhenotype)", shape=box, style="rounded,bold", fillcolor="#EDE7F6"];
-    Week [label="odim:Week1\n(odim:WeeklyInterval)", shape=box];
+    Week [label="odim:Week1\n(odim:WeeklyInterval)", shape=box, fillcolor="#F3F4F6"];
   }
 
   // Edges with exact predicates
