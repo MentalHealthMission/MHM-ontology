@@ -26,9 +26,9 @@ digraph DemoFlow {
   // Observations (entities)
   subgraph cluster_obs {
     label=""; style=invis; color=gray60;
-    ObsSteps [label="Steps activity Day1\n(ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsSleep [label="Sleep stage Day1\n(SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsLoc   [label="Location estimate Day1\n(DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
+    ObsSteps [label="Steps activity\n(ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsSleep [label="Sleep stage\n(SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsLoc   [label="Location estimate\n(DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
     ObsDots  [label="… (Day2..Day7)", shape=plaintext];
   }
 
