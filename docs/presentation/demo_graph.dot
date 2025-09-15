@@ -20,12 +20,13 @@ digraph DemoFlow {
     Lpheno [label="Phenotype", shape=box, fillcolor="#EDE7F6"];
   }
 
-  // Horizontal alignment anchor (invisible point)
-  CenterAnchor [shape=point, width=0.01, height=0.01, label="", style=invis];
+  // Horizontal alignment anchor (fully invisible)
+  CenterAnchor [shape=plaintext, label="", width=0, height=0, margin=0, fixedsize=true, style=invis, color=none, penwidth=0];
 
   // Raw entities (prov:Entity)
   subgraph cluster_raw {
     label="Raw (prov:Entity)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    C_RAW [shape=plaintext, label="", width=0, height=0, margin=0, fixedsize=true, style=invis, color=none, penwidth=0];
     RawSteps [label="odim:RawStepsCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
     RawSleep [label="odim:RawSleepCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
     RawLoc   [label="odim:RawLocationCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
@@ -34,6 +35,7 @@ digraph DemoFlow {
   // Import activity
   subgraph cluster_import {
     label="Import (odim:DataTransferEvent)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    C_IMPORT [shape=plaintext, label="", width=0, height=0, margin=0, fixedsize=true, style=invis, color=none, penwidth=0];
     Import [label="odim:A_Import\n(odim:DataTransferEvent)", shape=ellipse, fillcolor="#FFF2CC"];
   }
 
@@ -49,6 +51,7 @@ digraph DemoFlow {
   // Daily computation + features (steps + sleep minutes)
   subgraph cluster_daily {
     label="Daily features (odim:DerivedFeature)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    C_DAILY [shape=plaintext, label="", width=0, height=0, margin=0, fixedsize=true, style=invis, color=none, penwidth=0];
     DailyComp [label="odim:A_DailySummary\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     F1 [label="odim:F_DailySteps_D1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     F2 [label="odim:F_DailySteps_D2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
@@ -60,7 +63,7 @@ digraph DemoFlow {
   // Weekly aggregation + decisions + combined phenotype
   subgraph cluster_weekly {
     label="Weekly aggregates → decisions → phenotype"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
-    C_WEEKLY [shape=point, width=0.01, height=0.01, label="", style=invis];
+    C_WEEKLY [shape=plaintext, label="", width=0, height=0, margin=0, fixedsize=true, style=invis, color=none, penwidth=0];
     WeeklySteps [label="odim:A_WeeklyAggregateSteps\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     MeanSteps [label="odim:F_WeeklyMeanSteps\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     Thresh [label="odim:Threshold_LowSteps\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
@@ -88,9 +91,12 @@ digraph DemoFlow {
   CenterAnchor -> Lfeat       [style=invis, constraint=false, weight=8];
   CenterAnchor -> RawSleep    [style=invis, constraint=false, weight=8];
   CenterAnchor -> Import      [style=invis, constraint=false, weight=8];
-  CenterAnchor -> DailyComp   [style=invis, constraint=false, weight=12];
-  CenterAnchor -> F1          [style=invis, constraint=false, weight=6];
-  CenterAnchor -> SQ1         [style=invis, constraint=false, weight=6];
+  CenterAnchor -> DailyComp   [style=invis, constraint=false, weight=14];
+  CenterAnchor -> F1          [style=invis, constraint=false, weight=10];
+  CenterAnchor -> F2          [style=invis, constraint=false, weight=10];
+  CenterAnchor -> SQ1         [style=invis, constraint=false, weight=10];
+  CenterAnchor -> SQ2         [style=invis, constraint=false, weight=10];
+  CenterAnchor -> FDots       [style=invis, constraint=false, weight=6];
   CenterAnchor -> Combine     [style=invis, constraint=false, weight=12];
   CenterAnchor -> Phenotype   [style=invis, constraint=false, weight=14];
   // Import used raw files (prov:used: Activity -> Entity)
@@ -145,6 +151,16 @@ digraph DemoFlow {
   Combine -> TravelWin [label="prov:used", fontsize=10];
   Phenotype -> Combine [label="odim:wasComputedBy", fontsize=10];
   Phenotype -> Week [label="odim:occursDuring", fontsize=10];
+
+  // Align dashed clusters centrally with an invisible vertical spine
+  C_RAW    -> C_IMPORT [style=invis, weight=100];
+  C_IMPORT -> C_DAILY  [style=invis, weight=100];
+  C_DAILY  -> C_WEEKLY [style=invis, weight=100];
+  // Tie cluster centers to representative nodes (no rank effect)
+  C_RAW    -> RawSleep   [style=invis, constraint=false, weight=10];
+  C_IMPORT -> Import     [style=invis, constraint=false, weight=10];
+  C_DAILY  -> DailyComp  [style=invis, constraint=false, weight=12];
+  C_WEEKLY -> Combine    [style=invis, constraint=false, weight=12];
 
   // Align dashed clusters centrally with an invisible vertical spine
   C_RAW    -> C_IMPORT [style=invis, weight=100];
