@@ -89,6 +89,9 @@ digraph DemoFlow {
   CenterAnchor -> Import      [style=invis, constraint=false, weight=10];
   CenterAnchor -> DailyComp   [style=invis, constraint=false, weight=10];
   CenterAnchor -> Combine     [style=invis, constraint=false, weight=10];
+  // Nudge daily features block further toward center
+  CenterAnchor -> F1          [style=invis, constraint=false, weight=8];
+  CenterAnchor -> SQ1         [style=invis, constraint=false, weight=8];
   // Import used raw files (prov:used: Activity -> Entity)
   Import -> RawSteps [label="prov:used", fontsize=10];
   Import -> RawSleep [label="prov:used", fontsize=10];
