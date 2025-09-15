@@ -135,15 +135,59 @@ odim:F_DailySteps_D5 a odim:DerivedFeature ; rdfs:label "Daily steps D5" ; odim:
 odim:F_DailySteps_D6 a odim:DerivedFeature ; rdfs:label "Daily steps D6" ; odim:hasValue 4100.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D6 .
 odim:F_DailySteps_D7 a odim:DerivedFeature ; rdfs:label "Daily steps D7" ; odim:hasValue 2000.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D7 .
 
+# Derived daily sleep quality features (simple score from minutes; illustrative)
+odim:F_SleepQuality_D1 a odim:DerivedFeature ; rdfs:label "Sleep quality D1" ; odim:hasValue 0.85 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D1 .
+odim:F_SleepQuality_D2 a odim:DerivedFeature ; rdfs:label "Sleep quality D2" ; odim:hasValue 0.80 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D2 .
+odim:F_SleepQuality_D3 a odim:DerivedFeature ; rdfs:label "Sleep quality D3" ; odim:hasValue 0.78 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D3 .
+odim:F_SleepQuality_D4 a odim:DerivedFeature ; rdfs:label "Sleep quality D4" ; odim:hasValue 0.72 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D4 .
+odim:F_SleepQuality_D5 a odim:DerivedFeature ; rdfs:label "Sleep quality D5" ; odim:hasValue 0.86 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D5 .
+odim:F_SleepQuality_D6 a odim:DerivedFeature ; rdfs:label "Sleep quality D6" ; odim:hasValue 0.74 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D6 .
+odim:F_SleepQuality_D7 a odim:DerivedFeature ; rdfs:label "Sleep quality D7" ; odim:hasValue 0.76 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Sleep_D7 .
+
 # Weekly aggregate and decision (marker)
-odim:A_WeeklyAggregate a odim:AlgorithmicComputation ;
-  rdfs:label "Weekly aggregate and threshold" ;
+odim:A_WeeklyAggregateSteps a odim:AlgorithmicComputation ;
+  rdfs:label "Weekly steps aggregate" ;
   prov:used odim:F_DailySteps_D1 , odim:F_DailySteps_D2 , odim:F_DailySteps_D3 , odim:F_DailySteps_D4 , odim:F_DailySteps_D5 , odim:F_DailySteps_D6 , odim:F_DailySteps_D7 .
 
-# In lieu of a dedicated Marker class, use DerivedFeature with context and interval
+odim:F_WeeklyMeanSteps a odim:DerivedFeature ;
+  rdfs:label "Weekly mean steps" ;
+  odim:hasValue 2685.7 ;
+  odim:wasComputedBy odim:A_WeeklyAggregateSteps ;
+  odim:wasDerivedFrom odim:F_DailySteps_D1 , odim:F_DailySteps_D2 , odim:F_DailySteps_D3 , odim:F_DailySteps_D4 , odim:F_DailySteps_D5 , odim:F_DailySteps_D6 , odim:F_DailySteps_D7 .
+
+# Parameter entity for thresholding (illustrative)
+odim:Threshold_LowSteps a prov:Entity ; rdfs:label "Low steps threshold" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 3000.0 ; qudt:unit unit:Count ] .
+
+odim:A_StepsThresholdDecision a odim:AlgorithmicComputation ;
+  rdfs:label "Steps threshold decision" ;
+  prov:used odim:F_WeeklyMeanSteps , odim:Threshold_LowSteps .
+
 odim:Marker_LowActivityDuringTravel a odim:DerivedFeature ;
   rdfs:label "Low Activity During Travel" ;
   odim:occursDuring odim:Week1 ;
-  odim:wasComputedBy odim:A_WeeklyAggregate ;
-  odim:wasDerivedFrom odim:F_DailySteps_D1 , odim:F_DailySteps_D2 , odim:F_DailySteps_D4 , odim:F_DailySteps_D5 , odim:F_DailySteps_D7 .
+  odim:wasComputedBy odim:A_StepsThresholdDecision ;
+  odim:wasDerivedFrom odim:F_WeeklyMeanSteps .
 
+# Weekly sleep quality aggregate
+odim:A_WeeklyAggregateSleep a odim:AlgorithmicComputation ;
+  rdfs:label "Weekly sleep quality aggregate" ;
+  prov:used odim:F_SleepQuality_D1 , odim:F_SleepQuality_D2 , odim:F_SleepQuality_D3 , odim:F_SleepQuality_D4 , odim:F_SleepQuality_D5 , odim:F_SleepQuality_D6 , odim:F_SleepQuality_D7 .
+
+odim:F_WeeklyMeanSleepQuality a odim:DerivedFeature ;
+  rdfs:label "Weekly mean sleep quality" ;
+  odim:hasValue 0.79 ;
+  odim:wasComputedBy odim:A_WeeklyAggregateSleep ;
+  odim:wasDerivedFrom odim:F_SleepQuality_D1 , odim:F_SleepQuality_D2 , odim:F_SleepQuality_D3 , odim:F_SleepQuality_D4 , odim:F_SleepQuality_D5 , odim:F_SleepQuality_D6 , odim:F_SleepQuality_D7 .
+
+# Combined phenotype marker from steps + sleep quality
+odim:A_MarkerDerivation a odim:AlgorithmicComputation ;
+  rdfs:label "Combined marker derivation" ;
+  prov:used odim:Marker_LowActivityDuringTravel , odim:F_WeeklyMeanSleepQuality .
+
+odim:Phenotype_LowActivityPoorSleep_Travel a odim:ActivityPhenotype ;
+  rdfs:label "Low Activity with Poor Sleep (Travel)" ;
+  odim:occursDuring odim:Week1 ;
+  odim:wasComputedBy odim:A_MarkerDerivation ;
+  odim:wasDerivedFrom odim:Marker_LowActivityDuringTravel , odim:F_WeeklyMeanSleepQuality ;
+  odim:belongsToLayer odim:DigitalPhenotypeLayer .

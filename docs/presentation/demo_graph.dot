@@ -35,20 +35,31 @@ digraph DemoFlow {
     ObsDots  [label="… (D2..D7)", shape=plaintext];
   }
 
-  // Daily computation + features
+  // Daily computation + features (steps + sleep quality)
   subgraph cluster_daily {
-    label="Daily features (DerivedFeature)"; style=dashed; color=gray60;
+    label="Daily features (odim:DerivedFeature)"; style=dashed; color=gray60;
     DailyComp [label="odim:A_DailySummary\n(odim:AlgorithmicComputation)", shape=ellipse];
     F1 [label="odim:F_DailySteps_D1\n(odim:DerivedFeature)", shape=box];
     F2 [label="odim:F_DailySteps_D2\n(odim:DerivedFeature)", shape=box];
     FDots [label="… (D3..D7)", shape=plaintext];
+    SQ1 [label="odim:F_SleepQuality_D1\n(odim:DerivedFeature)", shape=box];
+    SQ2 [label="odim:F_SleepQuality_D2\n(odim:DerivedFeature)", shape=box];
   }
 
-  // Weekly aggregation + marker
+  // Weekly aggregation + decisions + combined phenotype
   subgraph cluster_weekly {
-    label="Weekly decision (DerivedFeature + context)"; style=dashed; color=gray60;
-    WeeklyComp [label="odim:A_WeeklyAggregate\n(odim:AlgorithmicComputation)", shape=ellipse];
+    label="Weekly aggregates → decisions → phenotype"; style=dashed; color=gray60;
+    WeeklySteps [label="odim:A_WeeklyAggregateSteps\n(odim:AlgorithmicComputation)", shape=ellipse];
+    MeanSteps [label="odim:F_WeeklyMeanSteps\n(odim:DerivedFeature)", shape=box];
+    Thresh [label="odim:Threshold_LowSteps\n(prov:Entity)", shape=box];
+    StepsDecision [label="odim:A_StepsThresholdDecision\n(odim:AlgorithmicComputation)", shape=ellipse];
     Marker [label="odim:Marker_LowActivityDuringTravel\n(odim:DerivedFeature)", shape=box, style="rounded,bold"];
+
+    WeeklySleep [label="odim:A_WeeklyAggregateSleep\n(odim:AlgorithmicComputation)", shape=ellipse];
+    MeanSleep [label="odim:F_WeeklyMeanSleepQuality\n(odim:DerivedFeature)", shape=box];
+
+    Combine [label="odim:A_MarkerDerivation\n(odim:AlgorithmicComputation)", shape=ellipse];
+    Phenotype [label="odim:Phenotype_LowActivityPoorSleep_Travel\n(odim:ActivityPhenotype)", shape=box, style="rounded,bold"];
     Week [label="odim:Week1\n(odim:WeeklyInterval)", shape=box];
   }
 
@@ -66,17 +77,31 @@ digraph DemoFlow {
   DailyComp -> ObsSteps [label="prov:used", fontsize=10];
   DailyComp -> ObsSleep [label="prov:used", fontsize=10];
 
-  // Daily features were computed by DailyComp (odim:wasComputedBy: Entity -> Activity)
+  // Daily features were computed by DailyComp (odim:wasComputedBy)
   F1 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   F2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
+  SQ1 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
+  SQ2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   FDots -> DailyComp [style=dotted, arrowhead=none];
 
-  // Weekly computation used daily features (prov:used)
-  WeeklyComp -> F1 [label="prov:used", fontsize=10];
-  WeeklyComp -> F2 [label="prov:used", fontsize=10];
-  WeeklyComp -> FDots [style=dotted, arrowhead=none];
+  // Weekly steps aggregate and decision
+  WeeklySteps -> F1 [label="prov:used", fontsize=10];
+  WeeklySteps -> F2 [label="prov:used", fontsize=10];
+  WeeklySteps -> FDots [style=dotted, arrowhead=none];
+  MeanSteps -> WeeklySteps [label="odim:wasComputedBy", fontsize=10];
+  StepsDecision -> MeanSteps [label="prov:used", fontsize=10];
+  StepsDecision -> Thresh [label="prov:used", fontsize=10];
+  Marker -> StepsDecision [label="odim:wasComputedBy", fontsize=10];
 
-  // Marker was computed by WeeklyComp, and occursDuring Week1
-  Marker -> WeeklyComp [label="odim:wasComputedBy", fontsize=10];
-  Marker -> Week [label="odim:occursDuring", fontsize=10];
+  // Weekly sleep quality aggregate
+  WeeklySleep -> SQ1 [label="prov:used", fontsize=10];
+  WeeklySleep -> SQ2 [label="prov:used", fontsize=10];
+  WeeklySleep -> FDots [style=dotted, arrowhead=none];
+  MeanSleep -> WeeklySleep [label="odim:wasComputedBy", fontsize=10];
+
+  // Combined phenotype marker
+  Combine -> Marker [label="prov:used", fontsize=10];
+  Combine -> MeanSleep [label="prov:used", fontsize=10];
+  Phenotype -> Combine [label="odim:wasComputedBy", fontsize=10];
+  Phenotype -> Week [label="odim:occursDuring", fontsize=10];
 }
