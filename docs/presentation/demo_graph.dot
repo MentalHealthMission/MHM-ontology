@@ -12,60 +12,60 @@ digraph DemoFlow {
   // Raw entities (prov:Entity)
   subgraph cluster_raw {
     label="Raw (prov:Entity)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
-    RawSteps [label="odim:RawStepsCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
-    RawSleep [label="odim:RawSleepCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
-    RawLoc   [label="odim:RawLocationCSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
+    RawSteps [label="Raw steps CSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
+    RawSleep [label="Raw sleep CSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
+    RawLoc   [label="Raw location CSV\n(prov:Entity)", shape=box, fillcolor="#EEEEEE"];
   }
 
   // Import activity
   subgraph cluster_import {
     label="Import (odim:DataTransferEvent)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
-    Import [label="odim:A_Import\n(odim:DataTransferEvent)", shape=ellipse, fillcolor="#FFF2CC"];
+    Import [label="Import\n(DataTransferEvent)", shape=ellipse, fillcolor="#FFF2CC"];
   }
 
   // Observations (entities)
   subgraph cluster_obs {
     label=""; style=invis; color=gray60;
-    ObsSteps [label="odim:Obs_Steps_D1\n(odim:ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsSleep [label="odim:Obs_Sleep_D1\n(odim:SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsLoc   [label="odim:Obs_Location_D1\n(odim:DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
-    ObsDots  [label="… (D2..D7)", shape=plaintext];
+    ObsSteps [label="Steps Day1\n(ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsSleep [label="Sleep Day1\n(SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsLoc   [label="Location Day1\n(DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
+    ObsDots  [label="… (Day2..Day7)", shape=plaintext];
   }
 
   // Daily computation + features (steps + sleep minutes)
   subgraph cluster_daily {
     label="Daily features (odim:DerivedFeature)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
-    DailyComp [label="odim:A_DailySummary\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    F1 [label="odim:F_DailySteps_D1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    F2 [label="odim:F_DailySteps_D2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    FDots [label="… (D3..D7)", shape=plaintext, color="#888888", fontcolor="#666666"];
-    SQ1 [label="odim:F_SleepMinutes_D1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    SQ2 [label="odim:F_SleepMinutes_D2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    DailyComp [label="Daily summary\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    F1 [label="Daily Steps Day1\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    F2 [label="Daily Steps Day2\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    FDots [label="… (Day3..Day7)", shape=plaintext, color="#888888", fontcolor="#666666"];
+    SQ1 [label="Sleep Minutes Day1\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    SQ2 [label="Sleep Minutes Day2\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
   }
 
   // Weekly aggregation + decisions + combined phenotype
   subgraph cluster_weekly {
     label="Weekly aggregates → decisions → phenotype"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
-    WeeklySteps [label="odim:A_WeeklyAggregateSteps\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    MeanSteps [label="odim:F_WeeklyMeanSteps\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    Thresh [label="odim:Threshold_LowSteps\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
-    StepsDecision [label="odim:A_StepsThresholdDecision\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Marker [label="odim:Marker_LowActivityDuringTravel\n(odim:DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
+    WeeklySteps [label="Weekly steps aggregate\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    MeanSteps [label="Weekly mean steps\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    Thresh [label="Low steps threshold\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
+    StepsDecision [label="Steps threshold decision\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    Marker [label="Low Activity During Travel\n(DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
 
-    WeeklySleep [label="odim:A_WeeklyAggregateSleepMinutes\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    MeanSleep [label="odim:F_WeeklyMeanSleepMinutes\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    SleepBaseline [label="odim:Baseline_SleepMinutes\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
-    SleepDebtDecision [label="odim:A_SleepDebtDecision\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    SleepDebt [label="odim:Marker_SleepDebt_Week1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    WeeklySleep [label="Weekly sleep minutes aggregate\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    MeanSleep [label="Weekly mean sleep minutes\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    SleepBaseline [label="Baseline sleep minutes\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
+    SleepDebtDecision [label="Sleep debt decision\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    SleepDebt [label="Sleep Debt (Week 1)\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
 
-    Combine [label="odim:A_MarkerDerivation\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Phenotype [label="odim:Phenotype_TravelAssociatedInactivityWithSleepDebt\n(odim:ActivityPhenotype)", shape=box, style="rounded,filled", fillcolor="#EDE7F6"];
-    Week [label="odim:Week1\n(odim:WeeklyInterval)", shape=box, fillcolor="#F3F4F6"];
+    Combine [label="Combined marker derivation\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    Phenotype [label="Travel-Associated Inactivity With Sleep Debt\n(ActivityPhenotype)", shape=box, style="rounded,filled", fillcolor="#EDE7F6"];
+    Week [label="Week 1\n(WeeklyInterval)", shape=box, fillcolor="#F3F4F6"];
 
     // Travel detection elements placed within weekly cluster
-    TravelDetect [label="odim:A_TravelDetection\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    TravelWin [label="odim:TravelWindow_Week1\n(odim:EventWindow)", shape=box, fillcolor="#FDE2E4"];
-    TravelThresh [label="odim:Threshold_TravelKm\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
+    TravelDetect [label="Travel detection\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    TravelWin [label="Travel window (Week 1)\n(EventWindow)", shape=box, fillcolor="#FDE2E4"];
+    TravelThresh [label="Travel distance threshold\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
   }
 
   // Edges with exact predicates
