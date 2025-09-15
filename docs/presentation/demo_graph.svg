@@ -85,7 +85,7 @@
 <g id="node5" class="node">
 <title>ObsSteps</title>
 <path fill="#ddeeff" stroke="#666666" d="M448.5,-277.25C448.5,-277.25 329.5,-277.25 329.5,-277.25 323.5,-277.25 317.5,-271.25 317.5,-265.25 317.5,-265.25 317.5,-253.25 317.5,-253.25 317.5,-247.25 323.5,-241.25 329.5,-241.25 329.5,-241.25 448.5,-241.25 448.5,-241.25 454.5,-241.25 460.5,-247.25 460.5,-253.25 460.5,-253.25 460.5,-265.25 460.5,-265.25 460.5,-271.25 454.5,-277.25 448.5,-277.25"/>
-<text text-anchor="middle" x="389" y="-262.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Steps Day1</text>
+<text text-anchor="middle" x="389" y="-262.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Steps activity Day1</text>
 <text text-anchor="middle" x="389" y="-250.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">(ActivityMeasurement)</text>
 </g>
 <!-- ObsSteps&#45;&gt;Import -->
@@ -99,7 +99,7 @@
 <g id="node6" class="node">
 <title>ObsSleep</title>
 <path fill="#ddeeff" stroke="#666666" d="M640.5,-277.25C640.5,-277.25 501.5,-277.25 501.5,-277.25 495.5,-277.25 489.5,-271.25 489.5,-265.25 489.5,-265.25 489.5,-253.25 489.5,-253.25 489.5,-247.25 495.5,-241.25 501.5,-241.25 501.5,-241.25 640.5,-241.25 640.5,-241.25 646.5,-241.25 652.5,-247.25 652.5,-253.25 652.5,-253.25 652.5,-265.25 652.5,-265.25 652.5,-271.25 646.5,-277.25 640.5,-277.25"/>
-<text text-anchor="middle" x="571" y="-262.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Sleep Day1</text>
+<text text-anchor="middle" x="571" y="-262.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Sleep stage Day1</text>
 <text text-anchor="middle" x="571" y="-250.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">(SleepStageMeasurement)</text>
 </g>
 <!-- ObsSleep&#45;&gt;Import -->
@@ -113,7 +113,7 @@
 <g id="node7" class="node">
 <title>ObsLoc</title>
 <path fill="#ddeeff" stroke="#666666" d="M993,-277.25C993,-277.25 859,-277.25 859,-277.25 853,-277.25 847,-271.25 847,-265.25 847,-265.25 847,-253.25 847,-253.25 847,-247.25 853,-241.25 859,-241.25 859,-241.25 993,-241.25 993,-241.25 999,-241.25 1005,-247.25 1005,-253.25 1005,-253.25 1005,-265.25 1005,-265.25 1005,-271.25 999,-277.25 993,-277.25"/>
-<text text-anchor="middle" x="926" y="-262.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Location Day1</text>
+<text text-anchor="middle" x="926" y="-262.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Location estimate Day1</text>
 <text text-anchor="middle" x="926" y="-250.45" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">(DeviceLocationEstimate)</text>
 </g>
 <!-- ObsLoc&#45;&gt;Import -->
@@ -288,16 +288,16 @@
 <!-- Marker -->
 <g id="node19" class="node">
 <title>Marker</title>
-<path fill="#e2f0d9" stroke="#666666" d="M441.5,-868.02C441.5,-868.02 304.5,-868.02 304.5,-868.02 298.5,-868.02 292.5,-862.02 292.5,-856.02 292.5,-856.02 292.5,-844.02 292.5,-844.02 292.5,-838.02 298.5,-832.02 304.5,-832.02 304.5,-832.02 441.5,-832.02 441.5,-832.02 447.5,-832.02 453.5,-838.02 453.5,-844.02 453.5,-844.02 453.5,-856.02 453.5,-856.02 453.5,-862.02 447.5,-868.02 441.5,-868.02"/>
-<text text-anchor="middle" x="373" y="-853.22" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Low Activity During Travel</text>
-<text text-anchor="middle" x="373" y="-841.22" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">(DerivedFeature)</text>
+<path fill="#e2f0d9" stroke="#666666" d="M436,-868.02C436,-868.02 350,-868.02 350,-868.02 344,-868.02 338,-862.02 338,-856.02 338,-856.02 338,-844.02 338,-844.02 338,-838.02 344,-832.02 350,-832.02 350,-832.02 436,-832.02 436,-832.02 442,-832.02 448,-838.02 448,-844.02 448,-844.02 448,-856.02 448,-856.02 448,-862.02 442,-868.02 436,-868.02"/>
+<text text-anchor="middle" x="393" y="-853.22" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">Low Activity</text>
+<text text-anchor="middle" x="393" y="-841.22" font-family="Helvetica,sans-Serif" font-size="11.00" fill="#222222">(DerivedFeature)</text>
 </g>
 <!-- Marker&#45;&gt;StepsDecision -->
 <g id="edge24" class="edge">
 <title>Marker&#45;&gt;StepsDecision</title>
-<path fill="none" stroke="black" d="M362.18,-831.85C354.06,-818.96 342.73,-800.98 333.1,-785.7"/>
-<polygon fill="black" stroke="black" points="335.95,-783.66 327.66,-777.07 330.03,-787.4 335.95,-783.66"/>
-<text text-anchor="middle" x="405.5" y="-802.02" font-family="Times,serif" font-size="10.00">odim:wasComputedBy</text>
+<path fill="none" stroke="black" d="M378.51,-831.85C367.36,-818.63 351.69,-800.06 338.58,-784.53"/>
+<polygon fill="black" stroke="black" points="341.13,-782.11 332,-776.73 335.78,-786.63 341.13,-782.11"/>
+<text text-anchor="middle" x="416.5" y="-802.02" font-family="Times,serif" font-size="10.00">odim:wasComputedBy</text>
 </g>
 <!-- WeeklySleep -->
 <g id="node20" class="node">
@@ -391,9 +391,9 @@
 <!-- Combine&#45;&gt;Marker -->
 <g id="edge32" class="edge">
 <title>Combine&#45;&gt;Marker</title>
-<path fill="none" stroke="black" d="M526.47,-924.33C494.5,-909.06 450.78,-888.18 418.18,-872.6"/>
-<polygon fill="black" stroke="black" points="419.41,-869.31 408.88,-868.16 416.39,-875.63 419.41,-869.31"/>
-<text text-anchor="middle" x="503" y="-893.02" font-family="Times,serif" font-size="10.00">prov:used</text>
+<path fill="none" stroke="black" d="M530.38,-924.1C501.89,-908.95 463.19,-888.36 434.13,-872.9"/>
+<polygon fill="black" stroke="black" points="435.53,-869.68 425.06,-868.07 432.24,-875.86 435.53,-869.68"/>
+<text text-anchor="middle" x="513" y="-893.02" font-family="Times,serif" font-size="10.00">prov:used</text>
 </g>
 <!-- Combine&#45;&gt;SleepDebt -->
 <g id="edge33" class="edge">

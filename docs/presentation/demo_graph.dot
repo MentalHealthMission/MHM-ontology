@@ -26,9 +26,9 @@ digraph DemoFlow {
   // Observations (entities)
   subgraph cluster_obs {
     label=""; style=invis; color=gray60;
-    ObsSteps [label="Steps Day1\n(ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsSleep [label="Sleep Day1\n(SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsLoc   [label="Location Day1\n(DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
+    ObsSteps [label="Steps activity Day1\n(ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsSleep [label="Sleep stage Day1\n(SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsLoc   [label="Location estimate Day1\n(DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
     ObsDots  [label="… (Day2..Day7)", shape=plaintext];
   }
 
@@ -50,7 +50,7 @@ digraph DemoFlow {
     MeanSteps [label="Weekly mean steps\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     Thresh [label="Low steps threshold\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
     StepsDecision [label="Steps threshold decision\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Marker [label="Low Activity During Travel\n(DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
+    Marker [label="Low Activity\n(DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
 
     WeeklySleep [label="Weekly sleep minutes aggregate\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     MeanSleep [label="Weekly mean sleep minutes\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
