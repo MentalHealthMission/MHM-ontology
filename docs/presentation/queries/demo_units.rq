@@ -1,0 +1,12 @@
+PREFIX odim:  <http://connectdigitalstudy.com/ontology#>
+PREFIX qudt:  <http://qudt.org/schema/qudt/>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
+
+# Daily step features with values; show originating observation units
+SELECT ?feature ?label ?value ?obs ?unit
+WHERE {
+  ?feature a odim:DerivedFeature ; rdfs:label ?label ; odim:hasValue ?value ; odim:wasDerivedFrom ?obs .
+  ?obs qudt:quantityValue [ qudt:unit ?unit ] .
+}
+ORDER BY ?feature

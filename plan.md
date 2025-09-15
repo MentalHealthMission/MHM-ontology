@@ -105,6 +105,7 @@ This document lists development tasks for the ODIM‑MH ontology. It is intended
 - [ ] Update `docs/ontology-overview.md` with concise sections for Units (QUDT), SOSA alignment, SKOS vocabularies, and class tagging with `connect:skosTag`.
 - [ ] Add a brief SPARQL examples page in `docs/` showing SKOS lookups and SOSA/units checks.
 - [ ] Add ontology visualization using Graphviz to generate static diagrams of class hierarchies and object properties. (Issue #15)
+- [ ] Presentation worked demo and Pages assets (Issue #31)
 
 ## Visualizations
 

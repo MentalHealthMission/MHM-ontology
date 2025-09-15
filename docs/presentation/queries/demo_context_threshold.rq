@@ -1,0 +1,15 @@
+PREFIX odim:  <http://connectdigitalstudy.com/ontology#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
+
+# Markers occurring during Travel weeks where any contributing day has steps < threshold
+# Adjust the threshold as needed for the demo
+SELECT ?marker ?week ?dailyFeature ?value
+WHERE {
+  ?marker a odim:DerivedFeature ; rdfs:label "Low Activity During Travel" ; odim:occursDuring ?week ; odim:wasDerivedFrom ?dailyFeature .
+  ?week rdfs:label ?weekLabel .
+  FILTER(CONTAINS(LCASE(STR(?weekLabel)), "travel"))
+  ?dailyFeature odim:hasValue ?value .
+  FILTER(xsd:decimal(?value) < 3000)
+}
+ORDER BY ?dailyFeature

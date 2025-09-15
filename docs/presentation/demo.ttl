@@ -1,0 +1,149 @@
+@prefix odim:    <http://connectdigitalstudy.com/ontology#> .
+@prefix connect: <http://connectdigitalstudy.com/ontology#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix sosa:    <http://www.w3.org/ns/sosa/> .
+@prefix qudt:    <http://qudt.org/schema/qudt/> .
+@prefix unit:    <http://qudt.org/vocab/unit/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+# Demo: 7-day slice with raw files → import → observations → daily features → weekly decision (marker)
+
+# Participant and devices
+odim:P1 a odim:Participant ;
+  rdfs:label "Participant P1" .
+
+odim:WearableA a odim:WearableDevice ; rdfs:label "Wearable A" .
+odim:PhoneA    a odim:SmartphoneDevice ; rdfs:label "Smartphone A" .
+odim:DataIF    a odim:DataInterface ; rdfs:label "Data interface (export)" .
+
+# Raw artifacts (pre-ontology)
+odim:RawStepsCSV a prov:Entity ;
+  rdfs:label "Raw steps CSV" ;
+  dcterms:format "text/csv" ;
+  prov:atLocation "docs/presentation/raw/steps.csv" .
+
+odim:RawSleepCSV a prov:Entity ;
+  rdfs:label "Raw sleep CSV" ;
+  dcterms:format "text/csv" ;
+  prov:atLocation "docs/presentation/raw/sleep.csv" .
+
+# Data transfer/export and import activities
+odim:A_RawExport a odim:DataTransferEvent ;
+  rdfs:label "Raw export from device/app" ;
+  odim:usedDataInterface odim:DataIF .
+
+odim:A_Import a odim:DataTransferEvent ;
+  rdfs:label "Import and mapping to ontology" ;
+  prov:used odim:RawStepsCSV , odim:RawSleepCSV ;
+  odim:usedDataInterface odim:DataIF .
+
+odim:RawStepsCSV prov:wasGeneratedBy odim:A_RawExport .
+odim:RawSleepCSV prov:wasGeneratedBy odim:A_RawExport .
+
+# Observed properties used (local resources for demo)
+odim:Steps        a rdfs:Resource ; rdfs:label "Steps" .
+odim:SleepMinutes a rdfs:Resource ; rdfs:label "Sleep minutes" .
+
+# Week interval and context
+odim:Week1 a odim:WeeklyInterval ;
+  rdfs:label "Week 1 (Travel)" ;
+  odim:hasStartTime "2025-06-01T00:00:00"^^xsd:dateTime ;
+  odim:hasEndTime   "2025-06-07T23:59:59"^^xsd:dateTime .
+
+odim:Travel a skos:Concept ; skos:prefLabel "Travel"@en .
+
+# Helper to mint a daily observation (steps and sleep) — inlined individuals
+# Day 1
+odim:Obs_Steps_D1 a odim:ActivityMeasurement ; rdfs:label "Steps D1" ;
+  odim:observedProperty odim:Steps ;
+  odim:featureOfInterest odim:P1 ;
+  odim:resultTime "2025-06-01T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 2200.0 ; qudt:unit unit:Count ] ;
+  odim:wasGeneratedBy odim:A_Import .
+
+odim:Obs_Sleep_D1 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D1" ;
+  odim:observedProperty odim:SleepMinutes ;
+  odim:featureOfInterest odim:P1 ;
+  odim:resultTime "2025-06-02T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 420.0 ; qudt:unit unit:Minute ] ;
+  odim:wasGeneratedBy odim:A_Import .
+
+# Day 2
+odim:Obs_Steps_D2 a odim:ActivityMeasurement ; rdfs:label "Steps D2" ;
+  odim:observedProperty odim:Steps ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-02T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 2800.0 ; qudt:unit unit:Count ] ;
+  odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Sleep_D2 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D2" ;
+  odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-03T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 400.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
+
+# Day 3
+odim:Obs_Steps_D3 a odim:ActivityMeasurement ; rdfs:label "Steps D3" ;
+  odim:observedProperty odim:Steps ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-03T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 3500.0 ; qudt:unit unit:Count ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Sleep_D3 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D3" ;
+  odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-04T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 390.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
+
+# Day 4
+odim:Obs_Steps_D4 a odim:ActivityMeasurement ; rdfs:label "Steps D4" ;
+  odim:observedProperty odim:Steps ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-04T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 1800.0 ; qudt:unit unit:Count ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Sleep_D4 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D4" ;
+  odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-05T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 360.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
+
+# Day 5
+odim:Obs_Steps_D5 a odim:ActivityMeasurement ; rdfs:label "Steps D5" ;
+  odim:observedProperty odim:Steps ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-05T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 2400.0 ; qudt:unit unit:Count ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Sleep_D5 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D5" ;
+  odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-06T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 430.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
+
+# Day 6
+odim:Obs_Steps_D6 a odim:ActivityMeasurement ; rdfs:label "Steps D6" ;
+  odim:observedProperty odim:Steps ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-06T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 4100.0 ; qudt:unit unit:Count ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Sleep_D6 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D6" ;
+  odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-07T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 370.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
+
+# Day 7
+odim:Obs_Steps_D7 a odim:ActivityMeasurement ; rdfs:label "Steps D7" ;
+  odim:observedProperty odim:Steps ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-07T23:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 2000.0 ; qudt:unit unit:Count ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Sleep_D7 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D7" ;
+  odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-08T06:30:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 380.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
+
+# Daily computation deriving features (step totals re-expressed as features for demo)
+odim:A_DailySummary a odim:AlgorithmicComputation ;
+  rdfs:label "Daily summary computation" ;
+  prov:used odim:Obs_Steps_D1 , odim:Obs_Steps_D2 , odim:Obs_Steps_D3 , odim:Obs_Steps_D4 , odim:Obs_Steps_D5 , odim:Obs_Steps_D6 , odim:Obs_Steps_D7 ;
+  prov:used odim:Obs_Sleep_D1 , odim:Obs_Sleep_D2 , odim:Obs_Sleep_D3 , odim:Obs_Sleep_D4 , odim:Obs_Sleep_D5 , odim:Obs_Sleep_D6 , odim:Obs_Sleep_D7 .
+
+# Derived daily step features (link back to observations)
+odim:F_DailySteps_D1 a odim:DerivedFeature ; rdfs:label "Daily steps D1" ; odim:hasValue 2200.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D1 .
+odim:F_DailySteps_D2 a odim:DerivedFeature ; rdfs:label "Daily steps D2" ; odim:hasValue 2800.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D2 .
+odim:F_DailySteps_D3 a odim:DerivedFeature ; rdfs:label "Daily steps D3" ; odim:hasValue 3500.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D3 .
+odim:F_DailySteps_D4 a odim:DerivedFeature ; rdfs:label "Daily steps D4" ; odim:hasValue 1800.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D4 .
+odim:F_DailySteps_D5 a odim:DerivedFeature ; rdfs:label "Daily steps D5" ; odim:hasValue 2400.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D5 .
+odim:F_DailySteps_D6 a odim:DerivedFeature ; rdfs:label "Daily steps D6" ; odim:hasValue 4100.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D6 .
+odim:F_DailySteps_D7 a odim:DerivedFeature ; rdfs:label "Daily steps D7" ; odim:hasValue 2000.0 ; odim:wasComputedBy odim:A_DailySummary ; odim:wasDerivedFrom odim:Obs_Steps_D7 .
+
+# Weekly aggregate and decision (marker)
+odim:A_WeeklyAggregate a odim:AlgorithmicComputation ;
+  rdfs:label "Weekly aggregate and threshold" ;
+  prov:used odim:F_DailySteps_D1 , odim:F_DailySteps_D2 , odim:F_DailySteps_D3 , odim:F_DailySteps_D4 , odim:F_DailySteps_D5 , odim:F_DailySteps_D6 , odim:F_DailySteps_D7 .
+
+# In lieu of a dedicated Marker class, use DerivedFeature with context and interval
+odim:Marker_LowActivityDuringTravel a odim:DerivedFeature ;
+  rdfs:label "Low Activity During Travel" ;
+  odim:occursDuring odim:Week1 ;
+  odim:wasComputedBy odim:A_WeeklyAggregate ;
+  odim:wasDerivedFrom odim:F_DailySteps_D1 , odim:F_DailySteps_D2 , odim:F_DailySteps_D4 , odim:F_DailySteps_D5 , odim:F_DailySteps_D7 .
+

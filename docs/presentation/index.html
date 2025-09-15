@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ODIM‑MH Presentation Demo</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; line-height: 1.5; }
+    code, pre { background: #f7f7f7; padding: .2rem .4rem; border-radius: 4px; }
+    h1, h2 { margin-top: 1.5rem; }
+    ul { margin: .5rem 0 1.25rem; }
+  </style>
+  </head>
+<body>
+  <h1>ODIM‑MH Presentation Demo</h1>
+  <p>Minimal, factual demo used in the talk: raw files → import → observations → daily features → weekly decision.</p>
+
+  <h2>Artifacts</h2>
+  <ul>
+    <li><a href="demo.ttl">demo.ttl</a> — demo individuals (TTL)</li>
+    <li>Raw CSVs: <a href="raw/steps.csv">steps.csv</a>, <a href="raw/sleep.csv">sleep.csv</a> (<a href="raw/README.md">README</a>)</li>
+    <li>Figure: <a href="demo_graph.svg">Demo subgraph</a> (simplified flow)</li>
+    <li>Queries:
+      <ul>
+        <li><a href="queries/demo_traceability.rq">demo_traceability.rq</a></li>
+        <li><a href="queries/demo_units.rq">demo_units.rq</a></li>
+        <li><a href="queries/demo_context_threshold.rq">demo_context_threshold.rq</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>Run Locally (inside tools container)</h2>
+  <pre><code>tooling/run_ontology_tools.sh build
+# Merge ontology + demo for querying
+tooling/run_ontology_tools.sh exec -- bash -lc \ 
+  "robot merge --input mhm_ontology.owl --input docs/presentation/demo.ttl --output build/demo-merged.owl"
+
+# Run queries (stdout)
+tooling/run_ontology_tools.sh exec -- sparql --data build/demo-merged.owl --query docs/presentation/queries/demo_traceability.rq
+tooling/run_ontology_tools.sh exec -- sparql --data build/demo-merged.owl --query docs/presentation/queries/demo_units.rq
+tooling/run_ontology_tools.sh exec -- sparql --data build/demo-merged.owl --query docs/presentation/queries/demo_context_threshold.rq</code></pre>
+
+  <p>All modeling uses the existing ODIM‑MH classes/properties (DL‑safe), with local SKOS context for “Travel”.</p>
+</body>
+</html>
