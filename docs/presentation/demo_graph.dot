@@ -39,7 +39,7 @@ digraph DemoFlow {
 
   // Observations (entities)
   subgraph cluster_obs {
-    label="Observations (SOSA/ODIM entities)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    label=""; style=invis; color=gray60;
     ObsSteps [label="Steps Day1\n(odim:ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
     ObsSleep [label="Sleep Day1\n(odim:SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
     ObsLoc   [label="Location Day1\n(odim:DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
