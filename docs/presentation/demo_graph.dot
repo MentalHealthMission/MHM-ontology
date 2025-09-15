@@ -8,16 +8,25 @@ digraph DemoFlow {
   // Default node styles
   node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white", penwidth=1.0];
 
-  // Define simple styling by type
-  subgraph cluster_legend {
-    label="Legend"; fontsize=9; color=gray90; style=dashed; labelloc="t"; labeljust="l";
-    Lraw   [label="Raw",        shape=box,     fillcolor="#EEEEEE", fontsize=9, width=0.6, height=0.2];
-    Lobs   [label="Obs",        shape=box,     fillcolor="#DDEEFF", fontsize=9, width=0.6, height=0.2];
-    Lfeat  [label="Feature",    shape=box,     fillcolor="#E2F0D9", fontsize=9, width=0.8, height=0.2];
-    Lact   [label="Activity",   shape=ellipse, fillcolor="#FFF2CC", fontsize=9, width=0.8, height=0.2];
-    Lparam [label="Param",      shape=box,     fillcolor="#FFE5D9", fontsize=9, width=0.6, height=0.2];
-    Lwin   [label="Window",     shape=box,     fillcolor="#FDE2E4", fontsize=9, width=0.8, height=0.2];
-    Lpheno [label="Phenotype",  shape=box,     fillcolor="#EDE7F6", fontsize=9, width=1.0, height=0.2];
+  // Compact legend (grid)
+  subgraph cluster_legend { label="Legend"; fontsize=9; color=gray90; style=dashed; labelloc="t"; labeljust="l";
+    Legend [shape=none, margin=0, label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR>
+          <TD BGCOLOR="#EEEEEE">Raw</TD>
+          <TD BGCOLOR="#DDEEFF">Obs</TD>
+          <TD BGCOLOR="#E2F0D9">Feature</TD>
+        </TR>
+        <TR>
+          <TD BGCOLOR="#FFF2CC">Activity</TD>
+          <TD BGCOLOR="#FFE5D9">Param</TD>
+          <TD BGCOLOR="#FDE2E4">Window</TD>
+        </TR>
+        <TR>
+          <TD COLSPAN="3" BGCOLOR="#EDE7F6">Phenotype</TD>
+        </TR>
+      </TABLE>
+    >];
   }
 
   // Raw entities (prov:Entity)
@@ -107,6 +116,16 @@ digraph DemoFlow {
   SQ1 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   SQ2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   FDots -> DailyComp [style=dotted, arrowhead=none];
+
+  // Centerline alignment (invisible, high-weight edges)
+  RawLoc -> Import [style=invis, weight=10];
+  Import -> ObsSteps [style=invis, weight=10];
+  ObsSteps -> DailyComp [style=invis, weight=10];
+  DailyComp -> MeanSteps [style=invis, weight=10];
+  MeanSteps -> StepsDecision [style=invis, weight=10];
+  StepsDecision -> Marker [style=invis, weight=10];
+  Marker -> Combine [style=invis, weight=10];
+  Combine -> Phenotype [style=invis, weight=10];
 
   // Weekly steps aggregate and decision
   WeeklySteps -> F1 [label="prov:used", fontsize=10];
