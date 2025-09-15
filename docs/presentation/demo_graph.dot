@@ -11,13 +11,16 @@ digraph DemoFlow {
   // Define simple styling by type
   subgraph cluster_legend {
     label="Legend"; fontsize=9; color=gray90; style=dashed; labelloc="t"; labeljust="l";
-    Lraw   [label="Raw",        shape=box,     fillcolor="#EEEEEE", fontsize=9, width=0.6, height=0.2];
-    Lobs   [label="Obs",        shape=box,     fillcolor="#DDEEFF", fontsize=9, width=0.6, height=0.2];
-    Lfeat  [label="Feature",    shape=box,     fillcolor="#E2F0D9", fontsize=9, width=0.8, height=0.2];
-    Lact   [label="Activity",   shape=ellipse, fillcolor="#FFF2CC", fontsize=9, width=0.8, height=0.2];
-    Lparam [label="Param",      shape=box,     fillcolor="#FFE5D9", fontsize=9, width=0.6, height=0.2];
-    Lwin   [label="Window",     shape=box,     fillcolor="#FDE2E4", fontsize=9, width=0.8, height=0.2];
-    Lpheno [label="Phenotype",  shape=box,     fillcolor="#EDE7F6", fontsize=9, width=1.0, height=0.2];
+    Lraw   [label="Raw",        shape=box,     fillcolor="#EEEEEE", fontsize=9, width=0.7, height=0.25];
+    Lobs   [label="Obs",        shape=box,     fillcolor="#DDEEFF", fontsize=9, width=0.7, height=0.25];
+    Lfeat  [label="Feature",    shape=box,     fillcolor="#E2F0D9", fontsize=9, width=0.9, height=0.25];
+    Lact   [label="Activity",   shape=ellipse, fillcolor="#FFF2CC", fontsize=9, width=0.9, height=0.25];
+    Lparam [label="Param",      shape=box,     fillcolor="#FFE5D9", fontsize=9, width=0.7, height=0.25];
+    Lwin   [label="Window",     shape=box,     fillcolor="#FDE2E4", fontsize=9, width=0.9, height=0.25];
+    Lpheno [label="Phenotype",  shape=box,     fillcolor="#EDE7F6", fontsize=9, width=1.2, height=0.25];
+    { rank=same; Lraw; Lobs; Lfeat; }
+    { rank=same; Lact; Lparam; Lwin; }
+    { rank=same; Lpheno; }
   }
 
   // Raw entities (prov:Entity)
@@ -107,6 +110,19 @@ digraph DemoFlow {
   SQ1 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   SQ2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   FDots -> DailyComp [style=dotted, arrowhead=none];
+
+  // Row alignment: keep vertical order; tidy horizontal rows
+  { rank=same; RawSteps; RawSleep; RawLoc; }
+  { rank=same; Import; }
+  { rank=same; ObsSteps; ObsSleep; ObsLoc; LocDots; }
+  { rank=same; DailyComp; }
+  { rank=same; F1; F2; SQ1; SQ2; FDots; }
+  { rank=same; WeeklySteps; WeeklySleep; TravelDetect; }
+  { rank=same; MeanSteps; MeanSleep; TravelWin; Thresh; SleepBaseline; TravelThresh; }
+  { rank=same; StepsDecision; SleepDebtDecision; }
+  { rank=same; Marker; SleepDebt; }
+  { rank=same; Combine; Week; }
+  { rank=same; Phenotype; }
 
   // Weekly steps aggregate and decision
   WeeklySteps -> F1 [label="prov:used", fontsize=10];
