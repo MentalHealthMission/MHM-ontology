@@ -7,17 +7,7 @@ digraph DemoFlow {
   // Default node styles
   node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white", penwidth=1.0];
 
-  // Define simple styling by type
-  subgraph cluster_legend {
-    label="Legend"; fontsize=10; color=gray90; style=dashed; labelloc="t"; labeljust="l";
-    Lraw   [label="Raw (prov:Entity)", shape=box, fillcolor="#EEEEEE"];
-    Lobs   [label="Observation (entity)", shape=box, fillcolor="#DDEEFF"];
-    Lfeat  [label="Derived feature (entity)", shape=box, fillcolor="#E2F0D9"];
-    Lact   [label="Computation (activity)", shape=ellipse, fillcolor="#FFF2CC"];
-    Lparam [label="Parameter (prov:Entity)", shape=box, fillcolor="#FFE5D9"];
-    Lwin   [label="Event window", shape=box, fillcolor="#FDE2E4"];
-    Lpheno [label="Phenotype", shape=box, fillcolor="#EDE7F6"];
-  }
+  // Legend removed for presentation clarity
 
   // Raw entities (prov:Entity)
   subgraph cluster_raw {
