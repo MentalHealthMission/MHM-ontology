@@ -5,7 +5,7 @@ digraph DemoFlow {
   ranksep=0.6;
 
   // Default node styles
-  node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white"];
+  node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white", penwidth=1.0];
 
   // Define simple styling by type
   subgraph cluster_legend {
@@ -60,7 +60,7 @@ digraph DemoFlow {
     MeanSteps [label="odim:F_WeeklyMeanSteps\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     Thresh [label="odim:Threshold_LowSteps\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
     StepsDecision [label="odim:A_StepsThresholdDecision\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Marker [label="odim:Marker_LowActivityDuringTravel\n(odim:DerivedFeature)", shape=box, style="rounded,filled,bold", fillcolor="#E2F0D9"];
+    Marker [label="odim:Marker_LowActivityDuringTravel\n(odim:DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
 
     WeeklySleep [label="odim:A_WeeklyAggregateSleepMinutes\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     MeanSleep [label="odim:F_WeeklyMeanSleepMinutes\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
@@ -69,8 +69,13 @@ digraph DemoFlow {
     SleepDebt [label="odim:Marker_SleepDebt_Week1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
 
     Combine [label="odim:A_MarkerDerivation\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Phenotype [label="odim:Phenotype_TravelAssociatedInactivityWithSleepDebt\n(odim:ActivityPhenotype)", shape=box, style="rounded,filled,bold", fillcolor="#EDE7F6"];
+    Phenotype [label="odim:Phenotype_TravelAssociatedInactivityWithSleepDebt\n(odim:ActivityPhenotype)", shape=box, style="rounded,filled", fillcolor="#EDE7F6"];
     Week [label="odim:Week1\n(odim:WeeklyInterval)", shape=box, fillcolor="#F3F4F6"];
+
+    // Travel detection elements placed within weekly cluster
+    TravelDetect [label="odim:A_TravelDetection\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    TravelWin [label="odim:TravelWindow_Week1\n(odim:EventWindow)", shape=box, fillcolor="#FDE2E4"];
+    TravelThresh [label="odim:Threshold_TravelKm\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
   }
 
   // Edges with exact predicates
@@ -89,10 +94,7 @@ digraph DemoFlow {
   DailyComp -> ObsSteps [label="prov:used", fontsize=10];
   DailyComp -> ObsSleep [label="prov:used", fontsize=10];
 
-  // Travel detection from location observations
-  TravelDetect [label="odim:A_TravelDetection\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-  TravelWin [label="odim:TravelWindow_Week1\n(odim:EventWindow)", shape=box, fillcolor="#FDE2E4"];
-  TravelThresh [label="odim:Threshold_TravelKm\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
+  // Travel detection from location observations (nodes defined in weekly cluster)
   TravelDetect -> ObsLoc [label="prov:used", fontsize=10];
   TravelDetect -> ObsDots [style=dotted, arrowhead=none];
   TravelDetect -> TravelThresh [label="prov:used", fontsize=10];
