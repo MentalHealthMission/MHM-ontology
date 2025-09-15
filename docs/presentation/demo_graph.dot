@@ -29,7 +29,7 @@ digraph DemoFlow {
     ObsSteps [label="Steps activity\n(ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
     ObsSleep [label="Sleep stage\n(SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
     ObsLoc   [label="Location estimate\n(DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
-    ObsDots  [label="… (Day2..Day7)", shape=plaintext];
+    
   }
 
   // Daily computation + features (steps + sleep minutes)
@@ -38,7 +38,7 @@ digraph DemoFlow {
     DailyComp [label="Daily summary\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     F1 [label="Daily Steps Day1\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     F2 [label="Daily Steps Day2\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    FDots [label="… (Day3..Day7)", shape=plaintext, color="#888888", fontcolor="#666666"];
+    
     SQ1 [label="Sleep Minutes Day1\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     SQ2 [label="Sleep Minutes Day2\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
   }
@@ -94,12 +94,12 @@ digraph DemoFlow {
   F2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   SQ1 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   SQ2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
-  FDots -> DailyComp [style=dotted, arrowhead=none];
+  
 
   // Weekly steps aggregate and decision
   WeeklySteps -> F1 [label="prov:used", fontsize=10];
   WeeklySteps -> F2 [label="prov:used", fontsize=10];
-  WeeklySteps -> FDots [style=dotted, arrowhead=none];
+  
   MeanSteps -> WeeklySteps [label="odim:wasComputedBy", fontsize=10];
   StepsDecision -> MeanSteps [label="prov:used", fontsize=10];
   StepsDecision -> Thresh [label="prov:used", fontsize=10];
@@ -108,7 +108,7 @@ digraph DemoFlow {
   // Weekly sleep minutes aggregate + sleep debt decision
   WeeklySleep -> SQ1 [label="prov:used", fontsize=10];
   WeeklySleep -> SQ2 [label="prov:used", fontsize=10];
-  WeeklySleep -> FDots [style=dotted, arrowhead=none];
+  
   MeanSleep -> WeeklySleep [label="odim:wasComputedBy", fontsize=10];
   SleepDebtDecision -> MeanSleep [label="prov:used", fontsize=10];
   SleepDebtDecision -> SleepBaseline [label="prov:used", fontsize=10];
