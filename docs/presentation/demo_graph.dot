@@ -3,6 +3,7 @@ digraph DemoFlow {
   splines=true;
   nodesep=0.4;
   ranksep=0.6;
+  center=true;
 
   // Default node styles
   node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white", penwidth=1.0];
@@ -18,6 +19,9 @@ digraph DemoFlow {
     Lwin   [label="Event window", shape=box, fillcolor="#FDE2E4"];
     Lpheno [label="Phenotype", shape=box, fillcolor="#EDE7F6"];
   }
+
+  // Horizontal alignment anchor (invisible point)
+  CenterAnchor [shape=point, width=0.01, height=0.01, label="", style=invis];
 
   // Raw entities (prov:Entity)
   subgraph cluster_raw {
@@ -79,6 +83,12 @@ digraph DemoFlow {
   }
 
   // Edges with exact predicates
+  // Gentle horizontal centering: pull representative nodes toward CenterAnchor (no rank effect)
+  CenterAnchor -> Lfeat       [style=invis, constraint=false, weight=10];
+  CenterAnchor -> RawSleep    [style=invis, constraint=false, weight=10];
+  CenterAnchor -> Import      [style=invis, constraint=false, weight=10];
+  CenterAnchor -> DailyComp   [style=invis, constraint=false, weight=10];
+  CenterAnchor -> Combine     [style=invis, constraint=false, weight=10];
   // Import used raw files (prov:used: Activity -> Entity)
   Import -> RawSteps [label="prov:used", fontsize=10];
   Import -> RawSleep [label="prov:used", fontsize=10];
