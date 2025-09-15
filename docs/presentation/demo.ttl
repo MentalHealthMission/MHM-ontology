@@ -30,6 +30,11 @@ odim:RawSleepCSV a prov:Entity ;
   dcterms:format "text/csv" ;
   prov:atLocation "docs/presentation/raw/sleep.csv" .
 
+odim:RawLocationCSV a prov:Entity ;
+  rdfs:label "Raw location CSV" ;
+  dcterms:format "text/csv" ;
+  prov:atLocation "docs/presentation/raw/location.csv" .
+
 # Data transfer/export and import activities
 odim:A_RawExport a odim:DataTransferEvent ;
   rdfs:label "Raw export from device/app" ;
@@ -37,11 +42,12 @@ odim:A_RawExport a odim:DataTransferEvent ;
 
 odim:A_Import a odim:DataTransferEvent ;
   rdfs:label "Import and mapping to ontology" ;
-  prov:used odim:RawStepsCSV , odim:RawSleepCSV ;
+  prov:used odim:RawStepsCSV , odim:RawSleepCSV , odim:RawLocationCSV ;
   odim:usedDataInterface odim:DataIF .
 
 odim:RawStepsCSV prov:wasGeneratedBy odim:A_RawExport .
 odim:RawSleepCSV prov:wasGeneratedBy odim:A_RawExport .
+odim:RawLocationCSV prov:wasGeneratedBy odim:A_RawExport .
 
 # Observed properties used (local resources for demo)
 odim:Steps        a rdfs:Resource ; rdfs:label "Steps" .
@@ -120,6 +126,31 @@ odim:Obs_Sleep_D7 a odim:SleepStageMeasurement ; rdfs:label "Sleep minutes D7" ;
   odim:observedProperty odim:SleepMinutes ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-08T06:30:00"^^xsd:dateTime ;
   qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 380.0 ; qudt:unit unit:Minute ] ; odim:wasGeneratedBy odim:A_Import .
 
+# Daily location observations: distance from home (km)
+odim:DistanceFromHome a rdfs:Resource ; rdfs:label "Distance from home" .
+
+odim:Obs_Location_D1 a odim:DeviceLocationEstimate ; rdfs:label "Location D1" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-01T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 5.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Location_D2 a odim:DeviceLocationEstimate ; rdfs:label "Location D2" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-02T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 320.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Location_D3 a odim:DeviceLocationEstimate ; rdfs:label "Location D3" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-03T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 480.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Location_D4 a odim:DeviceLocationEstimate ; rdfs:label "Location D4" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-04T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 250.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Location_D5 a odim:DeviceLocationEstimate ; rdfs:label "Location D5" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-05T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 260.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Location_D6 a odim:DeviceLocationEstimate ; rdfs:label "Location D6" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-06T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 310.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+odim:Obs_Location_D7 a odim:DeviceLocationEstimate ; rdfs:label "Location D7" ;
+  odim:observedProperty odim:DistanceFromHome ; odim:featureOfInterest odim:P1 ; odim:resultTime "2025-06-07T12:00:00"^^xsd:dateTime ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 8.0 ; qudt:unit unit:KiloM ] ; odim:wasGeneratedBy odim:A_Import .
+
 # Daily computation deriving features (step totals re-expressed as features for demo)
 odim:A_DailySummary a odim:AlgorithmicComputation ;
   rdfs:label "Daily summary computation" ;
@@ -180,10 +211,23 @@ odim:F_WeeklyMeanSleepQuality a odim:DerivedFeature ;
   odim:wasComputedBy odim:A_WeeklyAggregateSleep ;
   odim:wasDerivedFrom odim:F_SleepQuality_D1 , odim:F_SleepQuality_D2 , odim:F_SleepQuality_D3 , odim:F_SleepQuality_D4 , odim:F_SleepQuality_D5 , odim:F_SleepQuality_D6 , odim:F_SleepQuality_D7 .
 
+# Weekly travel detection from location observations
+odim:Threshold_TravelKm a prov:Entity ; rdfs:label "Travel distance threshold" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 100.0 ; qudt:unit unit:KiloM ] .
+
+odim:A_TravelDetection a odim:AlgorithmicComputation ;
+  rdfs:label "Travel detection (weekly)" ;
+  prov:used odim:Obs_Location_D1 , odim:Obs_Location_D2 , odim:Obs_Location_D3 , odim:Obs_Location_D4 , odim:Obs_Location_D5 , odim:Obs_Location_D6 , odim:Obs_Location_D7 , odim:Threshold_TravelKm .
+
+odim:TravelWindow_Week1 a odim:EventWindow ;
+  rdfs:label "Travel window (Week 1)" ;
+  odim:occursDuring odim:Week1 ;
+  odim:wasComputedBy odim:A_TravelDetection .
+
 # Combined phenotype marker from steps + sleep quality
 odim:A_MarkerDerivation a odim:AlgorithmicComputation ;
   rdfs:label "Combined marker derivation" ;
-  prov:used odim:Marker_LowActivityDuringTravel , odim:F_WeeklyMeanSleepQuality .
+  prov:used odim:Marker_LowActivityDuringTravel , odim:F_WeeklyMeanSleepQuality , odim:TravelWindow_Week1 .
 
 odim:Phenotype_LowActivityPoorSleep_Travel a odim:ActivityPhenotype ;
   rdfs:label "Low Activity with Poor Sleep (Travel)" ;
