@@ -60,7 +60,7 @@ digraph DemoFlow {
     MeanSteps [label="odim:F_WeeklyMeanSteps\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     Thresh [label="odim:Threshold_LowSteps\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
     StepsDecision [label="odim:A_StepsThresholdDecision\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Marker [label="odim:Marker_LowActivityDuringTravel\n(odim:DerivedFeature)", shape=box, style="rounded,bold", fillcolor="#E2F0D9"];
+    Marker [label="odim:Marker_LowActivityDuringTravel\n(odim:DerivedFeature)", shape=box, style="rounded,filled,bold", fillcolor="#E2F0D9"];
 
     WeeklySleep [label="odim:A_WeeklyAggregateSleepMinutes\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     MeanSleep [label="odim:F_WeeklyMeanSleepMinutes\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
@@ -69,7 +69,7 @@ digraph DemoFlow {
     SleepDebt [label="odim:Marker_SleepDebt_Week1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
 
     Combine [label="odim:A_MarkerDerivation\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Phenotype [label="odim:Phenotype_TravelAssociatedInactivityWithSleepDebt\n(odim:ActivityPhenotype)", shape=box, style="rounded,bold", fillcolor="#EDE7F6"];
+    Phenotype [label="odim:Phenotype_TravelAssociatedInactivityWithSleepDebt\n(odim:ActivityPhenotype)", shape=box, style="rounded,filled,bold", fillcolor="#EDE7F6"];
     Week [label="odim:Week1\n(odim:WeeklyInterval)", shape=box, fillcolor="#F3F4F6"];
   }
 
