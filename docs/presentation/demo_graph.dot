@@ -3,24 +3,20 @@ digraph DemoFlow {
   splines=true;
   nodesep=0.4;
   ranksep=0.6;
-  center=true;
 
   // Default node styles
   node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white", penwidth=1.0];
 
   // Define simple styling by type
   subgraph cluster_legend {
-    label="Legend"; fontsize=9; color=gray90; style=dashed; labelloc="t"; labeljust="l";
-    Lraw   [label="Raw",        shape=box,     fillcolor="#EEEEEE", fontsize=9, width=0.7, height=0.25];
-    Lobs   [label="Obs",        shape=box,     fillcolor="#DDEEFF", fontsize=9, width=0.7, height=0.25];
-    Lfeat  [label="Feature",    shape=box,     fillcolor="#E2F0D9", fontsize=9, width=0.9, height=0.25];
-    Lact   [label="Activity",   shape=ellipse, fillcolor="#FFF2CC", fontsize=9, width=0.9, height=0.25];
-    Lparam [label="Param",      shape=box,     fillcolor="#FFE5D9", fontsize=9, width=0.7, height=0.25];
-    Lwin   [label="Window",     shape=box,     fillcolor="#FDE2E4", fontsize=9, width=0.9, height=0.25];
-    Lpheno [label="Phenotype",  shape=box,     fillcolor="#EDE7F6", fontsize=9, width=1.2, height=0.25];
-    { rank=same; Lraw; Lobs; Lfeat; }
-    { rank=same; Lact; Lparam; Lwin; }
-    { rank=same; Lpheno; }
+    label="Legend"; fontsize=10; color=gray90; style=dashed; labelloc="t"; labeljust="l";
+    Lraw   [label="Raw (prov:Entity)", shape=box, fillcolor="#EEEEEE"];
+    Lobs   [label="Observation (entity)", shape=box, fillcolor="#DDEEFF"];
+    Lfeat  [label="Derived feature (entity)", shape=box, fillcolor="#E2F0D9"];
+    Lact   [label="Computation (activity)", shape=ellipse, fillcolor="#FFF2CC"];
+    Lparam [label="Parameter (prov:Entity)", shape=box, fillcolor="#FFE5D9"];
+    Lwin   [label="Event window", shape=box, fillcolor="#FDE2E4"];
+    Lpheno [label="Phenotype", shape=box, fillcolor="#EDE7F6"];
   }
 
   // Raw entities (prov:Entity)
@@ -40,21 +36,21 @@ digraph DemoFlow {
   // Observations (entities)
   subgraph cluster_obs {
     label=""; style=invis; color=gray60;
-    ObsSteps [label="Steps Day1\n(odim:ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsSleep [label="Sleep Day1\n(odim:SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
-    ObsLoc   [label="Location Day1\n(odim:DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
-    LocDots  [label="… (Day2..Day7)", shape=plaintext, color="#888888", fontcolor="#666666"];
+    ObsSteps [label="odim:Obs_Steps_D1\n(odim:ActivityMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsSleep [label="odim:Obs_Sleep_D1\n(odim:SleepStageMeasurement)", shape=box, fillcolor="#DDEEFF"];
+    ObsLoc   [label="odim:Obs_Location_D1\n(odim:DeviceLocationEstimate)", shape=box, fillcolor="#DDEEFF"];
+    ObsDots  [label="… (D2..D7)", shape=plaintext];
   }
 
   // Daily computation + features (steps + sleep minutes)
   subgraph cluster_daily {
     label="Daily features (odim:DerivedFeature)"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
-    DailyComp [label="A_DailySummary\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    F1 [label="Daily Steps Day1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    F2 [label="Daily Steps Day2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    FDots [label="… (Day3..Day7)", shape=plaintext, color="#888888", fontcolor="#666666"];
-    SQ1 [label="Sleep Minutes Day1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
-    SQ2 [label="Sleep Minutes Day2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    DailyComp [label="odim:A_DailySummary\n(odim:AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+    F1 [label="odim:F_DailySteps_D1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    F2 [label="odim:F_DailySteps_D2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    FDots [label="… (D3..D7)", shape=plaintext, color="#888888", fontcolor="#666666"];
+    SQ1 [label="odim:F_SleepMinutes_D1\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    SQ2 [label="odim:F_SleepMinutes_D2\n(odim:DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
   }
 
   // Weekly aggregation + decisions + combined phenotype
@@ -100,7 +96,7 @@ digraph DemoFlow {
 
   // Travel detection from location observations (nodes defined in weekly cluster)
   TravelDetect -> ObsLoc [label="prov:used", fontsize=10];
-  TravelDetect -> LocDots [style=dotted, arrowhead=none];
+  TravelDetect -> ObsDots [style=dotted, arrowhead=none];
   TravelDetect -> TravelThresh [label="prov:used", fontsize=10];
   TravelWin -> TravelDetect [label="odim:wasComputedBy", fontsize=10];
 
@@ -110,19 +106,6 @@ digraph DemoFlow {
   SQ1 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   SQ2 -> DailyComp [label="odim:wasComputedBy", fontsize=10];
   FDots -> DailyComp [style=dotted, arrowhead=none];
-
-  // Row alignment: keep vertical order; tidy horizontal rows
-  { rank=same; RawSteps; RawSleep; RawLoc; }
-  { rank=same; Import; }
-  { rank=same; ObsSteps; ObsSleep; ObsLoc; LocDots; }
-  { rank=same; DailyComp; }
-  { rank=same; F1; F2; SQ1; SQ2; FDots; }
-  { rank=same; WeeklySteps; WeeklySleep; TravelDetect; }
-  { rank=same; MeanSteps; MeanSleep; TravelWin; Thresh; SleepBaseline; TravelThresh; }
-  { rank=same; StepsDecision; SleepDebtDecision; }
-  { rank=same; Marker; SleepDebt; }
-  { rank=same; Combine; Week; }
-  { rank=same; Phenotype; }
 
   // Weekly steps aggregate and decision
   WeeklySteps -> F1 [label="prov:used", fontsize=10];
