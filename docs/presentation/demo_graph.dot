@@ -50,7 +50,7 @@ digraph DemoFlow {
     MeanSteps [label="Weekly mean steps\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
     Thresh [label="Low steps threshold\n(prov:Entity)", shape=box, fillcolor="#FFE5D9"];
     StepsDecision [label="Steps threshold decision\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
-    Marker [label="Low Activity\n(DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
+    Marker [label="Low Activity (Week 1)\n(DerivedFeature)", shape=box, style="rounded,filled", fillcolor="#E2F0D9"];
 
     WeeklySleep [label="Weekly sleep minutes aggregate\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
     MeanSleep [label="Weekly mean sleep minutes\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
@@ -86,7 +86,6 @@ digraph DemoFlow {
 
   // Travel detection from location observations (nodes defined in weekly cluster)
   TravelDetect -> ObsLoc [label="prov:used", fontsize=10];
-  TravelDetect -> ObsDots [style=dotted, arrowhead=none];
   TravelDetect -> TravelThresh [label="prov:used", fontsize=10];
   TravelWin -> TravelDetect [label="odim:wasComputedBy", fontsize=10];
 
