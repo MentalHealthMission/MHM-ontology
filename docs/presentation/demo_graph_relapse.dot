@@ -1,0 +1,41 @@
+digraph RelapseFlow {
+  rankdir=TB;
+  splines=true;
+  nodesep=0.4;
+  ranksep=0.6;
+
+  // Default node styles (match demo_graph.dot)
+  node [fontname="Helvetica", fontsize=11, style="rounded,filled", color="#666666", fontcolor="#222222", fillcolor="white", penwidth=1.0];
+
+  // Phenotype markers cluster (inputs)
+  subgraph cluster_inputs {
+    label="Phenotype markers"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    PhenotypeTravel [label="Travel-Associated Inactivity With Sleep Debt\n(ActivityPhenotype)", shape=box, fillcolor="#EDE7F6"];
+    PhenotypeMood   [label="Mood instability (Week 1)\n(ActivityPhenotype)", shape=box, fillcolor="#EDE7F6"];
+    PhenotypeSocial [label="Reduced communication (Week 1)\n(ActivityPhenotype)", shape=box, fillcolor="#EDE7F6"];
+  }
+
+  // Aggregation/decision cluster
+  subgraph cluster_agg {
+    label="Risk aggregation"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    Agg [label="Relapse risk derivation\n(AlgorithmicComputation)", shape=ellipse, fillcolor="#FFF2CC"];
+  }
+
+  // Outcome cluster
+  subgraph cluster_outcome {
+    label="Outcome"; style=dashed; color=gray60; labelloc="t"; labeljust="l";
+    Risk [label="Relapse Risk (Composite)\n(DerivedFeature)", shape=box, fillcolor="#E2F0D9"];
+    Week [label="Week 1\n(WeeklyInterval)", shape=box, fillcolor="#F3F4F6"];
+  }
+
+  // Edges
+  // Aggregation uses phenotype markers
+  Agg -> PhenotypeTravel [label="prov:used", fontsize=10];
+  Agg -> PhenotypeMood   [label="prov:used", fontsize=10];
+  Agg -> PhenotypeSocial [label="prov:used", fontsize=10];
+
+  // Risk is computed by aggregation; occurs during Week 1
+  Risk -> Agg  [label="odim:wasComputedBy", fontsize=10];
+  Risk -> Week [label="odim:occursDuring", fontsize=10];
+}
+
