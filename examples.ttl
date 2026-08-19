@@ -13,15 +13,17 @@ odim:activityAndSleepFeature1 a odim:Feature ;
   rdfs:label "Activity and sleep feature 1" ;
   odim:hasMeasurement odim:activityMeasurement1 , odim:sleepStageMeasurement1 .
 
-odim:activityMeasurement1 a odim:ActivityMeasurement ;
+odim:activityMeasurement1 a odim:StepCountMeasurement ;
   rdfs:label "Activity measurement X" ;
+  odim:observedProperty odim:StepCount ;
   odim:hasValue 1000.0 .
 
 odim:sleepStageMeasurement1 a odim:SleepStageMeasurement ;
   rdfs:label "Sleep stage measurement 1" ;
+  odim:observedProperty odim:SleepStage ;
   odim:hasStage odim:Stage1 .
 
-odim:Stage1 a odim:SleepStage ;
+odim:Stage1 a odim:SleepStageValue ;
   rdfs:label "Stage 1" ;
   odim:hasStageName "Light Sleep"^^xsd:string .
 
@@ -29,11 +31,12 @@ odim:exerciseAndSleepFeature1 a odim:ExerciseAndSleepFeature ;
   rdfs:label "Exercise and sleep feature 1" ;
   odim:hasMeasurement odim:exerciseMeasurement1 , odim:sleepStageMeasurement1 .
 
-odim:exerciseMeasurement1 a odim:ExerciseMeasurement ;
+odim:exerciseMeasurement1 a odim:ExerciseDurationMeasurement ;
   rdfs:label "Exercise measurement X" ;
+  odim:observedProperty odim:ExerciseDuration ;
   odim:hasValue 120.0 .
 
-odim:Stage2 a odim:SleepStage ;
+odim:Stage2 a odim:SleepStageValue ;
   rdfs:label "Stage 2" ;
   odim:hasStageName "Deep Sleep"^^xsd:string .
 
@@ -80,7 +83,7 @@ odim:ActivityMeasurementX a odim:ActivityMeasurement ;
 odim:SleepStageMeasurementX a odim:SleepStageMeasurement ;
   rdfs:label "Sleep stage measurement X" ;
   odim:hasStage odim:Stage1 ;
-  odim:observedProperty odim:SleepDuration ;
+  odim:observedProperty odim:SleepStage ;
   odim:featureOfInterest odim:ParticipantX ;
   odim:resultTime "2025-03-25T06:30:00"^^xsd:dateTime ;
   odim:hasValue 6.0 ;
@@ -90,7 +93,6 @@ odim:SleepStageMeasurementX a odim:SleepStageMeasurement ;
   odim:belongsToLayer odim:MeasurementLayer .
 
 # Observed property resources
-odim:HeartRateVariability a rdfs:Resource ; rdfs:label "Heart rate variability" .
 odim:ActivityDuration a rdfs:Resource ; rdfs:label "Activity duration" .
 odim:SleepDuration a rdfs:Resource ; rdfs:label "Sleep duration" .
 

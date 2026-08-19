@@ -19,6 +19,31 @@ ASK {
     owl:onProperty odim:observedProperty ;
     owl:hasValue odim:HeartRate
   ] .
+  odim:RespiratoryRate a sosa:ObservableProperty .
+  odim:SleepStage a sosa:ObservableProperty .
+  odim:HeartRateVariabilitySdnn a sosa:ObservableProperty .
+  odim:HeartRateVariabilityRmssd a sosa:ObservableProperty .
+  odim:StepCount a sosa:ObservableProperty .
+  odim:Distance a sosa:ObservableProperty .
+  odim:EnergyExpenditure a sosa:ObservableProperty .
+  odim:ExerciseDuration a sosa:ObservableProperty .
+  odim:FlightsClimbed a sosa:ObservableProperty .
+  VALUES (?measurementClass ?observableProperty) {
+    (odim:RespiratoryRateMeasurement odim:RespiratoryRate)
+    (odim:SleepStageMeasurement odim:SleepStage)
+    (odim:HeartRateVariabilitySdnnMeasurement odim:HeartRateVariabilitySdnn)
+    (odim:HeartRateVariabilityRmssdMeasurement odim:HeartRateVariabilityRmssd)
+    (odim:StepCountMeasurement odim:StepCount)
+    (odim:DistanceMeasurement odim:Distance)
+    (odim:EnergyExpenditureMeasurement odim:EnergyExpenditure)
+    (odim:ExerciseDurationMeasurement odim:ExerciseDuration)
+    (odim:FlightsClimbedMeasurement odim:FlightsClimbed)
+  }
+  ?measurementClass rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty odim:observedProperty ;
+    owl:hasValue ?observableProperty
+  ] .
 
   # Examples have observedProperty and FOI
   odim:HeartRateMeasurementX odim:observedProperty odim:HeartRate ;
@@ -27,6 +52,6 @@ ASK {
                                         odim:featureOfInterest odim:ParticipantX .
   odim:ActivityMeasurementX odim:observedProperty odim:ActivityDuration ;
                             odim:featureOfInterest odim:ParticipantX .
-  odim:SleepStageMeasurementX odim:observedProperty odim:SleepDuration ;
+  odim:SleepStageMeasurementX odim:observedProperty odim:SleepStage ;
                               odim:featureOfInterest odim:ParticipantX .
 }
