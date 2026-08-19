@@ -48,6 +48,7 @@
 
   <!-- Minimal SOSA declarations (DL-safe references) -->
   <owl:Class rdf:about="http://www.w3.org/ns/sosa/Observation"/>
+  <owl:Class rdf:about="http://www.w3.org/ns/sosa/ObservableProperty"/>
   <owl:ObjectProperty rdf:about="http://www.w3.org/ns/sosa/observedProperty"/>
   <owl:ObjectProperty rdf:about="http://www.w3.org/ns/sosa/hasFeatureOfInterest"/>
   <owl:DatatypeProperty rdf:about="http://www.w3.org/ns/sosa/resultTime"/>
@@ -112,9 +113,21 @@
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#HeartRateMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="http://connectdigitalstudy.com/ontology#observedProperty"/>
+      <owl:hasValue rdf:resource="http://connectdigitalstudy.com/ontology#HeartRate"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
   <rdfs:label>Heart Rate Measurement</rdfs:label>
 </owl:Class>
+
+<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#HeartRate">
+  <rdf:type rdf:resource="http://www.w3.org/ns/sosa/ObservableProperty"/>
+  <rdfs:label>Heart rate</rdfs:label>
+  <iao:IAO_0000115>The rate at which the heart beats, observed by a heart-rate measurement.</iao:IAO_0000115>
+</owl:NamedIndividual>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RespiratoryRateMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>

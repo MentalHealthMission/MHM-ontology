@@ -1,6 +1,7 @@
 PREFIX odim:    <http://connectdigitalstudy.com/ontology#>
 PREFIX sosa:    <http://www.w3.org/ns/sosa/>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
 
 ASK {
   # Class mapping exists
@@ -9,6 +10,15 @@ ASK {
   # Property mappings exist (via subPropertyOf on convenience props)
   odim:observedProperty rdfs:subPropertyOf sosa:observedProperty .
   odim:featureOfInterest rdfs:subPropertyOf sosa:hasFeatureOfInterest .
+
+  # Canonical observable properties are ontology members, and specialised
+  # observation classes state which property their instances observe.
+  odim:HeartRate a sosa:ObservableProperty .
+  odim:HeartRateMeasurement rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty odim:observedProperty ;
+    owl:hasValue odim:HeartRate
+  ] .
 
   # Examples have observedProperty and FOI
   odim:HeartRateMeasurementX odim:observedProperty odim:HeartRate ;

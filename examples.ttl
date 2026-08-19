@@ -90,7 +90,6 @@ odim:SleepStageMeasurementX a odim:SleepStageMeasurement ;
   odim:belongsToLayer odim:MeasurementLayer .
 
 # Observed property resources
-odim:HeartRate a rdfs:Resource ; rdfs:label "Heart rate" .
 odim:HeartRateVariability a rdfs:Resource ; rdfs:label "Heart rate variability" .
 odim:ActivityDuration a rdfs:Resource ; rdfs:label "Activity duration" .
 odim:SleepDuration a rdfs:Resource ; rdfs:label "Sleep duration" .
