@@ -197,11 +197,25 @@
   <iao:IAO_0000115>Heart-rate variability expressed as the root mean square of successive beat-interval differences.</iao:IAO_0000115>
 </owl:NamedIndividual>
 
-<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#RestingHeartRateMeasurement">
+<owl:Class rdf:about="http://connectdigitalstudy.com/ontology#VendorDerivedRestingHeartRateEstimate">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#PhysiologicalMeasurement"/>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="http://connectdigitalstudy.com/ontology#observedProperty"/>
+      <owl:hasValue rdf:resource="http://connectdigitalstudy.com/ontology#VendorDefinedRestingHeartRate"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
   <connect:belongsToLayer rdf:resource="http://connectdigitalstudy.com/ontology#MeasurementLayer"/>
-  <rdfs:label>Resting Heart Rate Measurement</rdfs:label>
+  <rdfs:label>Vendor-derived resting heart-rate estimate</rdfs:label>
+  <iao:IAO_0000115>A source record containing a value that its producing system designates as a resting heart-rate estimate. This class does not entail direct observation during a known resting state or a disclosed derivation method.</iao:IAO_0000115>
 </owl:Class>
+
+<owl:NamedIndividual rdf:about="http://connectdigitalstudy.com/ontology#VendorDefinedRestingHeartRate">
+  <rdf:type rdf:resource="http://www.w3.org/ns/sosa/ObservableProperty"/>
+  <skos:broader rdf:resource="http://connectdigitalstudy.com/ontology#HeartRate"/>
+  <rdfs:label>Vendor-defined resting heart rate</rdfs:label>
+  <iao:IAO_0000115>A heart-rate quantity designated by its producing system as resting heart rate. The designation does not entail a directly observed resting context, a shared derivation algorithm, or equivalence between different vendors' estimates.</iao:IAO_0000115>
+</owl:NamedIndividual>
 
 <owl:Class rdf:about="http://connectdigitalstudy.com/ontology#BehavioralMeasurement">
   <rdfs:subClassOf rdf:resource="http://connectdigitalstudy.com/ontology#Measurement"/>

@@ -2,6 +2,7 @@ PREFIX odim:    <http://connectdigitalstudy.com/ontology#>
 PREFIX sosa:    <http://www.w3.org/ns/sosa/>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
 
 ASK {
   # Class mapping exists
@@ -28,6 +29,8 @@ ASK {
   odim:EnergyExpenditure a sosa:ObservableProperty .
   odim:ExerciseDuration a sosa:ObservableProperty .
   odim:FlightsClimbed a sosa:ObservableProperty .
+  odim:VendorDefinedRestingHeartRate a sosa:ObservableProperty .
+  odim:VendorDefinedRestingHeartRate skos:broader odim:HeartRate .
   VALUES (?measurementClass ?observableProperty) {
     (odim:RespiratoryRateMeasurement odim:RespiratoryRate)
     (odim:SleepStageMeasurement odim:SleepStage)
@@ -38,6 +41,7 @@ ASK {
     (odim:EnergyExpenditureMeasurement odim:EnergyExpenditure)
     (odim:ExerciseDurationMeasurement odim:ExerciseDuration)
     (odim:FlightsClimbedMeasurement odim:FlightsClimbed)
+    (odim:VendorDerivedRestingHeartRateEstimate odim:VendorDefinedRestingHeartRate)
   }
   ?measurementClass rdfs:subClassOf [
     a owl:Restriction ;

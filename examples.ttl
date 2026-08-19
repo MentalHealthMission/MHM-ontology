@@ -58,6 +58,16 @@ odim:HeartRateMeasurementX a odim:HeartRateMeasurement ;
   odim:wasGeneratedBy odim:WearableDeviceX ;
   odim:belongsToLayer odim:MeasurementLayer .
 
+odim:VendorRestingHeartRateEstimateX a odim:VendorDerivedRestingHeartRateEstimate ;
+  rdfs:label "Vendor-derived resting heart-rate estimate X" ;
+  odim:observedProperty odim:VendorDefinedRestingHeartRate ;
+  odim:featureOfInterest odim:ParticipantX ;
+  odim:resultTime "2025-03-24T08:15:00"^^xsd:dateTime ;
+  odim:hasValue 61.0 ;
+  odim:hasUnit "bpm" ;
+  qudt:quantityValue [ a qudt:QuantityValue ; qudt:numericValue 61.0 ; odim:numericValue 61.0 ; qudt:unit unit:BPM ] ;
+  odim:belongsToLayer odim:MeasurementLayer .
+
 odim:HeartRateVariabilityMeasurementX a odim:HeartRateVariabilityMeasurement ;
   rdfs:label "HRV measurement X" ;
   odim:observedProperty odim:HeartRateVariability ;
